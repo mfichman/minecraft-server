@@ -12,7 +12,7 @@ ssh.privatekey = 'C:/Users/Matt/.vagrant.d/insecure_private_key'
 ssh.user = 'vagrant'
 
 minecraft.ops = {'mfichman'}
-minecraft.savename = '2014-09-20v2'
+minecraft.savename = '2014-09-21'
 minecraft.options = {}
 minecraft.options.motd = 'WASSUP YA DINGUS'
 minecraft.options.onlinemode = true
