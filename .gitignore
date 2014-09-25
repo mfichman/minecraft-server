@@ -1,3 +1,5 @@
 .vagrant
 *.jar
+*.swp
 env.bat
+env.sh

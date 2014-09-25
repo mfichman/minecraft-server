@@ -28,7 +28,7 @@ local version = auto.metadata.minecraft.version
 -- Install required packages
 auto.Package { 'openjdk-7-jre' }
 auto.PythonPackage { 'tinys3' }
-auto.PythonPackage { 'flask' }
+auto.PythonPackage { 'bottle' }
 
 -- Set up user and home directories for minecraft server
 auto.User { username }

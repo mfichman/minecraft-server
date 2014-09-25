@@ -1,48 +1,63 @@
 #!/usr/bin/env python
 
-from flask import Flask, request, g, url_for, abort, render_template
+from bottle import route, get, post, run
 import subprocess
 import shlex
 import time
 import datetime
 import os
+import sys
+import signal
+import threading
+import argparse
 
-app = Flask(__name__)
-app.config.from_object(__name__)
+minecraft_server_lock = threading.Lock()
 
-minecraft_cmd = shlex.split('java -Xmx1024M -Xms1024M -jar minecraft_server.jar nogui')
-
-# Return the end of the app log.
-@app.route('/log')
+@route('/log')
 def log():
+    """Open the log and show the last N lines of it"""
     lines = open('logs/latest.log').readlines()
     return '<pre>%s</pre>' % ''.join(lines[-64:])
 
-# Save the game and upload it to EC2. Temporarily pause auto-saving so that we
-# get a consistent snapshot of the save file.
-@app.route('/save')
+@route('/save')
 def save():
-    server.stdin.write('/save-off\n') 
-    server.stdin.write('/save-all\n')
-    server.stdin.flush()
-    try:
-        now = datetime.datetime.now().isoformat()
-        subprocess.check_call(shlex.split('python minecraft_s3.py upload "%s"' % now))
-        return '<pre>saved: %s</pre>' % now
-    except subprocess.CalledProcessError, e:
-        return '<pre>error: %s %s</pre>' % (str(e), e.output)
-    finally:
-        server.stdin.write('/save-on\n')
-        server.stdin.flush()
+    """Turn off auto-saving, and then upload the file to S3."""
+    with minecraft_server_lock:
+        minecraft_server.stdin.write('/save-off\n') 
+        minecraft_server.stdin.write('/save-all\n')
+        minecraft_server.stdin.flush()
+        try:
+            now = datetime.datetime.now().isoformat()
+            subprocess.check_call(shlex.split('python minecraft_s3.py upload "%s"' % now))
+            return '<pre>saved: %s</pre>' % now
+        except subprocess.CalledProcessError, e:
+            return '<pre>error: %s %s</pre>' % (str(e), e.output)
+        finally:
+            minecraft_server.stdin.write('/save-on\n')
+            minecraft_server.stdin.flush()
+
+def sigterm(signum, frame):
+    """Exit the service gracefully"""
+    sys.exit(0)
 
 def main():
-    global server
-    server = subprocess.Popen(minecraft_cmd, stdin=subprocess.PIPE)
+    """Execute the launcher & web app monitor"""
+    global minecraft_server
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('url', nargs='?', type=str, default='')
+    parser.add_argument('port', nargs='?', type=int, default=8080)
+    args = parser.parse_args()
+
+    subprocess.call(shlex.split('python minecraft_s3.py download "%s"' % args.url))
+
+    minecraft_cmd = shlex.split('java -Xmx1024M -Xms1024M -jar minecraft_server.jar nogui')
+    minecraft_server = subprocess.Popen(minecraft_cmd, stdin=subprocess.PIPE)
+
     try:
-        port = int(os.environ.get('MINECRAFT_HTTP_PORT', 8080))
-        app.run(host='0.0.0.0', port=port, debug=True, use_reloader=False)
+        run(host='0.0.0.0', port=args.port, debug=True, use_reloader=False)
     finally:
-        server.kill()
+        minecraft_server.kill()
 
 if __name__ == '__main__':
     main()

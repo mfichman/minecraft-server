@@ -5,10 +5,12 @@ import time
 import sys
 import argparse
 
+s3_access_key = os.environ['S3_ACCESS_KEY']
+s3_secret_key = os.environ['S3_SECRET_KEY']
+
+# Get the latest
 def latest():
-    accessKey = os.environ['S3_ACCESS_KEY']
-    secretKey = os.environ['S3_SECRET_KEY']
-    conn = tinys3.Connection(accessKey, secretKey, tls=True)
+    conn = tinys3.Connection(s3_access_key, s3_secret_key, tls=True)
     latest = ""
     for item in conn.list('', 'mfichman-minecraft'):
         if item['key'] > latest:
@@ -23,19 +25,21 @@ def pack():
     zf.close()
 
 def upload(url):
-    print('uploading', url)
-    accessKey = os.environ['S3_ACCESS_KEY']
-    secretKey = os.environ['S3_SECRET_KEY']
-    conn = tinys3.Connection(accessKey, secretKey, tls=True)
+    sys.stdout.write('uploading %s' % url)
+    sys.stdout.flush()
+    conn = tinys3.Connection(s3_access_key, s3_secret_key, tls=True)
     fd = open('world.zip', 'rb')
     conn.upload(url, fd, 'mfichman-minecraft')
     fd.close()
 
 def download(url):
-    print('downloading', url)
-    accessKey = os.environ['S3_ACCESS_KEY']
-    secretKey = os.environ['S3_SECRET_KEY']
-    conn = tinys3.Connection(accessKey, secretKey, tls=True)
+    sys.stdout.write('downloading %s' % url)
+    sys.stdout.flush()
+    if os.path.exists('world'):
+        sys.stderr.write('world already exists')
+        sys.stderr.flush()
+        sys.exit(0)
+    conn = tinys3.Connection(s3_access_key, s3_secret_key, tls=True)
     fd = open('world.zip', 'wb')
     resp = conn.get(url, 'mfichman-minecraft')
     for block in resp.iter_content(1024):
@@ -50,7 +54,7 @@ def unpack():
 
 def main():
     # Download the latest game save, unpack it, then start the server
-    parser = argparse.ArgumentParser(prog='s3', description='s3 script')
+    parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest='command')
     
     sub = subparsers.add_parser('upload')
@@ -65,17 +69,13 @@ def main():
         pack()
         upload(args.url)
     elif args.command == 'download':
-        if os.path.exists('world'):
-            print('world already exists')
-            sys.exit(0)
-        if args.url:
+        url = args.url or latest()
+        if url:
             download(args.url)
             unpack()
         else:
-            url = latest()
-            if url:
-                download(url)
-                unpack()
+            sys.stderr.write('couldn\'t find any world to download')
+            sys.stderr.flush()
     else:
         assert(False)
 
