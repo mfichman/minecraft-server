@@ -1,7 +1,9 @@
-local auto = require('automaton')
-local minecraft = {}
-local s3 = {}
-local ssh = {}
+import automaton as auto
+import os
+
+minecraft = auto.metadata.Hash()
+s3 = auto.metadata.Hash()
+ssh = auto.metadata.Hash()
 
 auto.metadata.override.minecraft = minecraft
 auto.metadata.override.s3 = s3
@@ -14,10 +16,10 @@ ssh.user = 'vagrant'
 
 minecraft.ops = {'mfichman'}
 minecraft.savename = ''
-minecraft.options = {}
+minecraft.options = auto.metadata.Hash()
 minecraft.options.motd = 'WASSUP YA DINGUS'
-minecraft.options.onlinemode = true
+minecraft.options.onlinemode = True
 
-s3.accesskey = os.getenv('S3_ACCESS_KEY')
-s3.secretkey = os.getenv('S3_SECRET_KEY')
+s3.accesskey = os.environ.get('S3_ACCESS_KEY', None)
+s3.secretkey = os.environ.get('S3_SECRET_KEY', None)
 
