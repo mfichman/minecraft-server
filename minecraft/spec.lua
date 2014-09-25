@@ -50,7 +50,7 @@ auto.File {
     homedir..'/server/minecraft_server.jar',
     owner=username,
     mode=0700,
-    content=auto.remote('https://s3.amazonaws.com/Minecraft.Download/versions/1.8/minecraft_server.'..version..'.jar'),
+    content=auto.remote('https://s3.amazonaws.com/Minecraft.Download/versions/'..version..'/minecraft_server.'..version..'.jar'),
 }
 
 -- Configuration files
