@@ -18,10 +18,8 @@
 -- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 -- IN THE SOFTWARE.
 
-
 local auto = require('automaton')
+local ssh = {}
+auto.metadata.default.ssh = ssh
 
-auto.Spec{'minecraft'}
-auto.Spec{'ssh'}
-
-
+ssh.serverport = 22

@@ -27,8 +27,8 @@ local version = auto.metadata.minecraft.version
 
 -- Install required packages
 auto.Package { 'openjdk-7-jre' }
-auto.Package { 'runit' }
 auto.PythonPackage { 'tinys3' }
+auto.PythonPackage { 'flask' }
 
 -- Set up user and home directories for minecraft server
 auto.User { username }
@@ -82,12 +82,19 @@ auto.File {
     content=auto.template('bashrc.t'),
 }
 
--- Backup script
+-- Support scripts
 auto.File {
-    homedir..'/server/minecraft-s3.py',
+    homedir..'/server/minecraft_s3.py',
     owner=username,
     mode=0700,
-    content=auto.content('minecraft-s3.py'),
+    content=auto.content('minecraft_s3.py'),
+}
+
+auto.File {
+    homedir..'/server/minecraft_launcher.py',
+    owner=username,
+    mode=0700,
+    content=auto.content('minecraft_launcher.py'),
 }
 
 -- Firewall entry for server port
@@ -98,17 +105,25 @@ auto.FirewallRule {
     protocol='tcp',
 }
 
--- Startup script & link service to runit
-auto.File {
-    homedir..'/server/run',
-    owner=username,
-    mode=0700,
-    content=auto.template('run.t'),
+-- Web interface port
+auto.FirewallRule {
+    action='accept',
+    direction='input',
+    port=auto.metadata.minecraft.webport,
+    protocol='tcp',
 }
 
-auto.Link {
-    '/etc/service/minecraft',
-    owner='minecraft',
-    mode=0600,
-    target=homedir..'/server',
+-- Set up minecraft service
+auto.File {
+    homedir..'/server/minecraft_server.sh',
+    owner=username,
+    mode=0700,
+    content=auto.template('minecraft_server.sh.t'),
+}
+
+auto.Daemon {
+    'minecraft',
+    command='bash minecraft_server.sh',
+    dir=homedir..'/server',
+    user='minecraft',
 }

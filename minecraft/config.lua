@@ -3,6 +3,7 @@ local minecraft = {}
 
 minecraft.user = 'minecraft'
 minecraft.version = '1.8'
+minecraft.webport = 8080
 minecraft.ops = {}
 minecraft.options = {}
 minecraft.options.generatorsettings = ''

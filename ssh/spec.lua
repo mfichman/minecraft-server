@@ -18,10 +18,15 @@
 -- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 -- IN THE SOFTWARE.
 
-
 local auto = require('automaton')
 
-auto.Spec{'minecraft'}
-auto.Spec{'ssh'}
+-- Allow incoming SSH traffic
+auto.FirewallRule {
+    action='accept',
+    direction='input',
+    port=auto.metadata.ssh.serverport,
+    protocol='tcp',
+}
 
+auto.Package {'openssh-server'}
 

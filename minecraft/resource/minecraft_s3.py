@@ -5,6 +5,16 @@ import time
 import sys
 import argparse
 
+def latest():
+    accessKey = os.environ['S3_ACCESS_KEY']
+    secretKey = os.environ['S3_SECRET_KEY']
+    conn = tinys3.Connection(accessKey, secretKey, tls=True)
+    latest = ""
+    for item in conn.list('', 'mfichman-minecraft'):
+        if item['key'] > latest:
+            latest = item['key']
+    return latest
+
 def pack():
     zf = zipfile.ZipFile('world.zip', 'w')
     for root, dirs, files in os.walk('world'):
@@ -13,6 +23,7 @@ def pack():
     zf.close()
 
 def upload(url):
+    print('uploading', url)
     accessKey = os.environ['S3_ACCESS_KEY']
     secretKey = os.environ['S3_SECRET_KEY']
     conn = tinys3.Connection(accessKey, secretKey, tls=True)
@@ -21,6 +32,7 @@ def upload(url):
     fd.close()
 
 def download(url):
+    print('downloading', url)
     accessKey = os.environ['S3_ACCESS_KEY']
     secretKey = os.environ['S3_SECRET_KEY']
     conn = tinys3.Connection(accessKey, secretKey, tls=True)
@@ -45,7 +57,7 @@ def main():
     sub.add_argument('url', type=str)
 
     sub = subparsers.add_parser('download')
-    sub.add_argument('url', type=str)
+    sub.add_argument('url', nargs='?', type=str)
 
     args = parser.parse_args()
     
@@ -56,8 +68,14 @@ def main():
         if os.path.exists('world'):
             print('world already exists')
             sys.exit(0)
-        download(args.url)
-        unpack()
+        if args.url:
+            download(args.url)
+            unpack()
+        else:
+            url = latest()
+            if url:
+                download(url)
+                unpack()
     else:
         assert(False)
 
