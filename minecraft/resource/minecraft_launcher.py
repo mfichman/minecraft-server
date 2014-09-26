@@ -46,7 +46,7 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('url', nargs='?', type=str, default='')
-    parser.add_argument('port', nargs='?', type=int, default=8080)
+    parser.add_argument('--port', type=int, default=8080)
     args = parser.parse_args()
 
     subprocess.call(shlex.split('python minecraft_s3.py download "%s"' % args.url))

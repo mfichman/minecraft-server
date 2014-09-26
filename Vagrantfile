@@ -31,7 +31,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     provider.cpus = 2
   end
 
-  $script = `luajit provision.lua --print-slug`
+  $script = `automaton`
 
   config.vm.provision :shell, inline: $script
 end
