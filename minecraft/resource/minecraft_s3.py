@@ -7,12 +7,21 @@ import argparse
 
 s3_access_key = os.environ['S3_ACCESS_KEY']
 s3_secret_key = os.environ['S3_SECRET_KEY']
+s3_bucket = os.environ.get('S3_BUCKET', 'mfichman-minecraft')
+
+def connection():
+    return tinys3.Connection(s3_access_key, s3_secret_key, tls=True)
+
+# Get all saves
+def all():
+    conn = connection()
+    return [item['key'] for item in conn.list('', s3_bucket)]
 
 # Get the latest
 def latest():
-    conn = tinys3.Connection(s3_access_key, s3_secret_key, tls=True)
+    conn = connection()
     latest = ""
-    for item in conn.list('', 'mfichman-minecraft'):
+    for item in conn.list('', s3_bucket):
         if item['key'] > latest:
             latest = item['key']
     return latest
@@ -25,24 +34,20 @@ def pack():
     zf.close()
 
 def upload(url):
-    sys.stdout.write('uploading %s' % url)
+    sys.stdout.write('uploading %s\n' % url)
     sys.stdout.flush()
-    conn = tinys3.Connection(s3_access_key, s3_secret_key, tls=True)
+    conn = connection()
     fd = open('world.zip', 'rb')
-    conn.upload(url, fd, 'mfichman-minecraft')
+    conn.upload(url, fd, s3_bucket)
     fd.close()
 
 def download(url):
-    sys.stdout.write('downloading %s' % url)
+    sys.stdout.write('downloading %s\n' % url)
     sys.stdout.flush()
-    if os.path.exists('world'):
-        sys.stderr.write('world already exists')
-        sys.stderr.flush()
-        sys.exit(0)
-    conn = tinys3.Connection(s3_access_key, s3_secret_key, tls=True)
+    conn = connection()
     fd = open('world.zip', 'wb')
-    resp = conn.get(url, 'mfichman-minecraft')
-    for block in resp.iter_content(1024):
+    resp = conn.get(url, s3_bucket)
+    for block in resp.iter_content(16384):
         if not block:
             break
         fd.write(block)
@@ -71,7 +76,7 @@ def main():
     elif args.command == 'download':
         url = args.url or latest()
         if url:
-            download(args.url)
+            download(url)
             unpack()
         else:
             sys.stderr.write('couldn\'t find any world to download')
@@ -81,3 +86,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+

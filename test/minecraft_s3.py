@@ -1,0 +1,1 @@
+../minecraft/resource/minecraft_s3.py
