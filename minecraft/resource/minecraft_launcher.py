@@ -31,17 +31,30 @@ def start():
 
 @bottle.get('/')
 def index():
-    return bottle.static_file('index.html', root='.')
+    return bottle.static_file('minecraft_launcher.html', root='.')
 
-@bottle.get('/app.js')
+@bottle.get('/minecraft_launcher.js')
 def index():
-    return bottle.static_file('app.js', root='.')
+    return bottle.static_file('minecraft_launcher.js', root='.')
+
+@bottle.get('/minecraft_launcher.css')
+def index():
+    return bottle.static_file('minecraft_launcher.css', root='.')
 
 @bottle.get('/log')
 def log():
     """Open the log and show the last N lines of it"""
     bottle.response.content_type = 'application/json'
-    return '"%s"' % open('logs/latest.log').read().replace('\n', '\\n')
+    try:
+        return json.dumps(open('logs/latest.log').read())
+    except:
+        return json.dumps('No logs available')
+
+@bottle.get('/world/saves')
+def saves():
+    """Get list of saved files from S3."""
+    bottle.response.content_type = 'application/json'
+    return json.dumps(list(reversed(sorted(minecraft_s3.all()))))
 
 @bottle.post('/world/save')
 def save():
@@ -50,7 +63,7 @@ def save():
         minecraft_server.stdin.write('/save-off\n') 
         minecraft_server.stdin.write('/save-all\n')
         minecraft_server.stdin.flush()
-        time.sleep(5)
+        time.sleep(1) # FIXME
         try:
             now = datetime.datetime.now().isoformat()
             minecraft_s3.pack()
@@ -59,12 +72,7 @@ def save():
         finally:
             minecraft_server.stdin.write('/save-on\n')
             minecraft_server.stdin.flush()
-
-@bottle.get('/world/saves')
-def saves():
-    """Get list of saved files from S3."""
-    bottle.response.content_type = 'application/json'
-    return json.dumps(list(reversed(sorted(minecraft_s3.all()))))
+    return json.dumps('OK')
   
 @bottle.post('/world/active')
 def load():
@@ -73,14 +81,15 @@ def load():
             minecraft_server.stdin.write('/save-off\n') 
             minecraft_server.stdin.write('/save-all\n')
             minecraft_server.stdin.flush()
-            time.sleep(5)
+            time.sleep(1) # FIXME
             stop()
+            print('saving current world')
             subprocess.call(('mv', 'world', 'world.backup'))
         name = bottle.request.body.read()
         minecraft_s3.download(name)
         minecraft_s3.unpack()
         start()
-    return '"ok"'
+    return json.dumps('OK')
 
 def sigterm(signum, frame):
     """Exit the service gracefully"""

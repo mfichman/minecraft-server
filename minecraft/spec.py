@@ -28,6 +28,8 @@ version = auto.metadata.minecraft.version
 auto.Package('openjdk-7-jre')
 auto.PythonPackage('tinys3')
 auto.PythonPackage('bottle')
+auto.PythonPackage('gevent')
+auto.PythonPackage('gunicorn')
 
 # Set up user and home directories for minecraft server
 auto.User(username)
@@ -94,6 +96,27 @@ auto.File(
     owner=username,
     mode=0700,
     content=auto.content('minecraft_launcher.py'),
+)
+
+auto.File(
+    '%s/server/minecraft_launcher.js' % homedir,
+    owner=username,
+    mode=0700,
+    content=auto.content('minecraft_launcher.js'),
+)
+
+auto.File(
+    '%s/server/minecraft_launcher.css' % homedir,
+    owner=username,
+    mode=0700,
+    content=auto.content('minecraft_launcher.css'),
+)
+
+auto.File(
+    '%s/server/minecraft_launcher.html' % homedir,
+    owner=username,
+    mode=0700,
+    content=auto.content('minecraft_launcher.html'),
 )
 
 # Firewall entry for server port
