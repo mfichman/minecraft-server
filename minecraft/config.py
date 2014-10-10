@@ -1,5 +1,6 @@
 import automaton as auto
 import os
+import bcrypt
 
 minecraft = auto.metadata.Hash()
 s3 = auto.metadata.Hash()
@@ -10,9 +11,12 @@ auto.metadata.default.s3 = s3
 s3.accesskey = os.environ.get('S3_ACCESS_KEY', None)
 s3.secretkey = os.environ.get('S3_SECRET_KEY', None)
 
+
 minecraft.user = 'minecraft'
 minecraft.version = '1.8'
 minecraft.webport = 8080
+minecraft.webpw = bytes(os.environ.get('WEB_PASSWORD', None))
+minecraft.webpwhash = bcrypt.hashpw(minecraft.webpw, bcrypt.gensalt())
 minecraft.ops = []
 minecraft.options = auto.metadata.Hash()
 minecraft.options.generatorsettings = ''

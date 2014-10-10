@@ -1,33 +1,40 @@
-$(document).ready(function() {
-    $('#container').hide();
 
+
+/* Post data to a route, and disable the button that fired the post until the
+ * request returns. */
+function postLongTask(route, data, button) {
+    button.prop('disabled', true);
+    button.attr('class', 'btn btn-warning');
+
+    var settings = {
+        'url': route,
+        'type': 'POST',
+        'data': JSON.stringify(data),
+        'dataType': 'json',
+        'contentType': 'application/json',
+    }
+    return $.ajax(settings).done(function(log) {
+        button.prop('disabled', false);
+        button.attr('class', 'btn btn-primary');
+    }).fail(function(log) {
+        button.prop('disabled', false);
+        button.attr('class', 'btn btn-danger');
+    });
+}
+
+/* Set up the UI/button listeners */
+function initApp() {
     /* Trigger a world save/upload */
     $('#save-button').click(function() {
         var button = $(this);
-        button.prop('disabled', true);
-        button.attr('class', 'btn btn-warning');
-        $.post('world/save').done(function(log) {
-            button.prop('disabled', false);
-            button.attr('class', 'btn btn-primary');
-        }).fail(function(log) {
-            button.prop('disabled', false);
-            button.attr('class', 'btn btn-danger');
-        });
+        postLongTask('world/save', null, button);
     });
 
     /* Trigger a world download/reload */
     $('#load-button').click(function() {
         var name = $('#load-button-text').html();
         var button = $(this);
-        button.prop('disabled', true);
-        button.attr('class', 'btn btn-warning');
-        $.post('world/active', name).done(function() {
-            button.prop('disabled', false);
-            button.attr('class', 'btn btn-default');
-        }).fail(function(log) {
-            button.prop('disabled', false);
-            button.attr('class', 'btn btn-danger');
-        });
+        postLongTask('world/active', name, button);
     });
 
     /* Load the list of worlds */
@@ -43,7 +50,7 @@ $(document).ready(function() {
             $('#load-button-text').html(link.html());
         });
         $('.dropdown-toggle').dropdown();
-        $('#container').show();
+        $('#app').show();
     });
 
     /* Load the log periodically */
@@ -55,4 +62,24 @@ $(document).ready(function() {
     };
 
     setTimeout(loadLog, 1000);
+}
+
+/* Set up the login screen */
+function initLogin() {
+    $('#login-button').click(function() {
+        var button = $(this);
+        var password = $('#login-password').val();
+        var json = {'password': password};
+        var promise = postLongTask('session/new', json, button);
+        promise.done(function() {
+            console.log('here');
+            $('#login').hide();
+            initApp();
+        });
+    });
+}
+
+$(document).ready(function() {
+    $('#app').hide();
+    initLogin();
 });

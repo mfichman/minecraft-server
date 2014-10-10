@@ -26,10 +26,13 @@ version = auto.metadata.minecraft.version
 
 # Install required packages
 auto.Package('openjdk-7-jre')
+auto.Package('build-essential')
+auto.Package('python-dev')
 auto.PythonPackage('tinys3')
 auto.PythonPackage('bottle')
 auto.PythonPackage('gevent')
 auto.PythonPackage('gunicorn')
+auto.PythonPackage('bcrypt')
 
 # Set up user and home directories for minecraft server
 auto.User(username)
