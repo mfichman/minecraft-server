@@ -2,6 +2,7 @@
 *.jar
 *.swp
 *.pyc
+*.pem
 env.bat
 env.sh
 test

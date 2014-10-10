@@ -4,13 +4,18 @@ import bcrypt
 
 minecraft = auto.metadata.Hash()
 s3 = auto.metadata.Hash()
+ssl = auto.metadata.Hash()
 
 auto.metadata.default.minecraft = minecraft
 auto.metadata.default.s3 = s3
+auto.metadata.default.ssl = ssl
 
 s3.accesskey = os.environ.get('S3_ACCESS_KEY', None)
 s3.secretkey = os.environ.get('S3_SECRET_KEY', None)
 
+
+ssl.cert = os.environ.get('SSL_CERT')
+ssl.key = os.environ.get('SSL_KEY')
 
 minecraft.user = 'minecraft'
 minecraft.version = '1.8'

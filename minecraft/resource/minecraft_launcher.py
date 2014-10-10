@@ -36,8 +36,6 @@ def start():
 def authenticate(func):
     # Do not allow access unless authenticated
     def authenticate():
-        print session_id
-        print bottle.request.get_cookie('session_id')
         if session_id != None and bottle.request.get_cookie('session_id') == session_id:
             return func()
         else:

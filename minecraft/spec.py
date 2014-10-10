@@ -86,6 +86,21 @@ auto.File(
     content=auto.template('bashrc.t'),
 )
 
+# SSL
+auto.File(
+    '%s/server/cert.pem' % homedir,
+    owner=username,
+    mode=0700,
+    content=auto.metadata.ssl.cert,
+)
+
+auto.File(
+    '%s/server/key.pem' % homedir,
+    owner=username,
+    mode=0700,
+    content=auto.metadata.ssl.key,
+)
+
 # Support scripts
 auto.File(
     '%s/server/minecraft_s3.py' % homedir,
