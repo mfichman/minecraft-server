@@ -3,6 +3,10 @@
 *.swp
 *.pyc
 *.pem
+build
+dist
+*.egg-info
+.env
 env.bat
 env.sh
 test

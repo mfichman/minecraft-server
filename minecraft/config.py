@@ -13,7 +13,6 @@ auto.metadata.default.ssl = ssl
 s3.accesskey = os.environ.get('S3_ACCESS_KEY', None)
 s3.secretkey = os.environ.get('S3_SECRET_KEY', None)
 
-
 ssl.cert = os.environ.get('SSL_CERT')
 ssl.key = os.environ.get('SSL_KEY')
 
