@@ -10,16 +10,16 @@ auto.metadata.default.minecraft = minecraft
 auto.metadata.default.s3 = s3
 auto.metadata.default.ssl = ssl
 
-s3.accesskey = os.environ.get('S3_ACCESS_KEY', None)
-s3.secretkey = os.environ.get('S3_SECRET_KEY', None)
+s3.accesskey = os.environ['S3_ACCESS_KEY']
+s3.secretkey = os.environ['S3_SECRET_KEY']
 
-ssl.cert = os.environ.get('SSL_CERT')
-ssl.key = os.environ.get('SSL_KEY')
+ssl.cert = os.environ['SSL_CERT']
+ssl.key = os.environ['SSL_KEY']
 
 minecraft.user = 'minecraft'
 minecraft.version = '1.8'
 minecraft.webport = 8080
-minecraft.webpw = bytes(os.environ.get('WEB_PASSWORD', None))
+minecraft.webpw = bytes(os.environ['WEB_PASSWORD'])
 minecraft.webpwhash = bcrypt.hashpw(minecraft.webpw, bcrypt.gensalt())
 minecraft.ops = []
 minecraft.options = auto.metadata.Hash()
