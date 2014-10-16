@@ -69,6 +69,15 @@ def js():
 def css():
     return bottle.static_file('minecraft_launcher.css', root='.')
 
+@bottle.post('/reboot')
+@authenticate
+def reboot():
+    """Reboot the server"""
+    bottle.response.content_type = 'application/json'
+    stop()
+    start()
+    return json.dumps('ok')
+
 @bottle.get('/log')
 @authenticate
 def log():
@@ -91,18 +100,20 @@ def saves():
 def save():
     """Turn off auto-saving, and then upload the file to S3."""
     with minecraft_server_lock:
-        minecraft_server.stdin.write('/save-off\n') 
-        minecraft_server.stdin.write('/save-all\n')
-        minecraft_server.stdin.flush()
-        time.sleep(1) # FIXME
+        if minecraft_server:
+            minecraft_server.stdin.write('/save-off\n') 
+            minecraft_server.stdin.write('/save-all\n')
+            minecraft_server.stdin.flush()
+            time.sleep(1) # FIXME
         try:
             now = datetime.datetime.now().isoformat()
             minecraft_s3.pack()
             minecraft_s3.upload(now)
-            return '<pre>saved: %s</pre>' % now
+            return json.dumps(now)
         finally:
-            minecraft_server.stdin.write('/save-on\n')
-            minecraft_server.stdin.flush()
+            if minecraft_server:
+                minecraft_server.stdin.write('/save-on\n')
+                minecraft_server.stdin.flush()
     return json.dumps('ok')
   
 @bottle.post('/world/active')
@@ -116,7 +127,7 @@ def load():
             time.sleep(1) # FIXME
             stop()
             subprocess.call(('mv', 'world', 'world.backup'))
-        name = bottle.request.body.read()
+        name = bottle.request.json
         minecraft_s3.download(name)
         minecraft_s3.unpack()
         start()
@@ -128,6 +139,7 @@ def sigterm(signum, frame):
     sys.exit(0)
 
 app = bottle.default_app()
+bottle.debug(True)
 
 def main():
     """Execute the launcher & web app monitor"""

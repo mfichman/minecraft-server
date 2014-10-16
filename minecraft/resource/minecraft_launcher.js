@@ -15,7 +15,7 @@ function postLongTask(route, data, button) {
     }
     return $.ajax(settings).done(function(log) {
         button.prop('disabled', false);
-        button.attr('class', 'btn btn-primary');
+        button.attr('class', 'btn btn-default');
     }).fail(function(log) {
         button.prop('disabled', false);
         button.attr('class', 'btn btn-danger');
@@ -35,6 +35,11 @@ function initApp() {
         var name = $('#load-button-text').html();
         var button = $(this);
         postLongTask('world/active', name, button);
+    });
+
+    $('#reboot-button').click(function() {
+        var button = $(this);
+        postLongTask('reboot');
     });
 
     /* Load the list of worlds */
@@ -72,7 +77,6 @@ function initLogin() {
         var json = {'password': password};
         var promise = postLongTask('session/new', json, button);
         promise.done(function() {
-            console.log('here');
             $('#login').hide();
             initApp();
         });
