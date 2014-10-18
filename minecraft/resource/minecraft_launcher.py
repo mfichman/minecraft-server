@@ -12,13 +12,13 @@ import threading
 import argparse
 import minecraft_s3
 import json
-import bcrypt
 import uuid
+from passlib.hash import sha256_crypt
 
 minecraft_server_lock = threading.Lock()
 minecraft_server = None
 session_id = None
-password_hash = bytes(os.environ.get('PASSWORD_HASH', bcrypt.hashpw('foo', bcrypt.gensalt())))
+password_hash = bytes(os.environ.get('PASSWORD_HASH'))
 
 def stop():
     """Stop the server"""
@@ -48,8 +48,8 @@ def session():
     # Create a new session
     global session_id
     password = bottle.request.json['password']
-    
-    if bcrypt.hashpw(bytes(password), password_hash) == password_hash:
+
+    if sha256_crypt.verify(password, password_hash):
         session_id = str(uuid.uuid1())
         bottle.response.set_cookie('session_id', session_id, httponly=True, path='/')
         return json.dumps('ok')

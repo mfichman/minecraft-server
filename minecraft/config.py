@@ -1,6 +1,6 @@
 import automaton as auto
 import os
-import bcrypt
+from passlib.hash import sha256_crypt
 
 minecraft = auto.metadata.Hash()
 s3 = auto.metadata.Hash()
@@ -13,14 +13,14 @@ auto.metadata.default.ssl = ssl
 s3.accesskey = os.environ['S3_ACCESS_KEY']
 s3.secretkey = os.environ['S3_SECRET_KEY']
 
-ssl.cert = os.environ['SSL_CERT']
-ssl.key = os.environ['SSL_KEY']
+ssl.cert = open('cert.pem', 'rb').read()
+ssl.key = open('key.pem', 'rb').read()
 
 minecraft.user = 'minecraft'
 minecraft.version = '1.8'
 minecraft.webport = 8080
 minecraft.webpw = bytes(os.environ['WEB_PASSWORD'])
-minecraft.webpwhash = bcrypt.hashpw(minecraft.webpw, bcrypt.gensalt())
+minecraft.webpwhash = sha256_crypt.encrypt(minecraft.webpw)
 minecraft.ops = []
 minecraft.options = auto.metadata.Hash()
 minecraft.options.generatorsettings = ''

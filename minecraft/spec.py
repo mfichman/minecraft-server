@@ -33,7 +33,7 @@ auto.PythonPackage('boto')
 auto.PythonPackage('bottle')
 auto.PythonPackage('gevent')
 auto.PythonPackage('gunicorn')
-auto.PythonPackage('bcrypt')
+auto.PythonPackage('passlib')
 
 # Set up user and home directories for minecraft server
 auto.User(username)
