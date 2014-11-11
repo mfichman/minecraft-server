@@ -1,5 +1,6 @@
-openjdk-7-jre
 build-essential
-python-dev
+curl
 libffi-dev
+openjdk-7-jre
+python-dev
 python-pip
