@@ -1,1 +1,0 @@
-../minecraft/resource/minecraft_launcher.py

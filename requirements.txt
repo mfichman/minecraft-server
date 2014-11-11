@@ -1,3 +1,0 @@
-automaton==0.0.1
-py-bcrypt==0.4
-wsgiref==0.1.2

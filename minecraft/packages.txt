@@ -1,0 +1,5 @@
+openjdk-7-jre
+build-essential
+python-dev
+libffi-dev
+python-pip

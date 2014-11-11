@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src='//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+  <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+  <script src='launcher.js'></script>
+  <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css'>
+  <link rel='stylesheet' href='launcher.css'>
+  <title>MINECRAFTS</title>
+</head>
+
+<body>
+  <div class='container'>
+    <h1>Minecraft Server Console</h1>
+    <hr/>
+  
+    <div id='login'>
+      <div class='input-group'>
+        <input id='login-password' type='password' class='form-control'>
+        <span class='input-group-btn'>
+          <button id='login-button' class='btn btn-default' type='button'>Login</button>
+        </span>
+      </div>
+    </div>
+    <div id='app'>
+      <div class='toolbar'>
+        <div class='toolbar-item'>
+          <button id='save-button' class='btn btn-default'>
+            <strong>SAVE</strong>
+          </button>
+        </div>
+        <div class='toolbar-item btn-group'>
+          <button id='load-button' type='button' class='btn btn-default'>
+            <strong>LOAD</strong> <span id='load-button-text'></span>
+          </button>
+          <button id='load-menu-button' type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>
+            <span class='caret'></span>
+            <span class='sr-only'>Toggle Dropdown</span>
+          </button>
+          <ul id='load-menu' class='dropdown-menu' role='menu'/>
+        </div>
+        <div class='toolbar-item'>
+          <button id='reboot-button' class='btn btn-danger'>
+            <strong>REBOOT</strong>
+          </button>
+        </div>
+      </div>
+      <pre id='log'/>
+    </div>
+  </div>
+</body>
+
+</html>

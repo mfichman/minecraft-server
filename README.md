@@ -1,4 +1,4 @@
 minecraft-server
 ================
 
-Tools for setting up a Minecraft server in Digital Ocean
+Tools for setting up a Minecraft server using Docker
