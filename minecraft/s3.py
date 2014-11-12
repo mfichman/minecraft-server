@@ -29,10 +29,10 @@ def latest():
     return latest
 
 def pack():
-    zf = zipfile.ZipFile('/data/world.zip', 'w', zipfile.ZIP_DEFLATED)
-    for root, dirs, files in os.walk('/data/world'):
+    zf = zipfile.ZipFile('world.zip', 'w', zipfile.ZIP_DEFLATED)
+    for root, dirs, files in os.walk('world'):
         for name in files:
-            zf.write(os.path.join(root, name).replace('/data/'))
+            zf.write(os.path.join(root, name))
     zf.close()
 
 def upload(url):
@@ -42,7 +42,7 @@ def upload(url):
     bucket = conn.get_bucket(s3_bucket)
     key = boto.s3.key.Key(bucket)
     key.key = url
-    key.set_contents_from_filename('/data/world.zip')
+    key.set_contents_from_filename('world.zip')
     sys.stdout.write('uploaded %s\n' % url)
     sys.stdout.flush()
 
@@ -52,13 +52,13 @@ def download(url):
     conn = connection()
     bucket = conn.get_bucket(s3_bucket)
     key = bucket.get_key(url)
-    key.get_contents_to_filename('/data/world.zip')
+    key.get_contents_to_filename('world.zip')
     sys.stdout.write('downloaded %s\n' % url)
     sys.stdout.flush()
 
 def unpack():
-    zf = zipfile.ZipFile('/data/world.zip', 'r', zipfile.ZIP_DEFLATED)
-    zf.extractall('/data')
+    zf = zipfile.ZipFile('world.zip', 'r', zipfile.ZIP_DEFLATED)
+    zf.extractall()
 
 def main():
     # Download the latest game save, unpack it, then start the server

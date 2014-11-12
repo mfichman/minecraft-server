@@ -1,6 +1,4 @@
 .git
 env.list
-build.sh
-run.sh
 README.md
-genpwhash.py
+scripts

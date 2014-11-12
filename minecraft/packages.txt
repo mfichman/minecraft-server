@@ -1,6 +1,6 @@
 build-essential
 curl
 libffi-dev
-openjdk-7-jre
 python-dev
 python-pip
+oracle-java7-installer
