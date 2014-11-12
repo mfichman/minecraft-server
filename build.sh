@@ -1,1 +1,1 @@
-docker --tls build -t minecraft  .
+docker --tls build -t mfichman/minecraft  .
