@@ -126,7 +126,8 @@ def load():
             minecraft_server.stdin.flush()
             time.sleep(1) # FIXME
             stop()
-            subprocess.call(('mv', 'world', 'world.backup'))
+            now = datetime.datetime.now().isoformat()
+            subprocess.call(('mv', 'world', 'world.backup.%s' % now))
         name = bottle.request.json
         s3.download(name)
         s3.unpack()
