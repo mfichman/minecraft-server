@@ -4,7 +4,12 @@ minecraft-server
 Runs a Minecraft server using Docker. Here's how to set it up:
 
 ```
-docker run -name minecraft -it -e S3_ACCESS_KEY=? -e S3_SECRET_KEY=? -e PASSWORD_HASH=? mfichman/minecraft
+docker run -it \
+   --name minecraft \
+   --env=S3_ACCESS_KEY=? \
+   --env=S3_SECRET_KEY=? \
+   --env=PASSWORD_HASH=? \
+   mfichman/minecraft
 
 ```
 
