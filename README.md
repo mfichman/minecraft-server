@@ -5,7 +5,7 @@ Runs a Minecraft server using Docker. Here's how to set it up:
 
 ```
 docker run -it \
-   --name minecraft \
+   --name=minecraft \
    --env=S3_ACCESS_KEY=? \
    --env=S3_SECRET_KEY=? \
    --env=PASSWORD_HASH=? \
