@@ -1,6 +1,6 @@
 FROM debian
 
-MAINTAINER Matt Fichman <matt.fichman@gmail.com
+MAINTAINER Matt Fichman <matt.fichman@gmail.com>
 
 RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main"\
   | tee /etc/apt/sources.list.d/webupd8team-java.list
