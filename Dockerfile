@@ -1,4 +1,4 @@
-FROM debian
+FROM debian:7
 
 MAINTAINER Matt Fichman <matt.fichman@gmail.com>
 
@@ -19,7 +19,7 @@ RUN pip install -r /minecraft/requirements.txt
 
 COPY minecraft /minecraft
 RUN bash /minecraft/gencert.sh
-RUN curl -sL https://s3.amazonaws.com/Minecraft.Download/versions/1.8/minecraft_server.1.8.jar > /minecraft/minecraft_server.jar
+RUN curl -sL https://s3.amazonaws.com/Minecraft.Download/versions/1.8.7/minecraft_server.1.8.7.jar > /minecraft/minecraft_server.jar
 
 VOLUME /data
 
