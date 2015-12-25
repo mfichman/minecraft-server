@@ -1,4 +1,4 @@
-FROM debian:7
+FROM debian:jessie
 
 MAINTAINER Matt Fichman <matt.fichman@gmail.com>
 
