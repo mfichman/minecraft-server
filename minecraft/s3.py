@@ -64,7 +64,7 @@ def main():
     # Download the latest game save, unpack it, then start the server
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest='command')
-    
+
     sub = subparsers.add_parser('upload')
     sub.add_argument('url', type=str)
 
@@ -72,7 +72,7 @@ def main():
     sub.add_argument('url', nargs='?', type=str)
 
     args = parser.parse_args()
-    
+
     if args.command == 'upload':
         pack()
         upload(args.url)

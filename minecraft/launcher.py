@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import bottle 
+import bottle
 import subprocess
 import shlex
 import time
@@ -101,27 +101,28 @@ def save():
     """Turn off auto-saving, and then upload the file to S3."""
     with minecraft_server_lock:
         if minecraft_server:
-            minecraft_server.stdin.write('/save-off\n') 
+            minecraft_server.stdin.write('/save-off\n')
             minecraft_server.stdin.write('/save-all\n')
             minecraft_server.stdin.flush()
             time.sleep(1) # FIXME
         try:
+            name = bottle.request.json['name']
             now = datetime.datetime.now().isoformat()
             s3.pack()
-            s3.upload(now)
+            s3.upload('{}-{}'.format(name, now))
             return json.dumps(now)
         finally:
             if minecraft_server:
                 minecraft_server.stdin.write('/save-on\n')
                 minecraft_server.stdin.flush()
     return json.dumps('ok')
-  
+
 @bottle.post('/world/active')
 @authenticate
 def load():
     with minecraft_server_lock:
         if minecraft_server:
-            minecraft_server.stdin.write('/save-off\n') 
+            minecraft_server.stdin.write('/save-off\n')
             minecraft_server.stdin.write('/save-all\n')
             minecraft_server.stdin.flush()
             time.sleep(1) # FIXME

@@ -11,3 +11,5 @@ env.bat
 env.sh
 test
 env.list
+key.pem
+cert.pem

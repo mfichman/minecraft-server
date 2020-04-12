@@ -1,5 +1,5 @@
-boto==2.33.0
-bottle==0.12.7
-gevent==1.0.1
-gunicorn==19.1.1
-passlib==1.6.2
+boto==2.49.0
+bottle==0.12.18
+gevent==1.5.0
+gunicorn
+passlib==1.7.2

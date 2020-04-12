@@ -8,7 +8,7 @@ function Minecraft() {
   function postLongTask(route, data, button) {
     button.prop('disabled', true);
     button.attr('class', 'btn btn-warning');
-  
+
     var settings = {
       'url': route,
       'type': 'POST',
@@ -24,27 +24,29 @@ function Minecraft() {
       button.attr('class', 'btn btn-danger');
     });
   }
-  
+
   /* Set up the UI/button listeners */
   function initApp() {
     /* Trigger a world save/upload */
     $('#save-button').click(function() {
       var button = $(this);
-      postLongTask('world/save', null, button);
+      var name = $('#save-name').val();
+      var json = {'name': name};
+      postLongTask('world/save', json, button);
     });
-  
+
     /* Trigger a world download/reload */
     $('#load-button').click(function() {
       var name = $('#load-button-text').html();
       var button = $(this);
       postLongTask('world/active', name, button);
     });
-  
+
     $('#reboot-button').click(function() {
       var button = $(this);
       postLongTask('reboot');
     });
-  
+
     /* Load the list of worlds */
     $.get('world/saves').done(function(saves) {
       var html = "";
@@ -60,18 +62,18 @@ function Minecraft() {
       $('.dropdown-toggle').dropdown();
       $('#app').show();
     });
-  
+
     /* Load the log periodically */
-    var loadLog = function() { 
+    var loadLog = function() {
       $.get('log').done(function(log) {
         $('#log').html(log)
         setTimeout(loadLog, 1000);
       });
     };
-  
+
     setTimeout(loadLog, 1000);
   }
-  
+
   /* Set up the login screen */
   function initLogin() {
     $('#app').hide();
