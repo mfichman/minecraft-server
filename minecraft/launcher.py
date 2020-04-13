@@ -30,7 +30,7 @@ def stop():
 def start():
     """Start the server"""
     global minecraft_server
-    minecraft_cmd = shlex.split('java -Xmx1024M -Xms1024M -jar minecraft_server.jar nogui')
+    minecraft_cmd = shlex.split('java -Xmx2048M -Xms2048M -jar minecraft_server.jar nogui')
     minecraft_server = subprocess.Popen(minecraft_cmd, stdin=subprocess.PIPE)
 
 def authenticate(func):
