@@ -190,6 +190,8 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.4.2)
+    sucker_punch (2.1.2)
+      concurrent-ruby (~> 1.0)
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -200,6 +202,8 @@ GEM
       thread_safe (~> 0.1)
     tzinfo-data (1.2019.3)
       tzinfo (>= 1.0.0)
+    view_component (2.5.0)
+      activesupport (>= 5.0.0, < 7.0)
     warden (1.2.8)
       rack (>= 2.0.6)
     web-console (4.0.1)
@@ -237,8 +241,10 @@ DEPENDENCIES
   sass-rails (>= 6)
   selenium-webdriver
   sqlite3 (~> 1.4)
+  sucker_punch (~> 2.0)
   turbolinks (~> 5)
   tzinfo-data
+  view_component
   web-console (>= 3.3.0)
   webdrivers
   webpacker (~> 4.0)

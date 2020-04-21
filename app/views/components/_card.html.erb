@@ -1,0 +1,15 @@
+<div>
+  <% if local_assigns.has_key?(:header) %>
+    <div>
+      <%= header %>
+    </div>
+  <% end %>
+
+  <%= yield %>
+
+  <% if local_assigns.has_key?(:footer) %>
+    <div>
+      <%= footer %>
+    </div>
+  <% end %>
+</div>

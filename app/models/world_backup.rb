@@ -1,0 +1,2 @@
+class WorldBackup < ApplicationRecord
+end
