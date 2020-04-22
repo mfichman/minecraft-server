@@ -1,0 +1,14 @@
+rancher:
+  services:
+    wireguard:
+      image: vitobotta/docker-wireguard:0.15.0
+      net: host
+      privileged: true
+      restart: always
+      volumes:
+      - /home/rancher/wireguard:/etc/wireguard
+      - /usr/src:/usr/src
+      - /lib/modules:/lib/modules
+    environment:
+      INTERFACE: "wg0"
+      LISTEN_PORT: "51820"

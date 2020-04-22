@@ -17,6 +17,5 @@ module MinecraftServer
     # the framework and any gems in your application.
 
     config.active_job.queue_adapter = :sucker_punch
-    config.active_storage.service = :amazon
   end
 end
