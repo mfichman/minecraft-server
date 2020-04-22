@@ -27,3 +27,6 @@ rancher:
       restart: always
       volumes:
       - db:/data
+
+  volumes:
+    db:

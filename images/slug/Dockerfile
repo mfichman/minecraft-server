@@ -45,5 +45,5 @@ RUN ln -sn /data /minecraft/db/
 
 WORKDIR /minecraft
 
-EXPOSE 3001
-CMD rails db:setup && rails server -p 3001 -b 0.0.0.0
+EXPOSE 80
+CMD rails db:setup && rails server -p 80 -b 0.0.0.0
