@@ -35,7 +35,7 @@ a:hover {
   color: hsla(211, 100%, 60%, 1);
 }
 
-.form-control, .form-control:focus {
+.form-control, .form-control:focus, .form-control:active {
   background: $gray-700;
   border: none;
   color: $white;
@@ -51,4 +51,9 @@ a:hover {
   background: $gray-600;
   color: $white;
   border: none;
+}
+
+.simplebar-scrollbar {
+  opacity: 0.5;
+
 }
