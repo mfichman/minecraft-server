@@ -1,0 +1,109 @@
+<h3 class="mb-3"><code class="text-white"><%= @server.host %></code></h3>
+
+<div class="btn-toolbar mb-3">
+  <%= link_to icon_tag(:save) + ' Save', '#', class: 'btn btn-primary btn-sm mr-1' %>
+  <%= link_to icon_tag(:restore) + ' Load', '#', class: 'btn btn-primary btn-sm mr-1' %>
+  <%= link_to icon_tag(:replay) + ' Reboot', '#', class: 'btn btn-danger btn-sm mr-1' %>
+</div>
+
+  <script>
+  </script>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">
+      Console
+    </h5>
+
+    <pre class="text-white" style="height: 70vw;">
+laskdjflaskdjf
+as;dkfjasldkjfa
+lkdjf
+slakdjf
+aslkdfj
+laskdjflaskdjf
+laskdjflaskdjf
+laskdjflaskdjf
+laskdjflaskdjf
+laskdjflaskdjf
+laskdjflaskdjf
+laskdjflaskdjf
+laskdjflaskdjf
+laskdjflaskdjf
+laskdjflaskdjf
+laskdjflaskdjf
+as;dkfjasldkjfa
+lkdjf
+slakdjf
+aslkdfj
+as;dkfjasldkjfa
+lkdjf
+slakdjf
+aslkdfj
+as;dkfjasldkjfa
+lkdjf
+slakdjf
+aslkdfj
+as;dkfjasldkjfa
+lkdjf
+slakdjf
+aslkdfj
+as;dkfjasldkjfa
+lkdjf
+slakdjf
+aslkdfj
+as;dkfjasldkjfa
+lkdjf
+slakdjf
+aslkdfj
+as;dkfjasldkjfa
+lkdjf
+slakdjf
+aslkdfj
+as;dkfjasldkjfa
+lkdjf
+slakdjf
+aslkdfj
+as;dkfjasldkjfa
+lkdjf
+slakdjf
+aslkdfj
+as;dkfjasldkjfa
+lkdjf
+slakdjf
+aslkdfj
+as;dkfjasldkjfa
+lkdjf
+slakdjf
+aslkdfj
+    </pre>
+
+    <%= form_for([@server, @server.server_commands.build]) do |f| %>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text font-weight-bold"><%= icon_tag(:chevron_right) %></span>
+        </div>
+        <%= f.text_field :text, class: 'form-control' %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">
+      Backups
+    </h5>
+  </div>
+
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item d-flex align-items-center justify-content-between">
+      <%= Time.now %>
+      <div>
+        <%= link_to icon_tag(:restore), '#', class: 'btn btn-primary btn-sm' %>
+      </div>
+    </li>
+
+  </ul>
+</div>
+

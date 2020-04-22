@@ -18,6 +18,5 @@ module MinecraftServer
 
     config.active_job.queue_adapter = :sucker_punch
     config.active_storage.service = :amazon
-    config.action_view.default_form_builder = 'ApplicationFormBuilder'
   end
 end

@@ -1,0 +1,54 @@
+
+$material-icons-font-path: '~material-icons/iconfont/';
+$material-icons-font-size: inherit;
+$enable-gradients: true;
+
+@import '~bootstrap/scss/bootstrap';
+@import '~material-icons/iconfont/material-icons.scss';
+
+body {
+  background: $gray-900;
+  color: $white;
+}
+
+.card {
+  background: $gray-800;
+  color: $white;
+  border: none;
+}
+
+.list-group-item {
+  background: $gray-800;
+  color: $white;
+}
+
+.card-header {
+  background: $gray-700;
+  border: none;
+}
+
+a {
+  color: hsla(211, 100%, 80%, 1);
+}
+
+a:hover {
+  color: hsla(211, 100%, 60%, 1);
+}
+
+.form-control, .form-control:focus {
+  background: $gray-700;
+  border: none;
+  color: $white;
+  box-shadow: none;
+}
+
+.btn > .material-icons {
+  position: relative;
+  top: 2px;
+}
+
+.input-group-text {
+  background: $gray-600;
+  color: $white;
+  border: none;
+}

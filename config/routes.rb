@@ -8,5 +8,8 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
 
-  resources :servers
+  resources :servers do
+    resources :server_commands, shallow: true
+    resources :server_logs, shallow: true
+  end
 end
