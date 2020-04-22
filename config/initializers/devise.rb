@@ -264,7 +264,8 @@ Devise.setup do |config|
     :google_oauth2,
     Rails.application.credentials.dig(:google, :oauth_client_id),
     Rails.application.credentials.dig(:google, :oauth_client_secret),
-    scope: 'email,profile'
+    scope: 'email,profile',
+    skip_jwt: true
   )
 
   # ==> Warden configuration

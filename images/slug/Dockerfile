@@ -9,15 +9,18 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 RUN apt-get update -qq && apt-get install -y build-essential nodejs yarn
 RUN gem install bundler
 
-ADD https://raw.githubusercontent.com/mfichman/minecraft-server/master/Gemfile /minecraft/Gemfile
+#ADD https://raw.githubusercontent.com/mfichman/minecraft-server/master/Gemfile /minecraft/Gemfile
+RUN curl http://httpd/Gemfile > /minecraft/Gemfile
 RUN bundle
 
-ADD https://raw.githubusercontent.com/mfichman/minecraft-server/master/package.json /minecraft/package.json
-ADD https://raw.githubusercontent.com/mfichman/minecraft-server/master/yarn.lock /minecraft/yarn.lock
+#ADD https://raw.githubusercontent.com/mfichman/minecraft-server/master/package.json /minecraft/package.json
+#ADD https://raw.githubusercontent.com/mfichman/minecraft-server/master/yarn.lock /minecraft/yarn.lock
+RUN curl http://httpd/package.json > /minecraft/package.json
+RUN curl http://httpd/yarn.lock > /minecraft/yarn.lock
 RUN yarn install --modules-folder=/usr/local/node_modules
 
 RUN rm -r /minecraft
-RUN git clone --depth 1 https://github.com/mfichman/minecraft-server.git /minecraft
+RUN VERSION=2 git clone --depth 1 https://github.com/mfichman/minecraft-server.git /minecraft
 RUN ln -sn /usr/local/node_modules /minecraft/node_modules
 RUN SECRET_KEY_BASE=`rails secret` rails assets:precompile
 
@@ -32,6 +35,7 @@ COPY --from=slug /minecraft/public/packs /packs
 VOLUME /data
 
 ENV RAILS_ENV=production
+ENV RAILS_SERVE_STATIC_FILES=true
 
 #RUN git clone --depth 1 https://github.com/mfichman/minecraft-server.git /minecraft
 RUN VERSION=3 git clone --depth 1 git://git/ /minecraft
