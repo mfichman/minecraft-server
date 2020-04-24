@@ -5,16 +5,9 @@ module Minecraft
       CommandJob.perform_now(server, "/save-off")
 
       file = Tempfile.new('tmp')
+      file.close
 
-      config = {
-        'HostConfig' => { 'VolumesFrom' => ['minecraft'] },
-        'Image' => 'busybox',
-      }
-
-      tar = Docker::Container.create(config.merge('Cmd' => %w(tar -czv /minecraft/data/world)))
-      tar.start
-      tar.attach(stdout: file)
-      tar.remove
+      system("docker cp minecraft:/minecraft/data/world - > #{file.path}", exception: true)
 
       backup = server.world.backups.build
       backup.file.attach(io: file.open, filename: 'world.tar.gz', identify: false)
@@ -30,5 +23,4 @@ module Minecraft
   end
 end
 
-      #system("docker cp minecraft:/minecraft/data/world - > #{file.path}", exception: true)
 
