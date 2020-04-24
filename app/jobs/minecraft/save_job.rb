@@ -6,13 +6,29 @@ module Minecraft
 
       file = Tempfile.new('tmp')
 
-      system("tar -czvf #{file.path} /data/world")
+      config = {
+        'HostConfig' => { 'VolumesFrom' => ['minecraft'] },
+        'Image' => 'busybox',
+      }
+
+      tar = Docker::Container.create(config.merge('Cmd' => %w(tar -czv /minecraft/data/world)))
+      tar.start
+      tar.attach(stdout: file)
+      tar.remove
 
       backup = server.world.backups.build
-      backup.file.attach(io: file, filename: 'world.tar.gz', identify: false)
+      backup.file.attach(io: file.open, filename: 'world.tar.gz', identify: false)
       backup.save!
 
+      file.close
+      file.unlink
+
       CommandJob.perform_now(server, "/save-on")
+
+      nil
     end
   end
 end
+
+      #system("docker cp minecraft:/minecraft/data/world - > #{file.path}", exception: true)
+
