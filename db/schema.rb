@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 2020_04_23_150128) do
 
   create_table "wireguard_networks", force: :cascade do |t|
     t.string "ip_address", null: false
+    t.string "host", null: false
     t.integer "key_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -108,7 +109,6 @@ ActiveRecord::Schema.define(version: 2020_04_23_150128) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "minecraft_commands", "servers"
   add_foreign_key "minecraft_logs", "servers"
-  add_foreign_key "wireguard_networks", "keys"
   add_foreign_key "wireguard_peers", "keys"
   add_foreign_key "wireguard_peers", "networks"
 end

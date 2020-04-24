@@ -1,0 +1,26 @@
+<h3 class="mb-4"><code class="text-white"><%= @network.host %></code></h3>
+
+<div class="card mb-3">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-sm-2">IP Address</div>
+        <div class="col"><code><%= @network.ip_address %></code></div>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-sm-2">Public Key</div>
+        <div class="col"><code><%= @network.key.public_key %></code></div>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-sm-2">Private Key</div>
+        <div class="col"><code><%= @network.key.private_key %></code></div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<%= link_to 'New Peer', '#', class: 'btn btn-primary mb-3' %>

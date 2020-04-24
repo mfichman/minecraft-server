@@ -1,0 +1,18 @@
+<h3 class="mb-4">Networks</h3>
+
+<div class="card mb-3">
+  <ul class="list-group list-group-flush">
+    <% @networks.each do |network| %>
+      <li class="list-group-item d-flex align-items-center justify-content-between">
+        <code><%= link_to network.host, [:wireguard, network] %></code>
+        <div>
+          <%= link_to icon_tag(:visibility), [:wireguard, network], class: 'btn btn-secondary btn-sm' %>
+          <%= link_to icon_tag(:edit), [:edit, :wireguard, network], class: 'btn btn-secondary btn-sm' %>
+          <%= link_to icon_tag(:delete), [:wireguard, network], class: 'btn btn-danger btn-sm', method: :delete, confirm: 'Are you sure?' %>
+        </div>
+      </li>
+    <% end %>
+  <ul>
+</div>
+
+<%= link_to 'Create Network', url_for(action: :new), class: 'btn btn-primary' %>

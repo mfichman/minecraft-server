@@ -1,12 +1,6 @@
-<div class="mb-3 d-flex align-items-center justify-content-between">
-  <h3 class="d-fixed">Worlds</h3>
+<h3 class="mb-4">Minecraft Worlds</h3>
 
-  <div class="btn-toolbar">
-    <%= link_to icon_tag(:add) + ' Create', url_for(action: :new), class: 'btn btn-sm btn-primary' %>
-  </div>
-</div>
-
-<div class="card">
+<div class="card mb-3">
   <ul class="list-group list-group-flush">
     <% @worlds.each do |world| %>
       <li class="list-group-item d-flex align-items-center justify-content-between">
@@ -19,3 +13,5 @@
     <% end %>
   <ul>
 </div>
+
+<%= link_to 'Create World', url_for(action: :new), class: 'btn btn-primary' %>

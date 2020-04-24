@@ -2,15 +2,6 @@ require_dependency('zip')
 
 module Minecraft
   class SaveJob < ApplicationJob
-
-    def zip(io, dir, prefix)
-      Zip::File.open_buffer(io) do |zf|
-        Dir[File.join(dir, prefix, '**', '**')].each do |file|
-          zf.add(file.sub("#{dir}/", ''), file)
-        end
-      end
-    end
-
     def perform(server)
       data_dir = Figaro.env.minecraft_data || '/minecraft/data'
 
@@ -18,7 +9,7 @@ module Minecraft
 
       file = Tempfile.new('tmp')
 
-      zip(file, data_dir, 'world')
+      ZipUtils.zip(file, data_dir, 'world')
 
       file.open
 

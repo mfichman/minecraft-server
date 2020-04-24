@@ -1,0 +1,12 @@
+<%= form_with(url: minecraft_commands_path) do |f| %>
+  <%= f.hidden_field :server_id, value: server.id %>
+
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text font-weight-bold" style="border-top-left-radius: 0px;">
+        <%= icon_tag(:chevron_right) %>
+      </span>
+    </div>
+    <%= f.text_field :text, class: 'form-control', style: 'border-top-right-radius: 0px;' %>
+  </div>
+<% end %>

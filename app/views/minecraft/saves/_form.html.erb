@@ -1,0 +1,5 @@
+<%= form_with(url: minecraft_saves_path, class: 'mr-1') do |f| %>
+  <%= f.hidden_field :server_id, value: server.id %>
+
+  <%= f.submit 'Save', class: 'btn btn-primary' %>
+<% end %>

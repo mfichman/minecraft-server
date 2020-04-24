@@ -1,28 +1,21 @@
-require_dependency('zip')
-
 module Minecraft
   class LoadJob < ApplicationJob
-
-    def unzip(name, dir)
-      Zip::File.open(name) do |zf|
-        zf.each do |entry|
-          entry.extract(File.join(dir, entry.name))
-        end
-      end
-    end
-
     def perform(server, backup)
       data_dir = Figaro.env.minecraft_data || '/minecraft/data'
 
-      SaveJob.perform_now(server)
+      SaveJob.perform_now(server) if server.world.present?
 
       minecraft = Docker::Container.get('minecraft')
       minecraft.stop
 
       FileUtils.mv("#{data_dir}/world", "#{data_dir}/world.#{Time.now.to_i}")
 
-      backup.file.open do |file|
-        unzip(file.path, data_dir)
+      if backup.file.present?
+        backup.file.open do |file|
+          ZipUtils.unzip(file, data_dir)
+        end
+      else
+        FileUtils.mkdir("#{data_dir}/world")
       end
 
       server.update!(backup: backup)

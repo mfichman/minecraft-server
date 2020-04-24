@@ -1,12 +1,6 @@
-<div class="mb-3 d-flex align-items-center justify-content-between">
-  <h3 class="d-fixed">Servers</h3>
+<h3 class="mb-4">Minecraft Servers</h3>
 
-  <div class="btn-toolbar">
-    <%= link_to icon_tag(:add) + ' Create', url_for(action: :new), class: 'btn btn-sm btn-primary' %>
-  </div>
-</div>
-
-<div class="card">
+<div class="card mb-3">
   <ul class="list-group list-group-flush">
     <% @servers.each do |server| %>
       <li class="list-group-item d-flex align-items-center justify-content-between">
@@ -20,3 +14,5 @@
     <% end %>
   <ul>
 </div>
+
+<%= link_to 'Create Server', url_for(action: :new), class: 'btn btn-primary' %>

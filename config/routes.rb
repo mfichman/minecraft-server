@@ -16,4 +16,10 @@ Rails.application.routes.draw do
     resources :saves
     resources :loads
   end
+
+  namespace :wireguard do
+    resources :networks
+    resources :peers
+    resources :keys
+  end
 end

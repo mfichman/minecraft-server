@@ -1,8 +1,10 @@
-<h3 class="mb-3 d-flex align-items-center">
-  <%= @world.name %>
-</h3>
+<h3 class="mb-3 pb-3 border-bottom border-light"><%= @world.name %></h3>
 
+<h4 class="card-title font-weight-normal pt-3">Backups</h4>
 <div class="card mb-3">
-  <div class="card-body">
-  </div>
+  <ul class="list-group list-group-flush">
+    <% @world.backups.each do |backup| %>
+      <li class="list-group-item"><%= time_ago_in_words(backup.created_at) %>
+    <% end %>
+  </ul>
 </div>

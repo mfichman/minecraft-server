@@ -18,6 +18,7 @@ module MinecraftServer
 
     config.active_job.queue_adapter = :sucker_punch
 
-    config.eager_load_paths << 'app/validators'
+    config.eager_load_paths << Rails.root.join('app', 'validators')
+    config.eager_load_paths << Rails.root.join('lib')
   end
 end
