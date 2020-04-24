@@ -4,6 +4,8 @@ module Minecraft
       CommandJob.perform_now(server, "/save-all")
       CommandJob.perform_now(server, "/save-off")
 
+      sleep(2) # FIXME
+
       file = Tempfile.new('tmp')
       file.close
 

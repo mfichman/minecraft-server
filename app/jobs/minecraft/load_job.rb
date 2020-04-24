@@ -1,7 +1,7 @@
 module Minecraft
   class LoadJob < ApplicationJob
     def perform(server, backup)
-     # SaveJob.perform_now(server)
+      SaveJob.perform_now(server)
 
       minecraft = Docker::Container.get('minecraft')
       minecraft.stop
