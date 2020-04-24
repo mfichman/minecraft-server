@@ -8,8 +8,12 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
 
-  resources :servers do
-    resources :server_commands, shallow: true
-    resources :server_logs, shallow: true
+  namespace :minecraft do
+    resources :worlds
+    resources :backups
+    resources :commands
+    resources :servers
+    resources :saves
+    resources :loads
   end
 end

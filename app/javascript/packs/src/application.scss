@@ -1,59 +1,69 @@
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black:    #000 !default;
 
 $material-icons-font-path: '~material-icons/iconfont/';
 $material-icons-font-size: inherit;
 $enable-gradients: true;
 
+$body-bg: $gray-900;
+$body-color: $white;
+
+$card-bg: $gray-800;
+$card-border-width: 0;
+$card-color: $white;
+
+$list-group-bg: $gray-800;
+
+$link-color: #99caff;
+
+$custom-select-bg: $gray-700;
+$custom-select-color: $white;
+$custom-select-indicator-color: $gray-300;
+
+$input-bg: $gray-700;
+$input-color: $white;
+$input-box-shadow: none;
+$input-border-width: 0;
+
+$input-group-addon-bg: $gray-600;
+
 @import '~bootstrap/scss/bootstrap';
 @import '~material-icons/iconfont/material-icons.scss';
 
-body {
-  background: $gray-900;
-  color: $white;
-}
-
-.card {
-  background: $gray-800;
-  color: $white;
-  border: none;
-}
-
-.list-group-item {
-  background: $gray-800;
-  color: $white;
-}
-
-.card-header {
-  background: $gray-700;
-  border: none;
-}
-
-a {
-  color: hsla(211, 100%, 80%, 1);
-}
-
-a:hover {
-  color: hsla(211, 100%, 60%, 1);
-}
-
-.form-control, .form-control:focus, .form-control:active {
-  background: $gray-700;
-  border: none;
-  color: $white;
-  box-shadow: none;
-}
-
-.btn > .material-icons {
+.btn .material-icons {
   position: relative;
   top: 2px;
 }
 
-.input-group-text {
-  background: $gray-600;
-  color: $white;
-  border: none;
+h3 .material-icons {
+  position: relative;
+  top: 2px;
+}
+
+.material-icons {
+  line-height: inherit;
 }
 
 .simplebar-scrollbar {
   opacity: 0.5;
-
 }
+
+.topbar {
+  background: $gray-800;
+}
+
+.topbar .nav-link {
+  color: white;
+  border-right: 1px solid $gray-900;
+  font-size: 24px;
+}
+

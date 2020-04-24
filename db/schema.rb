@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_21_142952) do
+ActiveRecord::Schema.define(version: 2020_04_23_150128) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -33,26 +33,42 @@ ActiveRecord::Schema.define(version: 2020_04_21_142952) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "server_commands", force: :cascade do |t|
+  create_table "minecraft_backups", force: :cascade do |t|
+    t.integer "world_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["world_id"], name: "index_minecraft_backups_on_world_id"
+  end
+
+  create_table "minecraft_commands", force: :cascade do |t|
     t.integer "server_id", null: false
     t.string "text", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["server_id"], name: "index_server_commands_on_server_id"
+    t.index ["server_id"], name: "index_minecraft_commands_on_server_id"
   end
 
-  create_table "server_logs", force: :cascade do |t|
+  create_table "minecraft_logs", force: :cascade do |t|
     t.integer "server_id", null: false
     t.string "text", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["server_id"], name: "index_server_logs_on_server_id"
+    t.index ["server_id"], name: "index_minecraft_logs_on_server_id"
   end
 
-  create_table "servers", force: :cascade do |t|
+  create_table "minecraft_servers", force: :cascade do |t|
     t.string "host", null: false
+    t.integer "backup_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["backup_id"], name: "index_minecraft_servers_on_backup_id"
+  end
+
+  create_table "minecraft_worlds", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_minecraft_worlds_on_name"
   end
 
   create_table "users", force: :cascade do |t|
@@ -64,21 +80,35 @@ ActiveRecord::Schema.define(version: 2020_04_21_142952) do
     t.index ["email"], name: "index_users_on_email"
   end
 
-  create_table "world_backups", force: :cascade do |t|
-    t.integer "world_id", null: false
+  create_table "wireguard_keys", force: :cascade do |t|
+    t.string "private_key", null: false
+    t.string "public_key", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["world_id"], name: "index_world_backups_on_world_id"
   end
 
-  create_table "worlds", force: :cascade do |t|
-    t.string "name", null: false
+  create_table "wireguard_networks", force: :cascade do |t|
+    t.string "ip_address", null: false
+    t.integer "key_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["name"], name: "index_worlds_on_name"
+    t.index ["key_id"], name: "index_wireguard_networks_on_key_id"
+  end
+
+  create_table "wireguard_peers", force: :cascade do |t|
+    t.string "ip_address", null: false
+    t.integer "network_id", null: false
+    t.integer "key_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["key_id"], name: "index_wireguard_peers_on_key_id"
+    t.index ["network_id"], name: "index_wireguard_peers_on_network_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "server_commands", "servers"
-  add_foreign_key "server_logs", "servers"
+  add_foreign_key "minecraft_commands", "servers"
+  add_foreign_key "minecraft_logs", "servers"
+  add_foreign_key "wireguard_networks", "keys"
+  add_foreign_key "wireguard_peers", "keys"
+  add_foreign_key "wireguard_peers", "networks"
 end

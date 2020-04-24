@@ -3,7 +3,7 @@
   <head>
     <title>MinecraftServer</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -12,8 +12,13 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body class="text-black-50 text-white">
-    <div class="container-fluid py-3">
+  <body>
+    <nav class="nav topbar sticky-top d-flex">
+      <%= link_to(icon_tag(:dns), minecraft_servers_path, class: 'nav-link') %>
+      <%= link_to(icon_tag(:language), minecraft_worlds_path, class: 'nav-link') %>
+    </nav>
+
+    <div class="container-fluid py-4">
       <%= yield %>
     </div>
   </body>

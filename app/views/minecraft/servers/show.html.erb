@@ -1,0 +1,45 @@
+<h3 class="mb-4 d-flex align-items-center">
+  <code class="text-white"><%= @server.host %></code>
+</h3>
+
+<div class="btn-toolbar mb-3" style="margin-right: -4px;">
+  <% if @backups.any? %>
+    <%= form_with(url: minecraft_loads_path, class: 'flex-grow-1 mr-1') do |f| %>
+      <%= f.hidden_field :server_id, value: @server.id %>
+      <div class="input-group input-group-sm">
+        <%= f.collection_select :backup_id, @backups, :id, method(:backup_name), {}, class: 'custom-select' %>
+        <div class="input-group-append">
+          <%= f.submit 'Load', class: 'btn btn-sm btn-primary' %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% if @server.world.present? %>
+    <%= form_with(url: minecraft_saves_path, class: 'mr-1') do |f| %>
+      <%= f.hidden_field :server_id, value: @server.id %>
+      <%= f.submit 'Save', class: 'btn btn-sm btn-primary' %>
+    <% end %>
+  <% end %>
+
+</div>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <pre class="text-white" style="height: 70vw;" data-simplebar>
+      <%- @server.logs.order(id: :desc).take(500).reverse.each do |log| %>
+        <%- log.text %>
+      <% end %>
+    </pre>
+
+    <%= form_for([:minecraft, @server.commands.build]) do |f| %>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text font-weight-bold"><%= icon_tag(:chevron_right) %></span>
+        </div>
+        <%= f.text_field :text, class: 'form-control' %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
