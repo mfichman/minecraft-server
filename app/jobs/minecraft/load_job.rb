@@ -1,15 +1,27 @@
 module Minecraft
   class LoadJob < ApplicationJob
+    def unzip(name, dir)
+      Zip::File.open(name) do |zf|
+        zf.each do |entry|
+          entry.extract(File.join(dir, entry.name))
+        end
+      end
+
+    end
+
     def perform(server, backup)
+      data_dir = Figaro.env.minecraft_data || '/minecraft/data'
+
       SaveJob.perform_now(server)
 
       minecraft = Docker::Container.get('minecraft')
       minecraft.stop
 
-      system("docker run --volumes-from minecraft -it alpine mv /minecraft/data/world /minecraft/data/world.#{Time.now.iso8601}}", exception: true)
+      FileUtils.mv("#{data_dir}/world", "#{data_dir}/world.#{Time.now.to_i}")
+      #system("docker run --volumes-from minecraft -it alpine mv /minecraft/data/world /minecraft/data/world.#{Time.now.iso8601}}", exception: true)
 
       backup.file.open do |file|
-        system("docker cp - minecraft:/minecraft/data/ < #{file.path}", exception: true)
+        unzip(file.path, data_dir)
       end
 
       server.update!(backup: backup)
