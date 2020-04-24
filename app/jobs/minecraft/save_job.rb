@@ -14,17 +14,11 @@ module Minecraft
     def perform(server)
       data_dir = Figaro.env.minecraft_data || '/minecraft/data'
 
-      #CommandJob.perform_now(server, "/save-all")
-      #CommandJob.perform_now(server, "/save-off")
-
-      #sleep(5) # FIXME
+      CommandJob.perform_now(server, "/save-off")
 
       file = Tempfile.new('tmp')
 
       zip(file, data_dir, 'world')
-
-      #system("tar -czvf #{file.path} -C #{data_dir} world", exception: true)
-      #system("docker cp minecraft:/minecraft/data/world - > #{file.path}", exception: true)
 
       file.open
 
@@ -35,7 +29,7 @@ module Minecraft
       file.close
       file.unlink
 
-      #CommandJob.perform_now(server, "/save-on")
+      CommandJob.perform_now(server, "/save-on")
 
       nil
     end

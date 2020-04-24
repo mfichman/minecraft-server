@@ -1,12 +1,14 @@
+require_dependency('zip')
+
 module Minecraft
   class LoadJob < ApplicationJob
+
     def unzip(name, dir)
       Zip::File.open(name) do |zf|
         zf.each do |entry|
           entry.extract(File.join(dir, entry.name))
         end
       end
-
     end
 
     def perform(server, backup)
@@ -18,7 +20,6 @@ module Minecraft
       minecraft.stop
 
       FileUtils.mv("#{data_dir}/world", "#{data_dir}/world.#{Time.now.to_i}")
-      #system("docker run --volumes-from minecraft -it alpine mv /minecraft/data/world /minecraft/data/world.#{Time.now.iso8601}}", exception: true)
 
       backup.file.open do |file|
         unzip(file.path, data_dir)
