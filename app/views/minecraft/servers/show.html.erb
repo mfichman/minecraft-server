@@ -1,11 +1,11 @@
 <h3 class="mb-4"><code class="text-white"><%= @server.host %></code></h4>
 
 <div class="card mb-3">
-  <div class="card-body">
-    <pre class="text-white" style="height: 70vw;" data-simplebar>
-      <%- @server.logs.order(id: :desc).take(500).reverse.each do |log| %>
-        <%- log.text %>
-      <% end %>
+  <div class="card-body py-0">
+    <pre class="text-white" style="max-height: calc(100vh - 400px);" data-simplebar>
+<%- @server.logs.order(id: :desc).take(500).reverse.each do |log| -%>
+<%= log.text -%>
+<%- end -%>
     </pre>
   </div>
 

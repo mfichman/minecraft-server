@@ -5,24 +5,13 @@ module Minecraft
     def perform(server)
       data_dir = Figaro.env.minecraft_data || '/minecraft/data'
 
-      CommandJob.perform_now(server, "/save-off")
-
-      file = Tempfile.new('tmp')
-
-      ZipUtils.zip(file, data_dir, 'world')
-
-      file.open
+      file = MinecraftUtils.save(data_dir)
 
       backup = server.world.backups.build
       backup.file.attach(io: file, filename: 'world.tar.gz', identify: false)
       backup.save!
-
+    ensure
       file.close
-      file.unlink
-
-      CommandJob.perform_now(server, "/save-on")
-
-      nil
     end
   end
 end

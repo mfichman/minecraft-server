@@ -40,14 +40,6 @@ ActiveRecord::Schema.define(version: 2020_04_23_150128) do
     t.index ["world_id"], name: "index_minecraft_backups_on_world_id"
   end
 
-  create_table "minecraft_commands", force: :cascade do |t|
-    t.integer "server_id", null: false
-    t.string "text", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["server_id"], name: "index_minecraft_commands_on_server_id"
-  end
-
   create_table "minecraft_logs", force: :cascade do |t|
     t.integer "server_id", null: false
     t.string "text", null: false
@@ -107,8 +99,4 @@ ActiveRecord::Schema.define(version: 2020_04_23_150128) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "minecraft_commands", "servers"
-  add_foreign_key "minecraft_logs", "servers"
-  add_foreign_key "wireguard_peers", "keys"
-  add_foreign_key "wireguard_peers", "networks"
 end
