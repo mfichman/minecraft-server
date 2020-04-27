@@ -33,8 +33,15 @@ $input-bg: $gray-700;
 $input-color: $white;
 $input-box-shadow: none;
 $input-border-width: 0;
-
 $input-group-addon-bg: $gray-600;
+
+$toast-color: $white;
+$toast-background-color: $gray-700;
+$toast-header-color: $white;
+$toast-header-background-color: rgba($black, .05) !default;
+
+$close-color: $white;
+$close-text-shadow: 0 1px 0 $gray-900;
 
 @import '~bootstrap/scss/bootstrap';
 @import '~material-icons/iconfont/material-icons.scss';
@@ -65,5 +72,9 @@ h3 .material-icons {
   color: white;
   border-right: 1px solid $gray-900;
   font-size: 24px;
+}
+
+.toast {
+  min-width: 300px;
 }
 

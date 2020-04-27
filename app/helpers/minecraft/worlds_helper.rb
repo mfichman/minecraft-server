@@ -1,5 +1,5 @@
 module Minecraft
-  module ServersHelper
+  module WorldsHelper
     include BackupsHelper
   end
 end

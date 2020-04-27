@@ -4,10 +4,8 @@ namespace :minecraft do
 
     time = server.logs.order(:id).last&.created_at
 
-    MinecraftUtils.logs(since: time) do |stream, chunk|
-      puts stream, chunk
+    MinecraftUtils.logs(since: time) do |chunk, stream|
       server.logs.create!(text: chunk)
-      puts chunk
     end
   end
 end

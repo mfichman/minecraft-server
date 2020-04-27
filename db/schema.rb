@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2020_04_23_150128) do
 
   create_table "minecraft_backups", force: :cascade do |t|
     t.integer "world_id", null: false
+    t.boolean "autosave", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["world_id"], name: "index_minecraft_backups_on_world_id"

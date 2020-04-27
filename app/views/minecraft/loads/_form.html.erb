@@ -1,8 +1,8 @@
-<%= form_with(url: minecraft_loads_path, class: 'flex-grow-1 mr-1') do |f| %>
+<%= form_with(url: minecraft_loads_path, class: 'flex-grow-1 mr-1', data: { controller: 'minecraft--loads', 'minecraft--loads-server-id': server.id }) do |f| %>
   <%= f.hidden_field :server_id, value: server.id %>
 
   <div class="input-group input-group">
-    <%= f.collection_select :backup_id, backups, :id, method(:backup_name), {}, class: 'custom-select' %>
+    <%= f.collection_select :backup_id, backups, :id, method(:backup_name), {}, class: 'custom-select', data: { target: 'minecraft--loads.select' } %>
     <div class="input-group-append">
       <%= f.submit 'Load', class: 'btn btn-primary' %>
     </div>

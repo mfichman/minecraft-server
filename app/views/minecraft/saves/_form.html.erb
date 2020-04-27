@@ -1,5 +1,4 @@
-<%= form_with(url: minecraft_saves_path, class: 'mr-1') do |f| %>
+<%= form_with(url: minecraft_saves_path, class: "mr-1 #{'hidden' if server.world.nil?}", data: { controller: 'minecraft--saves', 'minecraft--saves-server-id': server.id }) do |f| %>
   <%= f.hidden_field :server_id, value: server.id %>
-
-  <%= f.submit 'Save', class: 'btn btn-primary' %>
+  <%= f.submit 'Save', class: 'btn btn-primary', data: { target: 'minecraft--saves.button' } %>
 <% end %>

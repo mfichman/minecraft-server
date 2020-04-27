@@ -39,6 +39,9 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # Crypto
 gem 'rb-pure25519'
 
+# For job queue and databases
+gem 'redis'
+
 gem 'docker-api'
 gem 'figaro'
 gem 'rubyzip'
@@ -51,6 +54,10 @@ end
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
+  #gem 'guard-livereload', '~> 2.5', require: false
+  #gem 'rack-livereload'
+  #gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+  #gem 'eventmachine'
 end
 
 group :test do

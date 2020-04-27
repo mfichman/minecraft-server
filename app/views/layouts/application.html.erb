@@ -22,5 +22,9 @@
     <div class="container-fluid py-4">
       <%= yield %>
     </div>
+
+    <% if current_user.present? %>
+      <div data-controller="toasts" data-target='toasts.toast' class="fixed-bottom d-flex flex-column p-3"></div>
+    <% end %>
   </body>
 </html>

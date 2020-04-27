@@ -6,7 +6,13 @@
   </div>
   <ul class="list-group list-group-flush">
     <% @world.backups.each do |backup| %>
-      <li class="list-group-item"><%= time_ago_in_words(backup.created_at) %>
+      <% if backup.file.present? %>
+        <li class="list-group-item">
+          <%= link_to rails_blob_path(backup.file, disposition: 'attachment') do %>
+            <%= backup_name(backup) %>
+          <% end %>
+        </li>
+      <% end %>
     <% end %>
   </ul>
 </div>

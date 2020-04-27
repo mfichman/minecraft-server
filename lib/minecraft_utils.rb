@@ -20,9 +20,12 @@ module MinecraftUtils
 
   def self.new(data_dir)
     minecraft = Docker::Container.get('minecraft')
-    minecraft.stop
+    minecraft.stop if minecraft.info.dig('State', 'Status') == 'running'
 
-    FileUtils.mv("#{data_dir}/world", "#{data_dir}/world.#{Time.now.to_i}")
+    if Dir.exists?("#{data_dir}/world")
+      FileUtils.mv("#{data_dir}/world", "#{data_dir}/world.#{Time.now.to_i}")
+    end
+
     FileUtils.mkdir("#{data_dir}/world")
   ensure
     minecraft.start
@@ -30,9 +33,12 @@ module MinecraftUtils
 
   def self.load(data_dir, file)
     minecraft = Docker::Container.get('minecraft')
-    minecraft.stop
+    minecraft.stop if minecraft.info.dig('State', 'Status') == 'running'
 
-    FileUtils.mv("#{data_dir}/world", "#{data_dir}/world.#{Time.now.to_i}")
+    if Dir.exists?("#{data_dir}/world")
+      FileUtils.mv("#{data_dir}/world", "#{data_dir}/world.#{Time.now.to_i}")
+    end
+
     ZipUtils.unzip(file, data_dir)
 
     minecraft.start
