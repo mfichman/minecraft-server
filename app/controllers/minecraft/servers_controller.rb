@@ -1,7 +1,7 @@
 module Minecraft
   class ServersController < ApplicationController
     before_action :set_servers, only: [:index]
-    before_action :set_server, only: [:show, :edit, :update]
+    before_action :set_server, only: [:show, :edit, :update, :destroy]
 
     def new
       @server = Server.new

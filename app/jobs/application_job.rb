@@ -9,5 +9,5 @@ class ApplicationJob < ActiveJob::Base
     # Notify via websocket
   #end
 
-  include SuckerPunch::Job
+#  include SuckerPunch::Job
 end

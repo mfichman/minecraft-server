@@ -1,0 +1,81 @@
+version: '3'
+
+services:
+#  wireguard:
+#    image: vitobotta/docker-wireguard:0.15.0
+#    net: host
+#    privileged: true
+#    restart: always
+#    volumes:
+#    - /home/rancher/wireguard:/etc/wireguard
+#    - /usr/src:/usr/src
+#    - /lib/modules:/lib/modules
+#    environment:
+#      INTERFACE: "wg0"
+#      LISTEN_PORT: "51820"
+
+  db:
+    image: mfichman/minecraft:bundle
+    command: bin/rails db:setup
+    volumes:
+    - db:/bundle/db
+
+  web:
+    image: mfichman/minecraft:bundle
+    command: bin/puma -C config/puma.rb --bind tcp://0.0.0.0:80 --pidfile puma.pid
+    restart: always
+    environment:
+    - REDIS_URL=redis://redis:6379
+    - RAILS_LOG_TO_STDOUT=true
+    depends_on:
+    - redis
+    volumes:
+    - db:/bundle/db
+    ports:
+    - "80:80"
+    - "443:443"
+
+  worker:
+    image: mfichman/minecraft:bundle
+    command: bin/sidekiq --queue minecraft.mfichman.net --concurrency 1
+    restart: always
+    environment:
+    - REDIS_URL=redis://redis:6379
+    depends_on:
+    - redis
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - db:/bundle/db
+    - data:/minecraft/data
+
+  logger:
+    image: mfichman/minecraft:bundle
+    command: bin/rails minecraft:logs
+    restart: always
+    environment:
+    - REDIS_URL=redis://redis:6379
+    - SERVER_NAME=minecraft.mfichman.net
+    depends_on:
+    - redis
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - db:/bundle/db
+
+  minecraft:
+    image: mfichman/minecraft
+    container_name: minecraft
+    stdin_open: true
+    tty: true
+    restart: always
+    volumes:
+    - data:/minecraft/data
+    ports:
+    - "25565:25565"
+
+  redis:
+    image: redis
+    restart: always
+
+volumes:
+  db:
+  data:

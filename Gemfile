@@ -27,11 +27,12 @@ gem 'devise'
 gem 'omniauth-google-oauth2'
 
 # Async processing
-gem 'sucker_punch', '~> 2.0'
+#gem 'sucker_punch', '~> 2.0'
+gem 'sidekiq'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
-gem "aws-sdk-s3", require: false
+gem 'aws-sdk-s3'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -45,6 +46,14 @@ gem 'redis'
 gem 'docker-api'
 gem 'figaro'
 gem 'rubyzip'
+
+# Implicit dependencies required for Alpine Linux
+gem 'bigdecimal'
+gem 'etc'
+gem 'io-console'
+gem 'json'
+gem 'tzinfo-data'
+gem 'webrick'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -68,5 +77,3 @@ group :test do
   gem 'webdrivers'
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

@@ -1,0 +1,26 @@
+version: '3'
+services:
+  bundle:
+    image: mfichman/minecraft:bundle
+    build:
+      context: .
+      dockerfile: images/bundle/Dockerfile
+
+  web:
+    depends_on:
+    - bundle
+
+  worker:
+    depends_on:
+    - bundle
+
+  logger:
+    depends_on:
+    - bundle
+
+  minecraft:
+    build: images/minecraft
+
+  redis:
+    ports:
+    - "6379:6379"

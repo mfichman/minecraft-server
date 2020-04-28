@@ -1,0 +1,17 @@
+data
+docs
+images
+log
+node_modules
+old
+public/assets
+public/packs
+storage
+test
+tmp
+
+Guardfile
+docker-compose*.yml
+*.sqlite3
+*.log
+*.md

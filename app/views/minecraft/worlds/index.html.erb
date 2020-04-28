@@ -7,7 +7,8 @@
         <%= link_to world.name, [:minecraft, world] %>
         <div>
           <%= link_to icon_tag(:visibility), [:minecraft, world], class: 'btn btn-secondary btn-sm' %>
-          <%= link_to icon_tag(:delete), [:minecraft, world], class: 'btn btn-danger btn-sm', method: :delete, confirm: 'Are you sure?' %>
+          <%= link_to icon_tag(:edit), [:edit, :minecraft, world], class: 'btn btn-secondary btn-sm' %>
+          <%= link_to icon_tag(:delete), [:minecraft, world], class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
         </div>
       </li>
     <% end %>

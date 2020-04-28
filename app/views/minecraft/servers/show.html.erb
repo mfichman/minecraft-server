@@ -10,7 +10,7 @@
   <%= render 'minecraft/commands/form', server: @server %>
 </div>
 
-<div class="btn-toolbar mb-3" style="margin-right: -4px;">
+<div class="btn-toolbar mb-3 flex-nowrap" style="margin-right: -4px;">
   <%= render 'minecraft/loads/form', server: @server, backups: @backups if @backups.any? %>
   <%= render 'minecraft/saves/form', server: @server %>
 </div>

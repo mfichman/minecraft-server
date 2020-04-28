@@ -4,7 +4,7 @@ module Minecraft
     def create
       server = Server.find(params[:server_id])
 
-      CommandJob.perform_async(server, params[:text])
+      CommandJob.set(queue: server.host).perform_later(server, params[:text])
 
       head :ok
     end
