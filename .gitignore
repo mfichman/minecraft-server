@@ -6,6 +6,7 @@
 
 wg0.conf
 data
+volumes
 *.swp
 *.suo
 

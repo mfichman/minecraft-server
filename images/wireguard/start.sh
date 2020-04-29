@@ -11,6 +11,8 @@ function cleanup() {
 trap cleanup SIGTERM
 trap cleanup EXIT
 
+touch /etc/wireguard/wg0.conf
+
 wg-quick up $INTERFACE
 echo "Wireguard started"
 

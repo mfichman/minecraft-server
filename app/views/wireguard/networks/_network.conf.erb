@@ -1,0 +1,11 @@
+[Interface]
+Address = <%= network.ip_address %>
+PrivateKey = <%= network.key.private_key %>
+ListenPort = 51820
+
+<% network.peers.each do |peer| %>
+[Peer]
+PublicKey = <%= peer.key.public_key %>
+AllowedIPs = <%= peer.ip_address %>
+
+<% end %>

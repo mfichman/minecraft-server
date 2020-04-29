@@ -7,7 +7,7 @@ module Minecraft
 
       data_dir = Figaro.env.minecraft_data || '/minecraft/data'
 
-      file = MinecraftUtils.save(data_dir)
+      file = Minecraft::Utils.save(data_dir)
 
       backup = server.world.backups.build(autosave: autosave)
       backup.file.attach(io: file, filename: 'world.zip', identify: false)

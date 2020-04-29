@@ -4,7 +4,7 @@ namespace :minecraft do
 
     time = server.logs.order(:id).last&.created_at
 
-    MinecraftUtils.logs(since: time) do |chunk|
+    Minecraft::Utils.logs(since: time) do |chunk|
       server.logs.create!(text: chunk)
     end
   end

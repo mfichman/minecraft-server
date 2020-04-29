@@ -8,9 +8,9 @@ module Minecraft
       ToastsChannel.broadcast_to(user, LoadsController.render(partial: 'info'))
 
       if backup.file.present?
-        backup.file.open { |file| MinecraftUtils.load(data_dir, file) }
+        backup.file.open { |file| Minecraft::Utils.load(data_dir, file) }
       else
-        MinecraftUtils.new(data_dir)
+        Minecraft::Utils.new(data_dir)
       end
 
       server.update!(backup: backup)

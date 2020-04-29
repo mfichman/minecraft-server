@@ -3,6 +3,8 @@ services:
   wireguard:
     image: mfichman/minecraft:wireguard
     build: images/wireguard
+    volumes:
+    - ./volumes/wireguard:/etc/wireguard
 
   bundle:
     image: mfichman/minecraft:bundle
@@ -14,25 +16,26 @@ services:
     depends_on:
     - bundle
     volumes:
-    - ./db:/bundle/db
+    - ./volumes/db:/bundle/db
 
   worker:
     depends_on:
     - bundle
     volumes:
-    - ./db:/bundle/db
-    - ./data:/minecraft/data
+    - ./volumes/db:/bundle/db
+    - ./volumes/minecraft:/minecraft/data
+    - ./volumes/wireguard:/etc/wireguard
 
   logger:
     depends_on:
     - bundle
     volumes:
-    - ./db:/bundle/db
+    - ./volumes/db:/bundle/db
 
   minecraft:
     build: images/minecraft
     volumes:
-    - ./data:/minecraft/data
+    - ./volumes/minecraft:/minecraft/data
 
   redis:
     ports:
