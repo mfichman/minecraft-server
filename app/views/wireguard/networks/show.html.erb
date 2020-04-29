@@ -1,6 +1,6 @@
-<h3 class="mb-4"><code class="text-white"><%= @network.host %></code></h3>
+<h3 class="mb-3"><code class="text-white"><%= @network.host %></code></h3>
 
-<div class="card mb-3">
+<div class="card mb-4">
   <ul class="list-group list-group-flush">
     <li class="list-group-item">
       <div class="row">
@@ -23,4 +23,23 @@
   </ul>
 </div>
 
-<%= link_to 'New Peer', '#', class: 'btn btn-primary mb-3' %>
+<h6>Peers</h6>
+<div class="card mb-4">
+  <ul class="list-group list-group-flush">
+    <% @network.peers.each do |peer| %>
+      <li class="list-group-item d-flex align-items-center justify-content-between">
+        <div class="row flex-grow-1">
+          <div class="col-sm-2"><%= peer.name %></div>
+          <div class="col"><code><%= peer.ip_address %></code></div>
+        </div>
+        <div>
+          <%= link_to icon_tag(:visibility), [:wireguard, peer], class: 'btn btn-secondary btn-sm' %>
+          <%= link_to icon_tag(:edit), [:edit, :wireguard, peer], class: 'btn btn-secondary btn-sm' %>
+          <%= link_to icon_tag(:delete), [:wireguard, peer], class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+<%= link_to 'New Peer', new_wireguard_peer_url(network_id: @network), class: 'btn btn-primary mb-3' %>

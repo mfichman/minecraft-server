@@ -1,0 +1,10 @@
+<%= form_for([:wireguard, @peer], html: { class: 'form' }) do |f| %>
+  <%= f.hidden_field :network_id %>
+
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: 'form-control' %>
+  </div>
+
+  <%= f.submit class: 'btn btn-primary' %>
+<% end %>

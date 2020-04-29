@@ -1,0 +1,4 @@
+#cloud-config
+rancher:
+  services_include:
+    https://raw.githubusercontent.com/mfichman/minecraft-server/master/docker-compose.yml: true

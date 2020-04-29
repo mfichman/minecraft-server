@@ -1,24 +1,18 @@
 version: '3'
 
 services:
-#  wireguard:
-#    image: vitobotta/docker-wireguard:0.15.0
-#    net: host
-#    privileged: true
-#    restart: always
-#    volumes:
-#    - /home/rancher/wireguard:/etc/wireguard
-#    - /usr/src:/usr/src
-#    - /lib/modules:/lib/modules
-#    environment:
-#      INTERFACE: "wg0"
-#      LISTEN_PORT: "51820"
-
-  db:
-    image: mfichman/minecraft:bundle
-    command: bin/rails db:setup
-    volumes:
-    - db:/bundle/db
+  wireguard:
+    image: mfichman/wireguard
+    #volumes:
+      #    - wireguard:/etc/wireguard
+    stdin_open: true
+    tty: true
+    network_mode: host
+    privileged: true
+    environment:
+      - LISTEN_PORT=51820
+    ports:
+      - "51820:51820"
 
   web:
     image: mfichman/minecraft:bundle
@@ -37,7 +31,7 @@ services:
 
   worker:
     image: mfichman/minecraft:bundle
-    command: bin/sidekiq --queue minecraft.mfichman.net --concurrency 1
+    command: bin/sidekiq --queue minecraft.mfichman.net --queue default --concurrency 1
     restart: always
     environment:
     - REDIS_URL=redis://redis:6379
@@ -77,5 +71,10 @@ services:
     restart: always
 
 volumes:
+  wireguard:
   db:
   data:
+
+#docker-machine create --driver digitalocean --digitalocean-size s-2vcpu-2gb --digitalocean-access-token $DOTOKEN machine-name
+
+

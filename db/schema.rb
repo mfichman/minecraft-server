@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2020_04_23_150128) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["backup_id"], name: "index_minecraft_servers_on_backup_id"
+    t.index ["host"], name: "index_minecraft_servers_on_host"
   end
 
   create_table "minecraft_worlds", force: :cascade do |t|
@@ -86,16 +87,20 @@ ActiveRecord::Schema.define(version: 2020_04_23_150128) do
     t.integer "key_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["host"], name: "index_wireguard_networks_on_host"
     t.index ["key_id"], name: "index_wireguard_networks_on_key_id"
   end
 
   create_table "wireguard_peers", force: :cascade do |t|
+    t.string "name", null: false
     t.string "ip_address", null: false
     t.integer "network_id", null: false
     t.integer "key_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["ip_address", "network_id"], name: "index_wireguard_peers_on_ip_address_and_network_id", unique: true
     t.index ["key_id"], name: "index_wireguard_peers_on_key_id"
+    t.index ["name"], name: "index_wireguard_peers_on_name"
     t.index ["network_id"], name: "index_wireguard_peers_on_network_id"
   end
 

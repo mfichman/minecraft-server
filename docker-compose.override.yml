@@ -1,5 +1,9 @@
 version: '3'
 services:
+  wireguard:
+    image: mfichman/minecraft:wireguard
+    build: images/wireguard
+
   bundle:
     image: mfichman/minecraft:bundle
     build:
@@ -9,18 +13,28 @@ services:
   web:
     depends_on:
     - bundle
+    volumes:
+    - ./db:/bundle/db
 
   worker:
     depends_on:
     - bundle
+    volumes:
+    - ./db:/bundle/db
+    - ./data:/minecraft/data
 
   logger:
     depends_on:
     - bundle
+    volumes:
+    - ./db:/bundle/db
 
   minecraft:
     build: images/minecraft
+    volumes:
+    - ./data:/minecraft/data
 
   redis:
     ports:
     - "6379:6379"
+

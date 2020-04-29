@@ -6,15 +6,14 @@ module MinecraftUtils
   end
 
   def self.save(data_dir)
-    file = Tempfile.new('tmp')
     run('/save-off')
 
-    ZipUtils.zip(file, data_dir, 'world')
+    FileUtils.rm_f('world.zip')
 
-    file.open
-    file
+    ZipUtils.zip('world.zip', data_dir, 'world')
+
+    File.open('world.zip', 'rb')
   ensure
-    file.unlink
     run('/save-on')
   end
 

@@ -10,7 +10,7 @@ module ZipUtils
   end
 
   def self.zip(io, dir, prefix)
-    Zip::File.open_buffer(io) do |zf|
+    Zip::File.open(io, Zip::File::CREATE) do |zf|
       Dir[File.join(dir, prefix, '**', '**')].each do |file|
         zf.add(file.sub("#{dir}/", ''), file)
       end

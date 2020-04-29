@@ -12,7 +12,7 @@ module Wireguard
       @network.build_key
 
       if @network.save
-        redirect_to wireguard_networks_path
+        redirect_to wireguard_network_path(@network)
       else
         render :new
       end
@@ -22,7 +22,7 @@ module Wireguard
       @network.assign_attributes(network_params)
 
       if @network.save
-        redirect_to wireguard_networks_path
+        redirect_to wireguard_network_path(@network)
       else
         render :new
       end

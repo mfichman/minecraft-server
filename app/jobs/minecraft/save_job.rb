@@ -10,7 +10,7 @@ module Minecraft
       file = MinecraftUtils.save(data_dir)
 
       backup = server.world.backups.build(autosave: autosave)
-      backup.file.attach(io: file, filename: 'world.tar.gz', identify: false)
+      backup.file.attach(io: file, filename: 'world.zip', identify: false)
       backup.save!
 
       html = BackupsController.render(partial: 'option', locals: { backup: backup })

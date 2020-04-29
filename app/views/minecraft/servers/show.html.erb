@@ -1,6 +1,6 @@
-<h3 class="mb-4"><code class="text-white"><%= @server.host %></code></h4>
+<h3 class="mb-3"><code class="text-white"><%= @server.host %></code></h4>
 
-<div class="card mb-3" data-controller="minecraft--console" data-minecraft--console-server-id="<%= @server.id %>">
+<div class="card mb-4" data-controller="minecraft--console" data-minecraft--console-server-id="<%= @server.id %>">
   <div class="card-body">
     <div data-simplebar data-simplebar-auto-hide="false" style="max-height: calc(100vh - 400px);" data-target="minecraft--console.simplebar">
       <pre class="text-white" style="overflow: unset;" data-target="minecraft--console.output"><%- @server.logs.order(id: :desc).take(500).reverse.each do |log| -%><%= log.text -%><%- end -%></pre>

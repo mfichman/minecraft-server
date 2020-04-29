@@ -1,9 +1,7 @@
 <h3 class="mb-3 pb-3"><%= @world.name %></h3>
 
+<h6>Backups</h6>
 <div class="card mb-3">
-  <div class="card-body">
-    Backups
-  </div>
   <ul class="list-group list-group-flush">
     <% @world.backups.each do |backup| %>
       <% if backup.file.present? %>
