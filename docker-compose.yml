@@ -45,7 +45,7 @@ services:
   logger:
     image: mfichman/minecraft:bundle
     container_name: logger
-    command: bin/rails minecraft:logs
+    command: bin/rails minecraft:logger
     restart: always
     environment:
     - REDIS_URL=redis://redis:6379
