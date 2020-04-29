@@ -30,7 +30,7 @@
     <% @network.peers.each do |peer| %>
       <li class="list-group-item d-flex align-items-center justify-content-between">
         <div class="row flex-grow-1">
-          <div class="col-sm-2"><%= peer.name %></div>
+          <div class="col-sm-2"><%= link_to peer.name, [:wireguard, peer] %></div>
           <div class="col"><code><%= peer.ip_address %></code></div>
         </div>
         <div>

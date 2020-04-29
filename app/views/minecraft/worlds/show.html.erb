@@ -5,10 +5,11 @@
   <ul class="list-group list-group-flush">
     <% @world.backups.each do |backup| %>
       <% if backup.file.present? %>
-        <li class="list-group-item">
+        <li class="list-group-item d-flex align-items-center justify-content-between">
           <%= link_to rails_blob_path(backup.file, disposition: 'attachment') do %>
             <%= backup_name(backup) %>
           <% end %>
+          <%= link_to icon_tag(:get_app), rails_blob_path(backup.file, disposition: 'attachment'), class: 'btn btn-secondary btn-sm' %>
         </li>
       <% end %>
     <% end %>
