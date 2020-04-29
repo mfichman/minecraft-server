@@ -5,7 +5,6 @@ WORKDIR /wireguard
 RUN apk add wireguard-tools
 
 ENV INTERFACE wg0
-ENV LISTEN_PORT 51820
 
 COPY start.sh /wireguard/
 

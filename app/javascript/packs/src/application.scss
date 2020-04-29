@@ -43,6 +43,8 @@ $toast-header-background-color: rgba($black, .05) !default;
 $close-color: $white;
 $close-text-shadow: 0 1px 0 $gray-900;
 
+$text-muted: $gray-500;
+
 @import '~bootstrap/scss/bootstrap';
 @import '~material-icons/iconfont/material-icons.scss';
 
@@ -54,6 +56,14 @@ $close-text-shadow: 0 1px 0 $gray-900;
 h3 .material-icons {
   position: relative;
   top: 2px;
+}
+
+h6 {
+  color: $gray-500;
+  font-size: $font-size-base * .9;
+  font-weight: normal;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .material-icons {

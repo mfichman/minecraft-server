@@ -1,7 +1,7 @@
 [Interface]
 Address = <%= network.ip_address %>
 PrivateKey = <%= network.key.private_key %>
-ListenPort = 51820
+ListenPort = <%= Wireguard::Network::PORT %>
 
 <% network.peers.each do |peer| %>
 [Peer]

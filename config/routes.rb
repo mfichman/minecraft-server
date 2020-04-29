@@ -21,5 +21,6 @@ Rails.application.routes.draw do
     resources :networks
     resources :peers
     resources :keys
+    resources :syncs
   end
 end
