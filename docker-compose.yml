@@ -1,15 +1,12 @@
 version: '3'
 
 services:
-  wireguard:
-    image: mfichman/wireguard
-    container_name: wireguard
-    stdin_open: true
-    tty: true
-    network_mode: host
-    privileged: true
+  db:
+    image: mfichman/minecraft:bundle
+    container_name: db
+    command: bin/rails db:migrate
     volumes:
-    - wireguard:/etc/wireguard
+    - db:/bundle/db
 
   web:
     image: mfichman/minecraft:bundle
@@ -21,6 +18,7 @@ services:
     - RAILS_LOG_TO_STDOUT=true
     depends_on:
     - redis
+    - db
     volumes:
     - db:/bundle/db
     ports:
@@ -36,6 +34,7 @@ services:
     - REDIS_URL=redis://redis:6379
     depends_on:
     - redis
+    - db
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - db:/bundle/db
@@ -52,9 +51,15 @@ services:
     - SERVER_NAME=minecraft.mfichman.net
     depends_on:
     - redis
+    - db
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - db:/bundle/db
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
 
   minecraft:
     image: mfichman/minecraft
@@ -67,16 +72,18 @@ services:
     ports:
     - "25565:25565"
 
-  redis:
-    image: redis
-    container_name: redis
+  wireguard:
+    image: mfichman/minecraft:wireguard
+    container_name: wireguard
     restart: always
+    stdin_open: true
+    tty: true
+    network_mode: host
+    privileged: true
+    volumes:
+    - wireguard:/etc/wireguard
 
 volumes:
   wireguard:
   db:
   minecraft:
-
-#docker-machine create --driver digitalocean --digitalocean-size s-2vcpu-2gb --digitalocean-access-token $DOTOKEN machine-name
-
-

@@ -1,17 +1,17 @@
 version: '3'
 services:
-  wireguard:
-    image: mfichman/minecraft:wireguard
-    build: images/wireguard
-    volumes:
-    - ./volumes/wireguard:/etc/wireguard
-
   bundle:
     container_name: bundle
     image: mfichman/minecraft:bundle
     build:
       context: .
       dockerfile: images/bundle/Dockerfile
+
+  db:
+    depends_on:
+    - bundle
+    volumes:
+    - ./volumes/db:/bundle/db
 
   web:
     depends_on:
@@ -37,6 +37,12 @@ services:
     build: images/minecraft
     volumes:
     - ./volumes/minecraft:/minecraft/data
+
+  wireguard:
+    image: mfichman/minecraft:wireguard
+    build: images/wireguard
+    volumes:
+    - ./volumes/wireguard:/etc/wireguard
 
   redis:
     ports:

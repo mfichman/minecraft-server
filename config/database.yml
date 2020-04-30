@@ -22,4 +22,4 @@ test:
 
 production:
   <<: *default
-  database: volumes/db/production.sqlite3
+  database: db/production.sqlite3
