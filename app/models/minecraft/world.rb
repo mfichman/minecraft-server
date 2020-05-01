@@ -5,7 +5,9 @@ class Minecraft::World < ApplicationRecord
 
   after_create :create_empty_backup
 
+  accepts_nested_attributes_for :backups
+
   def create_empty_backup
-    backups.create!
+    backups.create! if backups.none?
   end
 end

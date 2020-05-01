@@ -1,8 +1,7 @@
 #!/bin/bash
-
 set -e
 
-cd WireGuard-0.0.20190702/src
+cd /wireguard/WireGuard-0.0.20190702/src
 
 if lsmod | grep wireguard &> /dev/null ; then
   echo "wireguard kernel module is already loaded"
@@ -16,18 +15,4 @@ else
   echo "Module installed."
 fi
 
-function cleanup() {
-  wg-quick down $INTERFACE
-  echo "Wireguard stopped"
-  exit 0
-}
-
-trap cleanup SIGTERM
-trap cleanup EXIT
-
-touch /etc/wireguard/wg0.conf
-
-wg-quick up $INTERFACE
-echo "Wireguard started"
-
-set +e
+exec $@

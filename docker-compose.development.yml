@@ -1,50 +1,29 @@
-version: '3'
-services:
-  bundle:
-    container_name: bundle
-    image: mfichman/minecraft:bundle
-    build:
-      context: .
-      dockerfile: images/bundle/Dockerfile
+db:
+  volumes:
+  - ./volumes/db:/bundle/volumes/db
 
-  db:
-    depends_on:
-    - bundle
-    volumes:
-    - ./volumes/db:/bundle/db
+web:
+  volumes:
+  - ./volumes/db:/bundle/volumes/db
 
-  web:
-    depends_on:
-    - bundle
-    volumes:
-    - ./volumes/db:/bundle/db
+worker:
+  volumes:
+  - ./volumes/db:/bundle/volumes/db
+  - ./volumes/minecraft:/minecraft/data
+  - ./volumes/wireguard:/etc/wireguard
 
-  worker:
-    depends_on:
-    - bundle
-    volumes:
-    - ./volumes/db:/bundle/db
-    - ./volumes/minecraft:/minecraft/data
-    - ./volumes/wireguard:/etc/wireguard
+logger:
+  volumes:
+  - ./volumes/db:/bundle/volumes/db
 
-  logger:
-    depends_on:
-    - bundle
-    volumes:
-    - ./volumes/db:/bundle/db
+minecraft:
+  volumes:
+  - ./volumes/minecraft:/minecraft/data
 
-  minecraft:
-    build: images/minecraft
-    volumes:
-    - ./volumes/minecraft:/minecraft/data
+wireguard:
+  volumes:
+  - ./volumes/wireguard:/etc/wireguard
 
-  wireguard:
-    image: mfichman/minecraft:wireguard
-    build: images/wireguard
-    volumes:
-    - ./volumes/wireguard:/etc/wireguard
-
-  redis:
-    ports:
-    - "6379:6379"
-
+redis:
+  ports:
+  - "6379:6379"

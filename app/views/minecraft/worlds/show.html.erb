@@ -4,14 +4,16 @@
 <div class="card mb-3">
   <ul class="list-group list-group-flush">
     <% @world.backups.each do |backup| %>
-      <% if backup.file.present? %>
-        <li class="list-group-item d-flex align-items-center justify-content-between">
+      <li class="list-group-item d-flex align-items-center justify-content-between">
+        <% if backup.file.present? %>
           <%= link_to rails_blob_path(backup.file, disposition: 'attachment') do %>
             <%= backup_name(backup) %>
           <% end %>
           <%= link_to icon_tag(:get_app), rails_blob_path(backup.file, disposition: 'attachment'), class: 'btn btn-secondary btn-sm' %>
-        </li>
-      <% end %>
+        <% else %>
+          <%= backup_name(backup) %>
+        <% end %>
+      </li>
     <% end %>
   </ul>
 </div>

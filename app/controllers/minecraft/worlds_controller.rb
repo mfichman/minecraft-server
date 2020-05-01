@@ -5,6 +5,7 @@ module Minecraft
 
     def new
       @world = World.new
+      @backup = @world.backups.build
     end
 
     def create
@@ -24,7 +25,7 @@ module Minecraft
     private
 
     def world_params
-      params.require(:world).permit(:name)
+      params.require(:world).permit(:name, backups_attributes: [:file])
     end
 
     def set_world

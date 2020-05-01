@@ -9,6 +9,7 @@ public/packs
 storage
 test
 tmp
+volumes
 
 Guardfile
 docker-compose*.yml
@@ -16,4 +17,4 @@ docker-compose*.yml
 *.log
 *.md
 config/application.yml
-volumes
+.*

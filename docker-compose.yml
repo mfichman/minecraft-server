@@ -1,89 +1,80 @@
-version: '3'
+db:
+  image: mfichman/minecraft:bundle
+  container_name: db
+  command: bin/rails db:migrate
+  volumes:
+  - /volumes/db:/bundle/volumes/db
 
-services:
-  db:
-    image: mfichman/minecraft:bundle
-    container_name: db
-    command: bin/rails db:migrate
-    volumes:
-    - db:/bundle/db
+web:
+  image: mfichman/minecraft:bundle
+  container_name: web
+  command: bin/puma -C config/puma.rb --bind tcp://0.0.0.0:80 --pidfile puma.pid
+  restart: always
+  environment:
+  - REDIS_URL=redis://redis:6379
+  - RAILS_LOG_TO_STDOUT=true
+  volumes:
+  - /volumes/db:/bundle/volumes/db
+  links:
+  - redis
+  ports:
+  - "80:80"
+  - "443:443"
 
-  web:
-    image: mfichman/minecraft:bundle
-    container_name: web
-    command: bin/puma -C config/puma.rb --bind tcp://0.0.0.0:80 --pidfile puma.pid
-    restart: always
-    environment:
-    - REDIS_URL=redis://redis:6379
-    - RAILS_LOG_TO_STDOUT=true
-    depends_on:
-    - redis
-    - db
-    volumes:
-    - db:/bundle/db
-    ports:
-    - "80:80"
-    - "443:443"
+worker:
+  image: mfichman/minecraft:bundle
+  container_name: worker
+  command: bin/sidekiq --queue ${SERVER_NAME} --queue default --concurrency 1
+  restart: always
+  environment:
+  - REDIS_URL=redis://redis:6379
+  links:
+  - redis
+  volumes:
+  - /var/run/docker.sock:/var/run/docker.sock
+  - /volumes/db:/bundle/volumes/db
+  - /volumes/minecraft:/minecraft/data
+  - /volumes/wireguard:/etc/wireguard
 
-  worker:
-    image: mfichman/minecraft:bundle
-    container_name: worker
-    command: bin/sidekiq --queue minecraft.mfichman.net --queue default --concurrency 1
-    restart: always
-    environment:
-    - REDIS_URL=redis://redis:6379
-    depends_on:
-    - redis
-    - db
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    - db:/bundle/db
-    - minecraft:/minecraft/data
-    - wireguard:/etc/wireguard
+logger:
+  image: mfichman/minecraft:bundle
+  container_name: logger
+  command: bin/rails minecraft:logger
+  restart: always
+  links:
+  - redis
+  environment:
+  - REDIS_URL=redis://redis:6379
+  - SERVER_NAME=${SERVER_NAME}
+  volumes:
+  - /var/run/docker.sock:/var/run/docker.sock
+  - /volumes/db:/bundle/volumes/db
 
-  logger:
-    image: mfichman/minecraft:bundle
-    container_name: logger
-    command: bin/rails minecraft:logger
-    restart: always
-    environment:
-    - REDIS_URL=redis://redis:6379
-    - SERVER_NAME=minecraft.mfichman.net
-    depends_on:
-    - redis
-    - db
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    - db:/bundle/db
+redis:
+  image: redis:alpine
+  container_name: redis
+  restart: always
 
-  redis:
-    image: redis
-    container_name: redis
-    restart: always
+minecraft:
+  image: mfichman/minecraft
+  container_name: minecraft
+  stdin_open: true
+  tty: true
+  restart: always
+  volumes:
+  - /volumes/minecraft:/minecraft/data
+  ports:
+  - "25565:25565"
 
-  minecraft:
-    image: mfichman/minecraft
-    container_name: minecraft
-    stdin_open: true
-    tty: true
-    restart: always
-    volumes:
-    - minecraft:/minecraft/data
-    ports:
-    - "25565:25565"
-
-  wireguard:
-    image: mfichman/minecraft:wireguard
-    container_name: wireguard
-    restart: always
-    stdin_open: true
-    tty: true
-    network_mode: host
-    privileged: true
-    volumes:
-    - wireguard:/etc/wireguard
-
-volumes:
-  wireguard:
-  db:
-  minecraft:
+wireguard:
+  image: mfichman/minecraft:wireguard
+  container_name: wireguard
+  restart: always
+  stdin_open: true
+  tty: true
+  net: host
+  privileged: true
+  volumes:
+  - /volumes/wireguard:/etc/wireguard
+  - /lib/modules:/lib/modules
+  - /usr/src:/usr/src

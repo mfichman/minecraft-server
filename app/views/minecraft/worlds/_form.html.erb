@@ -4,5 +4,17 @@
     <%= f.text_field :name, class: 'form-control' %>
   </div>
 
-  <%= f.submit class: 'btn btn-primary' %>
+  <% if @backup.present? %>
+    <%= f.fields_for(:backups, @backup) do |f| %>
+      <div class="form-group">
+        <%= f.label :file, 'World Zip File (Optional)' %>
+        <div class="custom-file">
+          <%= f.file_field :file, class: 'custom-file-input' %>
+          <%= f.label :file, 'Choose file...', class: 'custom-file-label' %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= f.submit class: 'btn btn-primary mt-4' %>
 <% end %>
