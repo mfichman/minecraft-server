@@ -1,4 +1,5 @@
-<h6>Minecraft Worlds</h6>
+<h3 class="mb-4">Worlds</h3>
+<h6>Displaying <%= pluralize(@worlds.size, 'Minecraft world') %> </h6>
 <div class="card mb-4">
   <ul class="list-group list-group-flush">
     <% @worlds.each do |world| %>

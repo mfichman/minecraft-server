@@ -1,4 +1,6 @@
-<h6>Wireguard Networks</h6>
+<h3 class="mb-4">VPN</h3>
+
+<h6>Displaying <%= pluralize(@networks.size, 'Wireguard network') %></h6>
 <div class="card mb-4">
   <ul class="list-group list-group-flush">
     <% @networks.each do |network| %>

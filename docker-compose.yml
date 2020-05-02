@@ -8,9 +8,10 @@ db:
 web:
   image: mfichman/minecraft:bundle
   container_name: web
-  command: bin/puma -C config/puma.rb --bind tcp://0.0.0.0:80 --pidfile puma.pid
+  command: bin/rails web
   restart: always
   environment:
+  - SERVER_NAME=standbox.mfichman.net
   - REDIS_URL=redis://redis:6379
   - RAILS_LOG_TO_STDOUT=true
   volumes:

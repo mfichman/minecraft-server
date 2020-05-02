@@ -8,28 +8,19 @@ max_threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
 min_threads_count = ENV.fetch("RAILS_MIN_THREADS") { max_threads_count }
 threads min_threads_count, max_threads_count
 
+development = ENV.fetch('RAILS_ENV') { 'development' } == 'development'
+
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-#
-port ENV.fetch("PORT") { 3000 }
+port ENV.fetch("PORT") { development ? 3000 : 80 }
 
 # Specifies the `environment` that Puma will run in.
-#
 environment ENV.fetch("RAILS_ENV") { "development" }
 
 # Specifies the `pidfile` that Puma will use.
 pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 
-ssl_port = ENV.fetch("SSL_PORT") { 443 }
-server_name = ENV.fetch("SERVER_NAME") { 'localhost' }
-
-key = Rails.application.credentials.dig(:ssl, server_name.to_sym, :key)
-cert = Rails.application.credentials.dig(:ssl, server_name.to_sym, :cert)
-
-if key.present?
-  File.write('config/key.pem', key)
-  File.write('config/cert.pem', cert)
-  ssl_bind '0.0.0.0', ssl_port, key: 'config/key.pem', cert: 'config/cert.pem', verify_mode: 'none'
-end
+ssl_port = ENV.fetch("SSL_PORT") { development ? 3001 : 443 }
+ssl_bind '0.0.0.0', ssl_port, key: 'config/key.pem', cert: 'config/cert.pem', verify_mode: 'none'
 
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked web server processes. If using threads and workers together
