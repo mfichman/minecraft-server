@@ -10,6 +10,19 @@ $gray-800: #343a40 !default;
 $gray-900: #212529 !default;
 $black:    #000 !default;
 
+$blue:    #007bff !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #e83e8c !default;
+$red:     #dc3545 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #ffc107 !default;
+$green:   #28a745 !default;
+$teal:    #20c997 !default;
+$cyan:    #17a2b8 !default;
+
+$primary: hsl(155, 90%, 37%);
+
 $material-icons-font-path: '~material-icons/iconfont/';
 $material-icons-font-size: inherit;
 $enable-gradients: true;
@@ -17,15 +30,13 @@ $enable-gradients: true;
 $body-bg: $gray-900;
 $body-color: $white;
 
-
-
 $card-bg: $gray-800;
 $card-border-width: 0;
 $card-color: $white;
 
 $list-group-bg: $gray-800;
 
-$link-color: #99caff;
+$link-color: lighten($primary, 10%) !default;
 
 $custom-select-bg: $gray-700;
 $custom-select-color: $white;
@@ -46,9 +57,6 @@ $close-color: $white;
 $close-text-shadow: 0 1px 0 $gray-900;
 
 $text-muted: $gray-500;
-
-$primary: hsl(155, 90%, 37%);
-
 
 @import '~bootstrap/scss/bootstrap';
 @import '~material-icons/iconfont/material-icons.scss';
