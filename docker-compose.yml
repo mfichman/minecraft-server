@@ -11,7 +11,7 @@ web:
   command: bin/rails web
   restart: always
   environment:
-  - SERVER_NAME=standbox.mfichman.net
+  - SERVER_NAME=${SERVER_NAME}
   - REDIS_URL=redis://redis:6379
   - RAILS_LOG_TO_STDOUT=true
   volumes:

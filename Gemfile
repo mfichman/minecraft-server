@@ -68,6 +68,7 @@ group :development do
   #gem 'rack-livereload'
   #gem 'wdm', '>= 0.1.0' if Gem.win_platform?
   #gem 'eventmachine'
+  gem 'spring'
 end
 
 group :test do

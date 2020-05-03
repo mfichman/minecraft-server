@@ -1,11 +1,13 @@
 #cloud-config
 rancher:
+  environment:
+    SERVER_NAME: minecraft.mfichman.net
   services_include:
     https://raw.githubusercontent.com/mfichman/minecraft-server/master/docker-compose.yml: true
     kernel-headers: true
-    #    /var/lib/rancher/conf/docker-compose.yml: true
   modules:
     - wireguard
 
-runcmd:
-  - ros config set rancher.environment.SERVER_NAME $(hostname)
+      #runcmd:
+    #    /var/lib/rancher/conf/docker-compose.yml: true
+      #  - ros config set rancher.environment.SERVER_NAME $(hostname)
