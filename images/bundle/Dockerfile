@@ -24,7 +24,7 @@ COPY package.json yarn.lock /bundle/
 RUN yarn install --production=true
 
 COPY . /bundle
-RUN SECRET_KEY_BASE=`bin/rails secret` bin/rails assets:precompile webpacker:compile
+RUN SECRET_KEY_BASE=`bin/rails secret` bin/rails webpacker:compile
 RUN rm -rf /bundle/node_modules
 
 # Production image ----------------------------------------------------------------------
