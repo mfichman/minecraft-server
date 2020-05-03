@@ -42,3 +42,4 @@ volumes
 yarn-debug.log*
 .yarn-integrity
 /config/application.yml
+/backups

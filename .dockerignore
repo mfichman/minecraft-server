@@ -1,3 +1,4 @@
+backups
 data
 docs
 images
@@ -17,5 +18,6 @@ docker-compose*.yml
 *.log
 *.md
 config/application.yml
-.*
+config/*.pem
 *.pem
+.*

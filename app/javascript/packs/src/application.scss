@@ -104,6 +104,10 @@ h6 {
   top: 1px;
 }
 
+.input-group > .custom-select {
+  height: inherit;
+}
+
 .toast {
   min-width: 300px;
 }
