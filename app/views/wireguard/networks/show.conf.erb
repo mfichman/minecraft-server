@@ -1,9 +1,9 @@
 [Interface]
-Address = <%= network.ip_address %>
-PrivateKey = <%= network.key.private_key %>
+Address = <%= @network.ip_address %>
+PrivateKey = <%= @network.key.private_key %>
 ListenPort = <%= Wireguard::Network::PORT %>
 
-<% network.peers.each do |peer| %>
+<% @network.peers.each do |peer| %>
 [Peer]
 PublicKey = <%= peer.key.public_key %>
 AllowedIPs = <%= peer.ip_address %>

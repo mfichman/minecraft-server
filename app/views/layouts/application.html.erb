@@ -13,10 +13,10 @@
   </head>
 
   <body>
-    <nav class="nav topbar sticky-top d-flex">
-      <%= link_to(icon_tag(:dns) + ' Servers', minecraft_servers_path, class: 'nav-link') %>
-      <%= link_to(icon_tag(:language) + ' Worlds', minecraft_worlds_path, class: 'nav-link') %>
-      <%= link_to(icon_tag(:vpn_lock) + ' VPN', wireguard_networks_path, class: 'nav-link') %>
+    <nav class="navbar navbar-dark sticky-top d-flex justify-content-start">
+      <%= link_to(icon_tag(:dns) + ' Minecraft', minecraft_path, class: "nav-link #{'active' if request.path.starts_with?(minecraft_path)}") %>
+      <%= link_to(icon_tag(:vpn_lock) + ' VPN', wireguard_path, class: "nav-link #{'active' if request.path.starts_with?(wireguard_path)}") %>
+      <%= link_to(icon_tag(:settings) + ' Admin', '#', class: "nav-link") %>
     </nav>
 
     <div class="container-fluid py-4">

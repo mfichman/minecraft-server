@@ -1,7 +1,7 @@
 module Wireguard
   class NetworksController < ApplicationController
     before_action :set_networks, only: [:index]
-    before_action :set_network, only: [:show, :edit, :update]
+    before_action :set_network, only: [:show, :edit, :update, :destroy]
 
     def new
       @network = Network.new
@@ -12,7 +12,7 @@ module Wireguard
       @network.build_key
 
       if @network.save
-        redirect_to wireguard_network_path(@network)
+        redirect_to wireguard_path
       else
         render :new
       end
@@ -22,7 +22,7 @@ module Wireguard
       @network.assign_attributes(network_params)
 
       if @network.save
-        redirect_to wireguard_network_path(@network)
+        redirect_to wireguard_path
       else
         render :new
       end
@@ -30,6 +30,8 @@ module Wireguard
 
     def destroy
       @network.destroy
+
+      redirect_to wireguard_path
     end
 
     private

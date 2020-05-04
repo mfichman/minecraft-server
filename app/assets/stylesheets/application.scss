@@ -17,11 +17,11 @@ $pink:    #e83e8c !default;
 $red:     #dc3545 !default;
 $orange:  #fd7e14 !default;
 $yellow:  #ffc107 !default;
-$green:   #28a745 !default;
+$green:   hsl(155, 90%, 37%);
 $teal:    #20c997 !default;
 $cyan:    #17a2b8 !default;
 
-$primary: hsl(155, 90%, 37%);
+$primary: $green;
 
 $material-icons-font-path: '~material-icons/iconfont/';
 $material-icons-font-size: inherit;
@@ -58,6 +58,9 @@ $close-text-shadow: 0 1px 0 $gray-900;
 
 $text-muted: $gray-500;
 
+$navbar-padding-x: 0;
+$navbar-padding-y: 0;
+
 @import '~bootstrap/scss/bootstrap';
 @import '~material-icons/iconfont/material-icons.scss';
 
@@ -82,26 +85,47 @@ h6 {
   opacity: 0.5;
 }
 
-.topbar {
+.navbar {
   background: $gray-800;
 }
 
-.topbar .nav-link {
-  color: white;
-  border-right: 1px solid $gray-900;
-  display: flex;
-  align-items: center;
-  text-transform: uppercase;
-  font-size: $font-size-base * .9;
-  letter-spacing: 1px;
-  color: $gray-500;
+.navbar .nav-link.active {
+  background-color: $gray-700;
 }
 
-.topbar .nav-link .material-icons {
+.navbar .nav-link {
+  align-items: center;
+  border-right: 1px solid $gray-900;
+  color: $gray-500;
+  display: flex;
+  font-size: $font-size-base * .9;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.navbar .nav-link > img {
+  filter: invert(80%) sepia(14%) saturate(155%) hue-rotate(169deg) brightness(87%) contrast(96%);
+  height: 22px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding-right: 8px;
+}
+
+.navbar .nav-link .material-icons {
   font-size: 18px;
-  padding-right: 12px;
-  position: relative;
-  top: 1px;
+  padding-right: 8px;
+}
+
+.navbar .nav-link:hover {
+  background-color: darken($gray-700, 5%);
+}
+
+.navbar .nav-link:active {
+  background-color: $gray-700;
+}
+
+.navbar .nav-link.active {
+  background-color: $gray-700;
 }
 
 .input-group > .custom-select {

@@ -1,18 +1,26 @@
 db:
+  environment:
+  - RAILS_ENV=development
   volumes:
   - ./volumes/db:/bundle/volumes/db
 
 web:
+  environment:
+  - RAILS_ENV=development
   volumes:
   - ./volumes/db:/bundle/volumes/db
 
 worker:
+  environment:
+  - RAILS_ENV=development
   volumes:
   - ./volumes/db:/bundle/volumes/db
   - ./volumes/minecraft:/minecraft/data
   - ./volumes/wireguard:/etc/wireguard
 
 logger:
+  environment:
+  - RAILS_ENV=development
   volumes:
   - ./volumes/db:/bundle/volumes/db
 

@@ -1,18 +1,2 @@
 <h3 class="mb-4">Worlds</h3>
-<h6>Displaying <%= pluralize(@worlds.size, 'Minecraft world') %> </h6>
-<div class="card mb-4">
-  <ul class="list-group list-group-flush">
-    <% @worlds.each do |world| %>
-      <li class="list-group-item d-flex align-items-center justify-content-between">
-        <%= link_to world.name, [:minecraft, world] %>
-        <div>
-          <%= link_to icon_tag(:visibility), [:minecraft, world], class: 'btn btn-secondary btn-sm' %>
-          <%= link_to icon_tag(:edit), [:edit, :minecraft, world], class: 'btn btn-secondary btn-sm' %>
-          <%= link_to icon_tag(:delete), [:minecraft, world], class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
-        </div>
-      </li>
-    <% end %>
-  <ul>
-</div>
-
-<%= link_to 'Create World', url_for(action: :new), class: 'btn btn-primary' %>
+<%= render 'collection', worlds: @worlds %>

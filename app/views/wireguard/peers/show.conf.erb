@@ -2,7 +2,8 @@
 Address = <%= @peer.ip_address %>
 PrivateKey = <%= @peer.key.private_key %>
 
+<%- allowed_ips = IPAddr.new(@peer.network.ip_address) -%>
 [Peer]
 PublicKey = <%= @peer.network.key.public_key %>
-AllowedIPs = <%= @peer.network.ip_address %>
+AllowedIPs = <%= allowed_ips %>/<%= allowed_ips.prefix %>
 Endpoint = <%= @peer.network.host %>:<%= Wireguard::Network::PORT %>

@@ -8,6 +8,9 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
 
+  get 'minecraft', to: 'minecraft/root#index'
+  get 'wireguard', to: 'wireguard/root#index'
+
   namespace :minecraft do
     resources :worlds
     resources :backups

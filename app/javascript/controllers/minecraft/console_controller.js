@@ -10,12 +10,13 @@ export default class extends Controller {
       received: this.received.bind(this)
     });
 
-    this.simplebar = SimpleBar.instances.get(this.simplebarTarget);
+    this.simplebar = new SimpleBar(this.simplebarTarget, { autohide: false });
     this.scroll();
   }
 
   scroll() {
-    this.simplebar.getScrollElement().scrollTop = 10000000;
+    const el = this.simplebar.getScrollElement();
+    el.scrollTop = el.scrollHeight - el.clientHeight;
   }
 
   send() {
@@ -23,8 +24,18 @@ export default class extends Controller {
   }
 
   received(msg) {
+    const shouldScroll = this.isScrolledToBottom;
     this.outputTarget.innerHTML += msg;
-    this.scroll();
+
+    if (shouldScroll) {
+      this.scroll();
+      console.log(this.isScrolledToBottom);
+    }
+  }
+
+  get isScrolledToBottom() {
+    const el = this.simplebar.getScrollElement();
+    return Math.ceil(el.scrollTop) >= Math.ceil(el.scrollHeight - el.clientHeight);
   }
 
   get serverId() {

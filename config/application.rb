@@ -32,6 +32,7 @@ module MinecraftServer
     config.assets.enabled = false
 
     config.eager_load_paths << Rails.root.join('app', 'validators')
+    config.eager_load_paths << Rails.root.join('app', 'types')
     config.eager_load_paths << Rails.root.join('lib')
   end
 end

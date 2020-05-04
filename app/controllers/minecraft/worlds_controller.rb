@@ -1,7 +1,7 @@
 module Minecraft
   class WorldsController < ApplicationController
     before_action :set_worlds, only: [:index]
-    before_action :set_world, only: [:show, :edit, :update]
+    before_action :set_world, only: [:show, :edit, :update, :destroy]
 
     def new
       @world = World.new
@@ -12,7 +12,17 @@ module Minecraft
       @world = World.new(world_params)
 
       if @world.save
-        redirect_to minecraft_worlds_path
+        redirect_to minecraft_path
+      else
+        render :new
+      end
+    end
+
+    def update
+      @world.assign_attributes(world_params)
+
+      if @world.save
+        redirect_to minecraft_path
       else
         render :new
       end
@@ -20,6 +30,8 @@ module Minecraft
 
     def destroy
       @world.destroy
+
+      redirect_to minecraft_path
     end
 
     private
