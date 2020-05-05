@@ -1,0 +1,15 @@
+<%= form_for([:admin, @user], html: { class: 'form' }) do |f| %>
+  <div class="form-group">
+    <%= f.label :email %>
+    <%= f.text_field :email, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <div class="custom-control custom-checkbox">
+      <%= f.check_box :confirmed, class: 'custom-control-input' %>
+      <%= f.label :confirmed, class: 'custom-control-label' %>
+    </div>
+  </div>
+
+  <%= f.submit class: 'btn btn-primary mt-4' %>
+<% end %>

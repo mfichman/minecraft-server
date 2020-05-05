@@ -1,5 +1,5 @@
 module Wireguard
-  class SyncsController < ApplicationController
+  class SyncsController < RootController
     def create
       network = Network.find(params[:network_id])
 

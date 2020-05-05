@@ -1,5 +1,5 @@
 module Minecraft
-  class ServersController < ApplicationController
+  class ServersController < RootController
     before_action :set_servers, only: [:index]
     before_action :set_server, only: [:show, :edit, :update, :destroy]
     before_action :set_backups, only: [:show]
@@ -12,7 +12,7 @@ module Minecraft
       @server = Server.new(server_params)
 
       if @server.save
-        redirect_to minecraft_path
+        redirect_to minecraft_path, notice: 'Server successfully created'
       else
         render :new
       end
@@ -22,7 +22,7 @@ module Minecraft
       @server.assign_attributes(server_params)
 
       if @server.save
-        redirect_to minecraft_path
+        redirect_to minecraft_path, notice: 'Server successfully updated'
       else
         render :new
       end

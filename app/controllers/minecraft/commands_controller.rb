@@ -1,5 +1,5 @@
 module Minecraft
-  class CommandsController < ApplicationController
+  class CommandsController < RootController
 
     def create
       server = Server.find(params[:server_id])

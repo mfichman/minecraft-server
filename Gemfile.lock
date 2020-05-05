@@ -161,6 +161,8 @@ GEM
     public_suffix (4.0.4)
     puma (4.3.3)
       nio4r (~> 2.0)
+    pundit (2.1.0)
+      activesupport (>= 3.0.0)
     rack (2.2.2)
     rack-protection (2.0.8.1)
       rack
@@ -283,6 +285,7 @@ DEPENDENCIES
   json
   omniauth-google-oauth2
   puma (~> 4.1)
+  pundit
   rails (~> 6.0.2, >= 6.0.2.2)
   rb-pure25519
   redis

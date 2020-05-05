@@ -1,17 +1,11 @@
 import { Controller } from 'stimulus';
-import consumer from 'channels/consumer';
 
 export default class extends Controller {
   static targets = [ "toast" ]
 
   connect() {
-    consumer.subscriptions.create({channel: 'ToastsChannel'}, {
-      received: this.received.bind(this)
+    $(this.toastTarget).toast('show').on('hidden.bs.toast', () => {
+      this.toastTarget.parent.removeChild(this.toastTarget);
     });
-  }
-
-  received(html) {
-    this.toastTarget.innerHTML = html;
-    $(this.toastTarget.children).toast('show');
   }
 }

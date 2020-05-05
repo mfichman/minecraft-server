@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   get 'minecraft', to: 'minecraft/root#index'
   get 'wireguard', to: 'wireguard/root#index'
+  get 'admin', to: 'admin/root#index'
 
   namespace :minecraft do
     resources :worlds
@@ -25,5 +26,9 @@ Rails.application.routes.draw do
     resources :peers
     resources :keys
     resources :syncs
+  end
+
+  namespace :admin do
+    resources :users
   end
 end

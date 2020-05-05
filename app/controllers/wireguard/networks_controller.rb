@@ -1,5 +1,5 @@
 module Wireguard
-  class NetworksController < ApplicationController
+  class NetworksController < RootController
     before_action :set_networks, only: [:index]
     before_action :set_network, only: [:show, :edit, :update, :destroy]
 

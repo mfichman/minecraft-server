@@ -1,5 +1,5 @@
 module Minecraft
-  class LoadsController < ApplicationController
+  class LoadsController < RootController
     def create
       server = Server.find(params[:server_id])
       backup = Backup.find(params[:backup_id])

@@ -16,7 +16,7 @@
     <nav class="navbar navbar-dark sticky-top d-flex justify-content-start">
       <%= link_to(icon_tag(:dns) + ' Minecraft', minecraft_path, class: "nav-link #{'active' if request.path.starts_with?(minecraft_path)}") %>
       <%= link_to(icon_tag(:vpn_lock) + ' VPN', wireguard_path, class: "nav-link #{'active' if request.path.starts_with?(wireguard_path)}") %>
-      <%= link_to(icon_tag(:settings) + ' Admin', '#', class: "nav-link") %>
+      <%= link_to(icon_tag(:settings) + ' Admin', admin_path, class: "nav-link #{'active' if request.path.starts_with?(admin_path)}") %>
     </nav>
 
     <div class="container-fluid py-4">
@@ -24,7 +24,12 @@
     </div>
 
     <% if current_user.present? %>
-      <div data-controller="toasts" data-target='toasts.toast' class="fixed-bottom d-flex flex-column p-3"></div>
+      <div class="fixed-bottom d-flex flex-column p-3">
+        <div data-controller="notifications" data-target='notifications.toast'></div>
+        <%= render 'toasts/error', header: 'Error!', message: flash[:error] if flash[:error] %>
+        <%= render 'toasts/info', header: 'Info', message: flash[:info] if flash[:info] %>
+        <%= render 'toasts/success', header: 'Success', message: flash[:success] if flash[:success] %>
+      </div>
     <% end %>
   </body>
 </html>

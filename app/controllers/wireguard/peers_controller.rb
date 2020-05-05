@@ -1,5 +1,5 @@
 module Wireguard
-  class PeersController < ApplicationController
+  class PeersController < RootController
     before_action :set_peer, only: [:show, :edit, :update, :destroy]
 
     def new

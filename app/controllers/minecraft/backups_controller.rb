@@ -1,5 +1,5 @@
 module Minecraft
-  class BackupsController < ApplicationController
+  class BackupsController < RootController
     before_action :set_backups, only: [:index]
 
     def create

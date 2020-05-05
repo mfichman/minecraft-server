@@ -1,0 +1,16 @@
+<h6>Users</h6>
+<div class="card mb-3">
+  <ul class="list-group list-group-flush">
+    <% users.each do |user| %>
+      <li class="list-group-item d-flex align-items-center justify-content-between">
+        <code><%= link_to user.email, [:admin, user] %></code>
+        <div class="flex-shrink-0">
+          <%= link_to icon_tag(:edit), [:edit, :admin, user], class: 'btn btn-secondary btn-sm' %>
+          <%= link_to icon_tag(:delete), [:admin, user], class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
+        </div>
+      </li>
+    <% end %>
+  <ul>
+</div>
+
+<%= link_to 'Create User', new_admin_user_path, class: 'btn btn-primary mb-4' %>

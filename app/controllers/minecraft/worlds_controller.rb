@@ -1,5 +1,5 @@
 module Minecraft
-  class WorldsController < ApplicationController
+  class WorldsController < RootController
     before_action :set_worlds, only: [:index]
     before_action :set_world, only: [:show, :edit, :update, :destroy]
 

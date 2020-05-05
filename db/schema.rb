@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_23_150128) do
+ActiveRecord::Schema.define(version: 2020_05_04_235942) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -67,10 +67,11 @@ ActiveRecord::Schema.define(version: 2020_04_23_150128) do
 
   create_table "users", force: :cascade do |t|
     t.string "email"
-    t.string "oauth_provider", null: false
-    t.string "oauth_uid", null: false
+    t.string "oauth_provider"
+    t.string "oauth_uid"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "confirmed", default: false, null: false
     t.index ["email"], name: "index_users_on_email"
   end
 

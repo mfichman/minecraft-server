@@ -7,6 +7,10 @@ module Wireguard
     def set_networks
       @networks = Network.order(:host)
     end
+
+    def verify_authorization
+      authorize [:wireguard, :root]
+    end
   end
 end
 

@@ -12,5 +12,9 @@ module Minecraft
     def set_servers
       @servers = Server.order(:host)
     end
+
+    def verify_authorization
+      authorize [:minecraft, :root]
+    end
   end
 end

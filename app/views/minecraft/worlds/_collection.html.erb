@@ -4,7 +4,7 @@
     <% @worlds.each do |world| %>
       <li class="list-group-item d-flex align-items-center justify-content-between">
         <%= link_to world.name, [:minecraft, world] %>
-        <div>
+        <div class="flex-shrink-0">
           <%= link_to icon_tag(:visibility), [:minecraft, world], class: 'btn btn-secondary btn-sm' %>
           <%= link_to icon_tag(:edit), [:edit, :minecraft, world], class: 'btn btn-secondary btn-sm' %>
           <%= link_to icon_tag(:delete), [:minecraft, world], class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>

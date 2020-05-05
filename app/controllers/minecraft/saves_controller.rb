@@ -1,5 +1,5 @@
 module Minecraft
-  class SavesController < ApplicationController
+  class SavesController < RootController
     def create
       server = Server.find(params[:server_id])
 

@@ -4,7 +4,7 @@
     <% networks.each do |network| %>
       <li class="list-group-item d-flex align-items-center justify-content-between">
         <code><%= link_to network.host, [:wireguard, network] %></code>
-        <div>
+        <div class="flex-shrink-0">
           <%= link_to icon_tag(:get_app), [:wireguard, network, format: 'conf'], class: 'btn btn-secondary btn-sm', download: "#{network.host.parameterize.underscore}.conf" %>
           <%= link_to icon_tag(:visibility), [:wireguard, network], class: 'btn btn-secondary btn-sm' %>
           <%= link_to icon_tag(:edit), [:edit, :wireguard, network], class: 'btn btn-secondary btn-sm' %>

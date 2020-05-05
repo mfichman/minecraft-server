@@ -5,6 +5,8 @@ class User < ApplicationRecord
   # :recoverable, :rememberable, :validatable
   devise :omniauthable, omniauth_providers: %i(google_oauth2)
 
+  validates :email, uniqueness: true, presence: true
+
   def self.from_omniauth(auth)
     transaction do
       user = find_or_initialize_by(email: auth.info.email)
