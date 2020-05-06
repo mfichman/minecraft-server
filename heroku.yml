@@ -6,6 +6,9 @@ build:
     worker:
       dockerfile: Dockerfile.bundle
       target: worker
+    release:
+      dockerfile: Dockerfile.bundle
+      target: release
 
 release:
   command:
