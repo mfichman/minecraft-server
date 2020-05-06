@@ -2,8 +2,6 @@ release:
   image: mfichman/minecraft:release
   container_name: release
   command: bin/rails db:migrate
-  volumes:
-  - /volumes/db:/bundle/volumes/db
 
 web:
   image: mfichman/minecraft:web
@@ -14,8 +12,6 @@ web:
   - REDIS_URL=redis://redis:6379
   - RAILS_LOG_TO_STDOUT=true
   - SSL_PORT=443
-  volumes:
-  - /volumes/db:/bundle/volumes/db
   links:
   - redis
   ports:
@@ -32,7 +28,6 @@ worker:
   - redis
   volumes:
   - /var/run/docker.sock:/var/run/docker.sock
-  - /volumes/db:/bundle/volumes/db
   - /volumes/minecraft:/minecraft/data
   - /volumes/wireguard:/etc/wireguard
 
@@ -47,11 +42,15 @@ logger:
   - SERVER_NAME=${SERVER_NAME}
   volumes:
   - /var/run/docker.sock:/var/run/docker.sock
-  - /volumes/db:/bundle/volumes/db
 
 redis:
   image: redis:alpine
   container_name: redis
+  restart: always
+
+postgres:
+  image: postgres:alpine
+  container_name: postgres
   restart: always
 
 minecraft:

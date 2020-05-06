@@ -9,13 +9,13 @@ ENV BUNDLE_PATH=/bundle/vendor/bundle
 ENV BUNDLE_WITHOUT=test:development
 ENV BUNDLE_SILENCE_ROOT_WARNING=true
 
-RUN apk add ruby sqlite sqlite-libs libxml2 libxslt libstdc++ openssl curl
+RUN apk add ruby postgresql libxml2 libxslt libstdc++ openssl curl
 RUN gem install bundler:2.1.4
 
 # Ruby bundle --------------------------------------------------------------------------------------
 FROM base as builder
 
-RUN apk add ruby-dev sqlite-dev libxml2-dev libxslt-dev nodejs-dev yarn build-base openssl-dev
+RUN apk add ruby-dev postgresql-dev libxml2-dev libxslt-dev nodejs-dev yarn build-base openssl-dev
 
 COPY Gemfile Gemfile.lock /bundle/
 RUN bundle install

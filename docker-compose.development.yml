@@ -2,28 +2,32 @@ release:
   environment:
   - RAILS_ENV=development
   volumes:
-  - ./volumes/db:/bundle/volumes/db
+  - ./volumes/postgres:/bundle/volumes/postgres
+
+postgres:
+  environment:
+  - RAILS_ENV=development
+  - POSTGRES_HOST_AUTH_METHOD=trust
+  volumes:
+  - ./volumes/postgres:/var/lib/postgresql/data
+  ports:
+  - "5432:5432"
 
 web:
   environment:
   - RAILS_ENV=development
   - SSL_PORT=3001
-  volumes:
-  - ./volumes/db:/bundle/volumes/db
 
 worker:
   environment:
   - RAILS_ENV=development
   volumes:
-  - ./volumes/db:/bundle/volumes/db
   - ./volumes/minecraft:/minecraft/data
   - ./volumes/wireguard:/etc/wireguard
 
 logger:
   environment:
   - RAILS_ENV=development
-  volumes:
-  - ./volumes/db:/bundle/volumes/db
 
 minecraft:
   volumes:
