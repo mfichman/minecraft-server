@@ -25,7 +25,7 @@ web:
 worker:
   image: mfichman/minecraft:bundle
   container_name: worker
-  command: bin/sidekiq --queue ${SERVER_NAME} --queue default --concurrency 1
+  command: bin/rails worker
   restart: always
   environment:
   - REDIS_URL=redis://redis:6379
