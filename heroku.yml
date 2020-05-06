@@ -13,4 +13,7 @@ release:
   #- plan: heroku-postgresql
 
 run:
-  web: bin/rails web
+  web:
+    image: bundle
+    command:
+    - bin/rails web
