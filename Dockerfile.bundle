@@ -9,7 +9,7 @@ ENV BUNDLE_PATH=/bundle/vendor/bundle
 ENV BUNDLE_WITHOUT=test:development
 ENV BUNDLE_SILENCE_ROOT_WARNING=true
 
-RUN apk add ruby sqlite-libs libxml2 libxslt libstdc++ openssl
+RUN apk add ruby sqlite sqlite-libs libxml2 libxslt libstdc++ openssl curl
 RUN gem install bundler:2.1.4
 
 # Ruby bundle --------------------------------------------------------------------------------------
@@ -35,16 +35,16 @@ CMD sh
 # Web ----------------------------------------------------------------------------------------------
 FROM bundle as web
 EXPOSE 80 443
-CMD bin/rails web
+CMD ruby bin/rails web
 
 # Worker -------------------------------------------------------------------------------------------
 FROM bundle as worker
-CMD bin/rails worker
+CMD ruby bin/rails worker
 
 # Logger -------------------------------------------------------------------------------------------
 FROM bundle as logger
-CMD bin/rails minecraft:logger
+CMD ruby bin/rails minecraft:logger
 
 # Release ------------------------------------------------------------------------------------------
 FROM bundle as release
-CMD bin/rails db:migrate
+CMD ruby bin/rails db:migrate
