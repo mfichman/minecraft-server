@@ -13,6 +13,7 @@ web:
   - SERVER_NAME=${SERVER_NAME}
   - REDIS_URL=redis://redis:6379
   - RAILS_LOG_TO_STDOUT=true
+  - SSL_PORT=443
   volumes:
   - /volumes/db:/bundle/volumes/db
   links:

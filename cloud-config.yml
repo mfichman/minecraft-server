@@ -2,12 +2,9 @@
 rancher:
   environment:
     SERVER_NAME: minecraft.mfichman.net
+    RAILS_MASTER_KEY: <fixme>
   services_include:
     https://raw.githubusercontent.com/mfichman/minecraft-server/master/docker-compose.yml: true
     kernel-headers: true
   modules:
     - wireguard
-
-      #runcmd:
-    #    /var/lib/rancher/conf/docker-compose.yml: true
-      #  - ros config set rancher.environment.SERVER_NAME $(hostname)

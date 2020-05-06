@@ -19,8 +19,8 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # Specifies the `pidfile` that Puma will use.
 pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 
-ssl_port = ENV.fetch("SSL_PORT") { development ? 3001 : 443 }
-ssl_bind '0.0.0.0', ssl_port, key: 'config/key.pem', cert: 'config/cert.pem', verify_mode: 'none'
+ssl_port = ENV.fetch("SSL_PORT") { development ? 3001 : nil }
+ssl_bind '0.0.0.0', ssl_port, key: 'config/key.pem', cert: 'config/cert.pem', verify_mode: 'none' if ssl_port
 
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked web server processes. If using threads and workers together
