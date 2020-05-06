@@ -1,4 +1,4 @@
-db:
+release:
   environment:
   - RAILS_ENV=development
   volumes:

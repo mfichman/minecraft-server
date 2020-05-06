@@ -1,6 +1,11 @@
 build:
   docker:
-    bundle: Dockerfile.bundle
+    web:
+      dockerfile: Dockerfile.bundle
+      target: web
+    worker:
+      dockerfile: Dockerfile.bundle
+      target: worker
 
 release:
   image: bundle

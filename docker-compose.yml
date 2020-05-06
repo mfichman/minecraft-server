@@ -1,14 +1,13 @@
-db:
-  image: mfichman/minecraft:bundle
-  container_name: db
+release:
+  image: mfichman/minecraft:release
+  container_name: release
   command: bin/rails db:migrate
   volumes:
   - /volumes/db:/bundle/volumes/db
 
 web:
-  image: mfichman/minecraft:bundle
+  image: mfichman/minecraft:web
   container_name: web
-  command: bin/rails web
   restart: always
   environment:
   - SERVER_NAME=${SERVER_NAME}
@@ -23,9 +22,8 @@ web:
   - "443:443"
 
 worker:
-  image: mfichman/minecraft:bundle
+  image: mfichman/minecraft:worker
   container_name: worker
-  command: bin/rails worker
   restart: always
   environment:
   - REDIS_URL=redis://redis:6379
@@ -38,9 +36,8 @@ worker:
   - /volumes/wireguard:/etc/wireguard
 
 logger:
-  image: mfichman/minecraft:bundle
+  image: mfichman/minecraft:logger
   container_name: logger
-  command: bin/rails minecraft:logger
   restart: always
   links:
   - redis

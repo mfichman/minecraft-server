@@ -1,4 +1,4 @@
-# Base system dependencies --------------------------------------------------------------
+# Base system dependencies -------------------------------------------------------------------------
 FROM alpine:3.11 as base
 MAINTAINER Matt Fichman <matt.fichman@gmail.com>
 WORKDIR /bundle
@@ -12,7 +12,7 @@ ENV BUNDLE_SILENCE_ROOT_WARNING=true
 RUN apk add ruby sqlite-libs libxml2 libxslt libstdc++ openssl
 RUN gem install bundler:2.1.4
 
-# Builder/asset precompilation ----------------------------------------------------------
+# Ruby bundle --------------------------------------------------------------------------------------
 FROM base as builder
 
 RUN apk add ruby-dev sqlite-dev libxml2-dev libxslt-dev nodejs-dev yarn build-base openssl-dev
@@ -27,14 +27,24 @@ COPY . /bundle
 RUN SECRET_KEY_BASE=`bin/rails secret` bin/rails webpacker:compile
 RUN rm -rf /bundle/node_modules
 
-# Production image ----------------------------------------------------------------------
-FROM base
-
+# Production bundle --------------------------------------------------------------------------------
+FROM base as bundle
 COPY --from=builder /bundle /bundle
-
-VOLUME /bundle/db
-VOLUME /bundle/data
-
-EXPOSE 80 443
-
 CMD sh
+
+# Web ----------------------------------------------------------------------------------------------
+FROM bundle as web
+EXPOSE 80 443
+CMD bin/rails web
+
+# Worker -------------------------------------------------------------------------------------------
+FROM bundle as worker
+CMD bin/rails worker
+
+# Logger -------------------------------------------------------------------------------------------
+FROM bundle as logger
+CMD bin/rails minecraft:logger
+
+# Release ------------------------------------------------------------------------------------------
+FROM bundle as release
+CMD bin/rails db:migrate

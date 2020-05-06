@@ -21,3 +21,4 @@ config/application.yml
 config/*.pem
 *.pem
 .*
+heroku.yml
