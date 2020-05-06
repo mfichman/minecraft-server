@@ -9,8 +9,3 @@ build:
     release:
       dockerfile: Dockerfile.bundle
       target: release
-
-run:
-  web:
-    command:
-    - bin/rails web
