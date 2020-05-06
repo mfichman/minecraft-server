@@ -8,7 +8,6 @@ build:
       target: worker
 
 release:
-  image: bundle
   command:
   - bin/rails db:migrate
 
@@ -19,6 +18,5 @@ release:
 
 run:
   web:
-    image: bundle
     command:
     - bin/rails web
