@@ -10,6 +10,7 @@ storage
 test
 tmp
 volumes
+config/master.key
 
 Dockerfile.*
 Guardfile
