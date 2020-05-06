@@ -2,11 +2,11 @@ build:
   docker:
     web:
       dockerfile: images/bundle/Dockerfile
-      context: .
 
 release:
   image: web
-  command: bin/rails db:migrate
+  command:
+  - bin/rails db:migrate
 
   #setup:
   #addons:
