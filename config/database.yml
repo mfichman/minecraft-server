@@ -6,6 +6,7 @@ default: &default
 
 development:
   <<: *default
+  url: <%= ENV.fetch('DATABASE_URL') { nil }%>
   database: minecraft_development
 
 # Warning: The database defined as "test" will be erased and
@@ -17,4 +18,4 @@ test:
 
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
+  url: <%= ENV.fetch('DATABASE_URL') { "postgres://postgres:5432/minecraft_production" } %>

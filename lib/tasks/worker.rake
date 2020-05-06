@@ -1,4 +1,8 @@
 task worker: :environment do
-  queue = Figaro.env.server_name || 'default'
-  exec "#{RbConfig.ruby} bin/sidekiq --queue #{queue} --queue default --concurrency 1"
+  queues = []
+  queues << 'default'
+  queues << Figaro.env.server_name if Figaro.env.server_name?
+  queues = queues.map { |q| "--queue #{q}" }
+
+  exec "#{RbConfig.ruby} bin/sidekiq #{queues} --concurrency 1"
 end

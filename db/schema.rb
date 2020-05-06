@@ -12,11 +12,14 @@
 
 ActiveRecord::Schema.define(version: 2020_05_04_235942) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.integer "blob_id", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -34,7 +37,7 @@ ActiveRecord::Schema.define(version: 2020_05_04_235942) do
   end
 
   create_table "minecraft_backups", force: :cascade do |t|
-    t.integer "world_id", null: false
+    t.bigint "world_id", null: false
     t.boolean "autosave", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -42,7 +45,7 @@ ActiveRecord::Schema.define(version: 2020_05_04_235942) do
   end
 
   create_table "minecraft_logs", force: :cascade do |t|
-    t.integer "server_id", null: false
+    t.bigint "server_id", null: false
     t.string "text", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -51,7 +54,7 @@ ActiveRecord::Schema.define(version: 2020_05_04_235942) do
 
   create_table "minecraft_servers", force: :cascade do |t|
     t.string "host", null: false
-    t.integer "backup_id"
+    t.bigint "backup_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["backup_id"], name: "index_minecraft_servers_on_backup_id"
@@ -85,7 +88,7 @@ ActiveRecord::Schema.define(version: 2020_05_04_235942) do
   create_table "wireguard_networks", force: :cascade do |t|
     t.string "ip_address", null: false
     t.string "host", null: false
-    t.integer "key_id", null: false
+    t.bigint "key_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["host"], name: "index_wireguard_networks_on_host"
@@ -95,8 +98,8 @@ ActiveRecord::Schema.define(version: 2020_05_04_235942) do
   create_table "wireguard_peers", force: :cascade do |t|
     t.string "name", null: false
     t.string "ip_address", null: false
-    t.integer "network_id", null: false
-    t.integer "key_id", null: false
+    t.bigint "network_id", null: false
+    t.bigint "key_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["ip_address", "network_id"], name: "index_wireguard_peers_on_ip_address_and_network_id", unique: true

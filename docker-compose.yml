@@ -1,7 +1,12 @@
 release:
   image: mfichman/minecraft:release
   container_name: release
-  command: bin/rails db:migrate
+  environment:
+  - REDIS_URL=redis://redis:6379
+  - DATABASE_URL=postgresql://postgres:5432
+  links:
+  - redis
+  - postgres
 
 web:
   image: mfichman/minecraft:web
@@ -10,10 +15,12 @@ web:
   environment:
   - SERVER_NAME=${SERVER_NAME}
   - REDIS_URL=redis://redis:6379
+  - DATABASE_URL=postgresql://postgres:5432
   - RAILS_LOG_TO_STDOUT=true
   - SSL_PORT=443
   links:
   - redis
+  - postgres
   ports:
   - "80:80"
   - "443:443"
@@ -24,8 +31,10 @@ worker:
   restart: always
   environment:
   - REDIS_URL=redis://redis:6379
+  - DATABASE_URL=postgresql://postgres:5432
   links:
   - redis
+  - postgres
   volumes:
   - /var/run/docker.sock:/var/run/docker.sock
   - /volumes/minecraft:/minecraft/data
@@ -37,8 +46,10 @@ logger:
   restart: always
   links:
   - redis
+  - postgres
   environment:
   - REDIS_URL=redis://redis:6379
+  - DATABASE_URL=postgresql://postgres:5432
   - SERVER_NAME=${SERVER_NAME}
   volumes:
   - /var/run/docker.sock:/var/run/docker.sock
@@ -52,6 +63,8 @@ postgres:
   image: postgres:alpine
   container_name: postgres
   restart: always
+  volumes:
+  - /volumes/postgres:/var/lib/postgresql/data
 
 minecraft:
   image: mfichman/minecraft

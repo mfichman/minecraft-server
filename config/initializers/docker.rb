@@ -1,1 +1,1 @@
-Docker.url = 'tcp://127.0.0.1:2375' if Rails.env.development?
+Docker.url = Figaro.env.docker_url if Figaro.env.docker_url?

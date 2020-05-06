@@ -25,7 +25,6 @@ RUN yarn install --production=true
 
 COPY . /bundle
 RUN SECRET_KEY_BASE=`ruby bin/rails secret` ruby bin/rails webpacker:compile
-RUN rm -rf /bundle/node_modules
 
 # Production bundle --------------------------------------------------------------------------------
 FROM base as bundle
@@ -48,4 +47,4 @@ CMD ruby bin/rails minecraft:logger
 
 # Release ------------------------------------------------------------------------------------------
 FROM bundle as release
-CMD ruby bin/rails db:migrate
+CMD ruby bin/rails db:prepare
