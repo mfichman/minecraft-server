@@ -1,10 +1,9 @@
 build:
   docker:
-    web:
-      dockerfile: images/bundle/Dockerfile
+    bundle: Dockerfile.bundle
 
 release:
-  image: web
+  image: bundle
   command:
   - bin/rails db:migrate
 

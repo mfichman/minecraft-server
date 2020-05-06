@@ -8,9 +8,9 @@ namespace :docker do
   end
 
   task :build do
-    sh 'docker build -t mfichman/minecraft images/minecraft'
-    sh 'docker build -t mfichman/minecraft:wireguard images/wireguard'
-    sh 'docker build -t mfichman/minecraft:bundle -f images/bundle/Dockerfile .'
+    sh 'docker build -t mfichman/minecraft -f Dockerfile.minecraft .'
+    sh 'docker build -t mfichman/minecraft:wireguard -f Dockerfile.wireguard .'
+    sh 'docker build -t mfichman/minecraft:bundle -f Dockerfile.bundle .'
   end
 
   task :push do

@@ -8,7 +8,7 @@ ARG SERVER_JAR_URL=https://launcher.mojang.com/v1/objects/bb2b6b1aefcd70dfd18921
 ADD $SERVER_JAR_URL /minecraft/minecraft_server.jar
 #ADD $FORGE_JAR_URL /minecraft/minecraft_forge_installer.jar
 
-COPY . /minecraft
+COPY /images/minecraft /minecraft
 
 #RUN java -jar minecraft_forge_installer.jar --installServer
 

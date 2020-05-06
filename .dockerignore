@@ -1,7 +1,6 @@
 backups
 data
 docs
-images
 log
 node_modules
 old
@@ -12,6 +11,7 @@ test
 tmp
 volumes
 
+Dockerfile.*
 Guardfile
 docker-compose*.yml
 *.sqlite3
