@@ -7,8 +7,6 @@ release:
 web:
   environment:
   - RAILS_ENV=development
-  volumes:
-  - ./config/master.key:/bundle/config/master.key
   ports:
   - "3001:3001"
   - "3000:3000"
@@ -17,15 +15,12 @@ worker:
   environment:
   - RAILS_ENV=development
   volumes:
-  - ./config/master.key:/bundle/config/master.key
   - ./volumes/minecraft:/minecraft/data
   - ./volumes/wireguard:/etc/wireguard
 
 logger:
   environment:
   - RAILS_ENV=development
-  volumes:
-  - ./config/master.key:/bundle/config/master.key
 
 minecraft:
   volumes:

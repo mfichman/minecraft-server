@@ -13,10 +13,11 @@ web:
   container_name: web
   restart: always
   environment:
-  - SERVER_NAME=${SERVER_NAME}
-  - REDIS_URL=redis://redis:6379
   - DATABASE_URL=postgresql://postgres:5432
   - RAILS_LOG_TO_STDOUT=true
+  - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+  - REDIS_URL=redis://redis:6379
+  - SERVER_NAME=${SERVER_NAME}
   - SSL_PORT=443
   links:
   - redis
@@ -30,8 +31,10 @@ worker:
   container_name: worker
   restart: always
   environment:
-  - REDIS_URL=redis://redis:6379
   - DATABASE_URL=postgresql://postgres:5432
+  - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+  - REDIS_URL=redis://redis:6379
+  - SERVER_NAME=${SERVER_NAME}
   links:
   - redis
   - postgres
@@ -48,8 +51,9 @@ logger:
   - redis
   - postgres
   environment:
-  - REDIS_URL=redis://redis:6379
   - DATABASE_URL=postgresql://postgres:5432
+  - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+  - REDIS_URL=redis://redis:6379
   - SERVER_NAME=${SERVER_NAME}
   volumes:
   - /var/run/docker.sock:/var/run/docker.sock
