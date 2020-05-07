@@ -6,10 +6,10 @@ rancher:
     REDIS_URL: "<%= Figaro.env.redis_url %>"
     DATABASE_URL: "<%= Figaro.env.database_url %>"
   services_include:
-    "<%= minecraft_service_url('worker') %>": true
-    "<%= minecraft_service_url('logger') %>": true
-    "<%= minecraft_service_url('minecraft') %>": true
-    "<%= minecraft_service_url('worker') %>": true
+    "<%= minecraft_service_url('worker', format: 'yml') %>": true
+    "<%= minecraft_service_url('logger', format: 'yml') %>": true
+    "<%= minecraft_service_url('minecraft', format: 'yml') %>": true
+    "<%= minecraft_service_url('worker', format: 'yml') %>": true
     kernel-headers: true
   modules:
     - wireguard

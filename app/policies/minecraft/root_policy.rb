@@ -19,9 +19,5 @@ module Minecraft
     def destroy?
       user.admin?
     end
-
-    def cloud_config?
-      user.admin?
-    end
   end
 end

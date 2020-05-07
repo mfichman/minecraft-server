@@ -1,5 +1,9 @@
 module Minecraft
   class ServersController < RootController
+    skip_before_action :authenticate_user!, only: [:cloud_config]
+    skip_before_action :verify_authorization, only: [:cloud_config]
+    skip_after_action :verify_authorized, only: [:cloud_config]
+
     before_action :set_servers, only: [:index]
     before_action :set_server, only: [:show, :edit, :update, :destroy, :cloud_config]
     before_action :set_backups, only: [:show]
