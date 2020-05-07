@@ -3,7 +3,6 @@ release:
   container_name: release
   environment:
   - REDIS_URL=redis://redis:6379
-  - DATABASE_URL=postgresql://postgres:5432
   links:
   - redis
   - postgres
@@ -13,7 +12,6 @@ web:
   container_name: web
   restart: always
   environment:
-  - DATABASE_URL=postgresql://postgres:5432
   - RAILS_LOG_TO_STDOUT=true
   - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
   - REDIS_URL=redis://redis:6379
@@ -31,7 +29,6 @@ worker:
   container_name: worker
   restart: always
   environment:
-  - DATABASE_URL=postgresql://postgres:5432
   - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
   - REDIS_URL=redis://redis:6379
   - SERVER_NAME=${SERVER_NAME}
@@ -51,7 +48,6 @@ logger:
   - redis
   - postgres
   environment:
-  - DATABASE_URL=postgresql://postgres:5432
   - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
   - REDIS_URL=redis://redis:6379
   - SERVER_NAME=${SERVER_NAME}
