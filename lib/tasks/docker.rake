@@ -1,14 +1,14 @@
 namespace :docker do
   task :up do
-    sh 'docker-compose -f docker-compose.yml -f docker-compose.development.yml up -d'
+    sh 'docker-compose -f docker-compose.yml up -d'
   end
 
   task :logs do
-    sh 'docker-compose -f docker-compose.yml -f docker-compose.development.yml logs'
+    sh 'docker-compose -f docker-compose.yml logs'
   end
 
   task :down do
-    sh 'docker-compose -f docker-compose.yml -f docker-compose.development.yml down'
+    sh 'docker-compose -f docker-compose.yml down'
   end
 
   task :build do

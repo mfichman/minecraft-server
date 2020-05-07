@@ -2,92 +2,74 @@ release:
   image: mfichman/minecraft:release
   container_name: release
   environment:
-  - REDIS_URL=redis://redis:6379
-  links:
-  - redis
-  - postgres
+  - DATABASE_URL=${DATABASE_URL}
+  - RAILS_ENV=development
+  - REDIS_URL=${REDIS_URL}
+  volumes:
+  - ./volumes/postgres:/bundle/volumes/postgres
 
 web:
   image: mfichman/minecraft:web
   container_name: web
   restart: always
   environment:
+  - DATABASE_URL=${DATABASE_URL}
   - RAILS_LOG_TO_STDOUT=true
+  - RAILS_ENV=development
   - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
-  - REDIS_URL=redis://redis:6379
+  - REDIS_URL=${REDIS_URL}
   - SERVER_NAME=${SERVER_NAME}
   - SSL_PORT=443
-  links:
-  - redis
-  - postgres
   ports:
-  - "80:80"
-  - "443:443"
-
-worker:
-  image: mfichman/minecraft:worker
-  container_name: worker
-  restart: always
-  environment:
-  - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
-  - REDIS_URL=redis://redis:6379
-  - SERVER_NAME=${SERVER_NAME}
-  links:
-  - redis
-  - postgres
-  volumes:
-  - /var/run/docker.sock:/var/run/docker.sock
-  - /volumes/minecraft:/minecraft/data
-  - /volumes/wireguard:/etc/wireguard
-
-logger:
-  image: mfichman/minecraft:logger
-  container_name: logger
-  restart: always
-  links:
-  - redis
-  - postgres
-  environment:
-  - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
-  - REDIS_URL=redis://redis:6379
-  - SERVER_NAME=${SERVER_NAME}
-  volumes:
-  - /var/run/docker.sock:/var/run/docker.sock
-
-redis:
-  image: redis:alpine
-  container_name: redis
-  restart: always
+  - "3001:3001"
+  - "3000:3000"
 
 postgres:
   image: postgres:alpine
   container_name: postgres
   restart: always
   volumes:
-  - /volumes/postgres:/var/lib/postgresql/data
+  - postgres:/var/lib/postgresql/data
   environment:
   - POSTGRES_HOST_AUTH_METHOD=trust
+  ports:
+  - "5432:5432"
+
+redis:
+  image: redis:alpine
+  container_name: redis
+  restart: always
+  ports:
+  - "6379:6379"
+
+worker:
+  extends:
+    file: services/worker.yml
+    service: worker
+  environment:
+  - RAILS_ENV=development
+  volumes:
+  - ./volumes/minecraft:/minecraft/data
+  - ./volumes/wireguard:/etc/wireguard
+
+logger:
+  extends:
+    file: services/logger.yml
+    service: logger
+  environment:
+  - RAILS_ENV=development
 
 minecraft:
-  image: mfichman/minecraft
-  container_name: minecraft
-  stdin_open: true
-  tty: true
-  restart: always
+  extends:
+    file: services/minecraft.yml
+    service: minecraft
   volumes:
-  - /volumes/minecraft:/minecraft/data
-  ports:
-  - "25565:25565"
+  - ./volumes/minecraft:/minecraft/data
 
 wireguard:
-  image: mfichman/minecraft:wireguard
-  container_name: wireguard
-  restart: always
-  stdin_open: true
-  tty: true
-  net: host
-  privileged: true
+  extends:
+    file: services/wireguard.yml
+    service: wireguard
   volumes:
-  - /volumes/wireguard:/etc/wireguard
-  - /lib/modules:/lib/modules
-  - /usr/src:/usr/src
+  - ./volumes/wireguard:/etc/wireguard
+

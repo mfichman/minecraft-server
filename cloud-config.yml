@@ -3,8 +3,13 @@ rancher:
   environment:
     SERVER_NAME: minecraft.mfichman.net
     RAILS_MASTER_KEY: <fixme>
+    REDIS_URL: <fixme>
+    DATABASE_URL: <fixme>
   services_include:
-    https://raw.githubusercontent.com/mfichman/minecraft-server/master/docker-compose.yml: true
+    https://raw.githubusercontent.com/mfichman/minecraft-server/master/worker.yml: true
+    https://raw.githubusercontent.com/mfichman/minecraft-server/master/logger.yml: true
+    https://raw.githubusercontent.com/mfichman/minecraft-server/master/minecraft.yml: true
+    https://raw.githubusercontent.com/mfichman/minecraft-server/master/wireguard.yml: true
     kernel-headers: true
   modules:
     - wireguard
