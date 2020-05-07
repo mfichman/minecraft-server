@@ -19,6 +19,10 @@ Rails.application.routes.draw do
     resources :servers
     resources :saves
     resources :loads
+    resources :services
+
+
+    get '/servers/:id/cloud-config.yml', to: 'servers#cloud_config'
   end
 
   namespace :wireguard do

@@ -48,11 +48,12 @@ module Minecraft
 
       while true
         begin
+          puts "Connecting to Minecraft server output"
+
           minecraft = Docker::Container.get('minecraft')
-
-          puts minecraft
-
           minecraft.streaming_logs(stdout: true, stderr: true, since: time, tty: true, follow: true, &block)
+
+          sleep 1
         rescue Docker::Error::TimeoutError
         end
 

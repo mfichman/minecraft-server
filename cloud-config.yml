@@ -6,10 +6,10 @@ rancher:
     REDIS_URL: <fixme>
     DATABASE_URL: <fixme>
   services_include:
-    https://raw.githubusercontent.com/mfichman/minecraft-server/master/worker.yml: true
-    https://raw.githubusercontent.com/mfichman/minecraft-server/master/logger.yml: true
-    https://raw.githubusercontent.com/mfichman/minecraft-server/master/minecraft.yml: true
-    https://raw.githubusercontent.com/mfichman/minecraft-server/master/wireguard.yml: true
+    "https://raw.githubusercontent.com/mfichman/minecraft-server/master/services/worker.yml": true
+    "https://raw.githubusercontent.com/mfichman/minecraft-server/master/services/logger.yml": true
+    "https://raw.githubusercontent.com/mfichman/minecraft-server/master/services/minecraft.yml": true
+    "https://raw.githubusercontent.com/mfichman/minecraft-server/master/services/wireguard.yml": true
     kernel-headers: true
   modules:
     - wireguard

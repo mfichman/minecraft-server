@@ -1,7 +1,7 @@
 module Minecraft
   class ServersController < RootController
     before_action :set_servers, only: [:index]
-    before_action :set_server, only: [:show, :edit, :update, :destroy]
+    before_action :set_server, only: [:show, :edit, :update, :destroy, :cloud_config]
     before_action :set_backups, only: [:show]
 
     def new
@@ -32,6 +32,9 @@ module Minecraft
       @server.destroy
 
       redirect_to minecraft_path
+    end
+
+    def cloud_config
     end
 
     private
