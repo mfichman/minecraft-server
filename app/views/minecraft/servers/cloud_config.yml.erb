@@ -13,3 +13,10 @@ rancher:
     kernel-headers: true
   modules:
     - wireguard
+  mounts:
+    - ['/dev/disk/by-id/scsi-0DO_Volume_<%= @server.volume %>', '/volumes', 'ext4', 'discard,noatime']
+
+runcmd:
+  - mkdir -p /volumes
+  - mkfs.ext4 /dev/disk/by-id/scsi-0DO_Volume_<%= @server.volume %>
+  - mount -o discard,defaults /dev/disk/by-id/scsi-0DO_Volume_<%= @server.volume %> /volumes
