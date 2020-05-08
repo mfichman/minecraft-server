@@ -1,8 +1,15 @@
 module Minecraft
   class BootJob < ApplicationJob
-    def perform(server)
+    def perform(user, server)
+      ToastsChannel.broadcast_to(user, BootsController.render(partial: 'info'))
+
       droplet = create_droplet(server)
       create_domain_record(server, droplet)
+
+      ToastsChannel.broadcast_to(user, BootsController.render(partial: 'success'))
+    rescue => e
+      ToastsChannel.broadcast_to(user, BootsController.render(partial: 'error', locals: { message: e.message }))
+      raise
     end
 
     def create_droplet(server)
