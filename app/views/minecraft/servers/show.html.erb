@@ -13,6 +13,15 @@
 
 <div class="btn-toolbar flex-nowrap" style="margin-right: -4px;">
   <%= render 'minecraft/loads/form', server: @server, backups: @backups if @backups.any? %>
+
+  <div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+      Actions
+    </button>
+  </div>
+
   <%= render 'minecraft/saves/form', server: @server %>
   <%= render 'minecraft/boots/form', server: @server %>
+  <%= render 'minecraft/shutdowns/form', server: @server %>
 </div>
+

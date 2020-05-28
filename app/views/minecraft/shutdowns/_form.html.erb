@@ -1,0 +1,4 @@
+<%= form_with(url: minecraft_shutdowns_path, class: "pr-1 w-100 #{'hidden' if server.world.nil?}") do |f| %>
+  <%= f.hidden_field :server_id, value: server.id %>
+  <%= f.submit 'Power Off', class: 'btn btn-primary w-100' %>
+<% end %>

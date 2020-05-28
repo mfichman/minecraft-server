@@ -1,4 +1,4 @@
-<%= form_with(url: minecraft_boots_path, class: "mr-1 #{'hidden' if server.world.nil?}") do |f| %>
+<%= form_with(url: minecraft_boots_path, class: "pr-1 w-100 #{'hidden' if server.world.nil?}") do |f| %>
   <%= f.hidden_field :server_id, value: server.id %>
-  <%= f.submit 'Power On', class: 'btn btn-primary' %>
+  <%= f.submit 'Power On', class: 'btn btn-primary w-100' %>
 <% end %>
