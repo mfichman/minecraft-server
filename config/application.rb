@@ -35,5 +35,10 @@ module MinecraftServer
     config.eager_load_paths << Rails.root.join('app', 'types')
     config.eager_load_paths << Rails.root.join('app', 'policies')
     config.eager_load_paths << Rails.root.join('lib')
+
+    config.action_controller.default_url_options = {
+      host: Figaro.env.host_name || 'mfichman-minecraft.herokuapp.com',
+      protocol: 'https',
+    }
   end
 end

@@ -10,6 +10,7 @@ data
 volumes
 *.swp
 *.suo
+*.swo
 
 # Ignore bundler config.
 /.bundle
