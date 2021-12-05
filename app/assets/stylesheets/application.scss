@@ -42,6 +42,12 @@ $custom-select-bg: $gray-700;
 $custom-select-color: $white;
 $custom-select-indicator-color: $gray-300;
 
+$dropdown-bg: $gray-700;
+$dropdown-color: $white;
+$dropdown-link-color: $white;
+$dropdown-link-hover-bg: $gray-800;
+$dropdown-link-hover-color: $white;
+
 $input-bg: $gray-700;
 $input-color: $white;
 $input-box-shadow: none;
@@ -137,3 +143,4 @@ h6 {
 .toast {
   min-width: 300px;
 }
+

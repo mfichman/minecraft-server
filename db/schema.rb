@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_04_235942) do
+ActiveRecord::Schema.define(version: 2021_12_05_191832) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,14 @@ ActiveRecord::Schema.define(version: 2020_05_04_235942) do
     t.index ["world_id"], name: "index_minecraft_backups_on_world_id"
   end
 
+  create_table "minecraft_jars", force: :cascade do |t|
+    t.string "version", null: false
+    t.string "url", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["version"], name: "index_minecraft_jars_on_version", unique: true
+  end
+
   create_table "minecraft_logs", force: :cascade do |t|
     t.bigint "server_id", null: false
     t.string "text", null: false
@@ -57,8 +65,10 @@ ActiveRecord::Schema.define(version: 2020_05_04_235942) do
     t.bigint "backup_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "jar_id"
     t.index ["backup_id"], name: "index_minecraft_servers_on_backup_id"
     t.index ["host"], name: "index_minecraft_servers_on_host"
+    t.index ["jar_id"], name: "index_minecraft_servers_on_jar_id"
   end
 
   create_table "minecraft_worlds", force: :cascade do |t|

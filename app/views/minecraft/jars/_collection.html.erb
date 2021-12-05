@@ -1,0 +1,17 @@
+<h6>Jars</h6>
+<div class="card mb-3">
+  <ul class="list-group list-group-flush">
+    <% @jars.each do |jar| %>
+      <li class="list-group-item d-flex align-items-center justify-content-between">
+        <%= link_to jar.version, [:minecraft, jar] %>
+        <div class="flex-shrink-0">
+          <%= link_to icon_tag(:visibility), [:minecraft, jar], class: 'btn btn-secondary btn-sm' %>
+          <%= link_to icon_tag(:edit), [:edit, :minecraft, jar], class: 'btn btn-secondary btn-sm' %>
+          <%= link_to icon_tag(:delete), [:minecraft, jar], class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
+        </div>
+      </li>
+    <% end %>
+  <ul>
+</div>
+
+<%= link_to 'Create Jar', new_minecraft_jar_path, class: 'btn btn-primary mb-4' %>

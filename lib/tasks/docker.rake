@@ -2,6 +2,7 @@ namespace :docker do
 
   SERVICES = Dir['services/**.yml'].map { |f| "-f #{f}" }.join(' ')
 
+  # Usage: rails docker:up[postgres]
   task :up, [:service] do |_, args|
     sh "docker compose #{SERVICES} -f docker-compose.yml up -d #{args[:service]}"
   end

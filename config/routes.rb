@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     resources :boots
     resources :shutdowns
     resources :services
+    resources :jars
 
     get '/servers/:id/cloud-config.yml', to: 'servers#cloud_config'
   end

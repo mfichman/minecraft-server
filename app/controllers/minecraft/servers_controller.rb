@@ -3,6 +3,7 @@ module Minecraft
     before_action :set_servers, only: [:index]
     before_action :set_server, only: [:show, :edit, :update, :destroy, :cloud_config]
     before_action :set_backups, only: [:show]
+    before_action :set_jars, only: [:edit, :new]
 
     def new
       @server = Server.new
@@ -40,7 +41,7 @@ module Minecraft
     private
 
     def server_params
-      params.require(:server).permit(:host)
+      params.require(:server).permit(:host, :jar_id)
     end
 
     def set_server
@@ -53,6 +54,10 @@ module Minecraft
 
     def set_backups
       @backups = Backup.order(id: :desc)
+    end
+
+    def set_jars
+      @jars = Jar.order(version: :desc)
     end
   end
 end

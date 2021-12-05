@@ -1,5 +1,5 @@
 # Base system dependencies -------------------------------------------------------------------------
-FROM alpine:3.11 as base
+FROM alpine:3.14 as base
 MAINTAINER Matt Fichman <matt.fichman@gmail.com>
 WORKDIR /bundle
 
@@ -9,13 +9,13 @@ ENV BUNDLE_PATH=/bundle/vendor/bundle
 ENV BUNDLE_WITHOUT=test:development
 ENV BUNDLE_SILENCE_ROOT_WARNING=true
 
-RUN apk add ruby postgresql libxml2 libxslt libstdc++ openssl curl
-RUN gem install bundler:2.1.4
+RUN apk add ruby-full postgresql libxml2 libxslt libstdc++ openssl curl
+RUN gem install bundler:2.2.27
 
 # Ruby bundle --------------------------------------------------------------------------------------
 FROM base as builder
 
-RUN apk add ruby-dev postgresql-dev libxml2-dev libxslt-dev nodejs-dev yarn build-base openssl-dev
+RUN apk add ruby-dev postgresql-dev libxml2-dev libxslt-dev nodejs-dev yarn build-base openssl-dev python2-dev
 
 COPY Gemfile Gemfile.lock /bundle/
 RUN bundle install
