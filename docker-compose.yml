@@ -1,75 +1,60 @@
-release:
-  image: mfichman/minecraft:release
-  container_name: release
-  environment:
-  - DATABASE_URL=${DATABASE_URL}
-  - RAILS_ENV=development
-  - REDIS_URL=${REDIS_URL}
-  volumes:
-  - ./volumes/postgres:/bundle/volumes/postgres
+version: '2'
+services:
+  release:
+    image: mfichman/minecraft:release
+    environment:
+    - DATABASE_URL=${DATABASE_URL}
+    - RAILS_ENV=development
+    - REDIS_URL=${REDIS_URL}
+    volumes:
+    - ./volumes/postgres:/bundle/volumes/postgres
 
-web:
-  image: mfichman/minecraft:web
-  container_name: web
-  restart: always
-  environment:
-  - DATABASE_URL=${DATABASE_URL}
-  - RAILS_LOG_TO_STDOUT=true
-  - RAILS_ENV=development
-  - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
-  - REDIS_URL=${REDIS_URL}
-  - SERVER_NAME=${SERVER_NAME}
-  - SSL_PORT=443
-  ports:
-  - "3001:3001"
-  - "3000:3000"
+  web:
+    image: mfichman/minecraft:web
+    restart: always
+    environment:
+    - DATABASE_URL=${DATABASE_URL}
+    - RAILS_LOG_TO_STDOUT=true
+    - RAILS_ENV=development
+    - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+    - REDIS_URL=${REDIS_URL}
+    - SERVER_NAME=${SERVER_NAME}
+    - SSL_PORT=443
+    ports:
+    - "3001:3001"
+    - "3000:3000"
 
-postgres:
-  image: postgres:alpine
-  container_name: postgres
-  restart: always
-  volumes:
-  - postgres:/var/lib/postgresql/data
-  environment:
-  - POSTGRES_HOST_AUTH_METHOD=trust
-  ports:
-  - "5432:5432"
+  postgres:
+    image: postgres:alpine
+    restart: always
+    volumes:
+    - ./volumes/postgres:/var/lib/postgresql/data
+    environment:
+    - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+    - "5432:5432"
 
-redis:
-  image: redis:alpine
-  container_name: redis
-  restart: always
-  ports:
-  - "6379:6379"
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+    - "6379:6379"
 
-worker:
-  extends:
-    file: services/worker.yml
-    service: worker
-  environment:
-  - RAILS_ENV=development
-  volumes:
-  - ./volumes/minecraft:/minecraft/data
-  - ./volumes/wireguard:/etc/wireguard
+  worker:
+    environment:
+    - RAILS_ENV=development
+    volumes:
+    - ./volumes/minecraft:/minecraft/data
+    - ./volumes/wireguard:/etc/wireguard
 
-logger:
-  extends:
-    file: services/logger.yml
-    service: logger
-  environment:
-  - RAILS_ENV=development
+  logger:
+    environment:
+    - RAILS_ENV=development
 
-minecraft:
-  extends:
-    file: services/minecraft.yml
-    service: minecraft
-  volumes:
-  - ./volumes/minecraft:/minecraft/data
+  minecraft:
+    volumes:
+    - ./volumes/minecraft:/minecraft/data
 
-wireguard:
-  extends:
-    file: services/wireguard.yml
-    service: wireguard
-  volumes:
-  - ./volumes/wireguard:/etc/wireguard
-
+  wireguard:
+    volumes:
+    - ./volumes/wireguard:/etc/wireguard

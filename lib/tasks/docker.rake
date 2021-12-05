@@ -1,14 +1,17 @@
 namespace :docker do
-  task :up do
-    sh 'docker-compose -f docker-compose.yml up -d'
+
+  SERVICES = Dir['services/**.yml'].map { |f| "-f #{f}" }.join(' ')
+
+  task :up, [:service] do |_, args|
+    sh "docker compose #{SERVICES} -f docker-compose.yml up -d #{args[:service]}"
   end
 
   task :logs do
-    sh 'docker-compose -f docker-compose.yml logs'
+    sh "docker compose #{SERVICES} -f docker-compose.yml logs"
   end
 
   task :down do
-    sh 'docker-compose -f docker-compose.yml down'
+    sh "docker compose #{SERVICES} -f docker-compose.yml down"
   end
 
   task :build do

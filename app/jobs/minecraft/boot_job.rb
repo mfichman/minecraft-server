@@ -24,7 +24,7 @@ module Minecraft
         name: server.host,
         region: 'nyc1',
         size: 's-1vcpu-2gb',
-        image: 'rancheros',
+        image: 'rancheros', # docker-20-04
         ssh_keys: ssh_keys,
         user_data: cloud_config,
         volumes: [volume.id]
