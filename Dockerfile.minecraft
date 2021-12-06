@@ -1,8 +1,8 @@
-FROM openjdk:15-alpine
+FROM openjdk:17-alpine
 MAINTAINER Matt Fichman <matt.fichman@gmail.com>
 WORKDIR /minecraft
 
-ENV MINECRAFT_SERVER_JAR_URL=https://launcher.mojang.com/v1/objects/bb2b6b1aefcd70dfd1892149ac3a215f6c636b07/server.jar
+ENV MINECRAFT_SERVER_JAR_URL=https://launcher.mojang.com/v1/objects/3cf24a8694aca6267883b17d934efacc5e44440d/server.jar
 ENV MINECRAFT_SERVER_JAR_VERSION=1.18
 
 COPY /images/minecraft /minecraft
@@ -12,4 +12,6 @@ VOLUME /minecraft/jars
 
 EXPOSE 25565
 
-CMD sh /minecraft/boot.sh
+RUN apk add bash curl
+
+CMD bash /minecraft/boot.sh

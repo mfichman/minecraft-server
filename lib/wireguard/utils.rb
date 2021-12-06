@@ -11,7 +11,7 @@ module Wireguard
       if new_config
         command = "wg syncconf wg0 <(wg-quick strip /etc/wireguard/wg0.conf)\n"
       else
-        command = "wg-quick down; wg-quick up\n"
+        command = "wg-quick down wg0; wg-quick up wg0\n"
       end
 
       container = Docker::Container.get('wireguard')

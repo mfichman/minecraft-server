@@ -1,13 +1,13 @@
 module Minecraft
   class ShutdownJob < ApplicationJob
     def perform(user, server)
-      ToastsChannel.broadcast_to(user, BootsController.render(partial: 'info'))
+      ToastsChannel.broadcast_to(user, ShutdownsController.render(partial: 'info'))
 
       delete_droplet(server)
 
-      ToastsChannel.broadcast_to(user, BootsController.render(partial: 'success'))
+      ToastsChannel.broadcast_to(user, ShutdownsController.render(partial: 'success'))
     rescue => e
-      ToastsChannel.broadcast_to(user, BootsController.render(partial: 'error', locals: { message: e.message }))
+      ToastsChannel.broadcast_to(user, ShutdownsController.render(partial: 'error', locals: { message: e.message }))
       raise
     end
 

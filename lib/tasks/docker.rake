@@ -27,6 +27,7 @@ namespace :docker do
   task :push do
     sh 'docker push mfichman/minecraft'
     sh 'docker push mfichman/minecraft:wireguard'
-    sh 'docker push mfichman/minecraft:bundle'
+    sh 'docker push mfichman/minecraft:logger'
+    sh 'docker push mfichman/minecraft:worker'
   end
 end

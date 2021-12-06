@@ -1,8 +1,8 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 JAR=/minecraft/jars/server-$MINECRAFT_SERVER_JAR_VERSION.jar
 
-if [ -f "$JAR" ]; then
+if [ ! -f "$JAR" ] ; then
   curl $MINECRAFT_SERVER_JAR_URL > $JAR
 fi
 
