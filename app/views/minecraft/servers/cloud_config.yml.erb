@@ -5,8 +5,6 @@ rancher:
     RAILS_MASTER_KEY: "<%= Figaro.env.rails_master_key %>"
     REDIS_URL: "<%= Figaro.env.redis_url %>"
     DATABASE_URL: "<%= Figaro.env.database_url %>"
-    MINECRAFT_SERVER_JAR_URL: "<%= @server.jar_url %>"
-    MINECRAFT_SERVER_JAR_VERSION: "<%= @server.jar_version %>"
   services_include:
     "<%= minecraft_service_url('worker', protocol: 'https', format: 'yml') %>": true
     "<%= minecraft_service_url('logger', protocol: 'https', format: 'yml') %>": true

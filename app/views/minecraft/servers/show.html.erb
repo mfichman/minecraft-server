@@ -11,7 +11,7 @@
   <%= render 'minecraft/commands/form', server: @server %>
 </div>
 
-<div class="btn-toolbar flex-nowrap">
+<div class="btn-toolbar flex-nowrap mb-4">
   <%= render 'minecraft/loads/form', server: @server, backups: @backups if @backups.any? %>
 
   <div class="dropdown">
@@ -24,6 +24,4 @@
       <%= render 'minecraft/shutdowns/form', server: @server %>
     </div>
   </div>
-
 </div>
-

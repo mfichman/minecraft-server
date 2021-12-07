@@ -41,7 +41,7 @@ module Minecraft
     private
 
     def server_params
-      params.require(:server).permit(:host, :jar_id)
+      params.require(:server).permit(:host, :jar_id, :modder_id, mod_ids: [])
     end
 
     def set_server

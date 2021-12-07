@@ -24,7 +24,6 @@ module Wireguard
       if @peer.save
         redirect_to wireguard_network_path(@peer.network)
       else
-        debugger
         render :new
       end
     end
@@ -46,7 +45,7 @@ module Wireguard
     end
 
     def set_peers
-      @peers = Peer.all
+      @peers = Peer.order(:ip_address)
     end
   end
 end

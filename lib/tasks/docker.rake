@@ -11,7 +11,7 @@ namespace :docker do
     sh "docker compose #{SERVICES} -f docker-compose.yml logs"
   end
 
-  task :down do
+  task :down do 
     sh "docker compose #{SERVICES} -f docker-compose.yml down"
   end
 

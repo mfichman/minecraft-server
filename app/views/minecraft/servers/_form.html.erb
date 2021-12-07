@@ -6,7 +6,22 @@
 
   <div class="form-group">
     <%= f.label :jar, 'Minecraft Version' %>
-    <%= f.collection_select :jar_id, @jars, :id, :version, {}, class: 'custom-select' %>
+    <%= f.collection_select :jar_id, @jars, :id, :version, {include_blank: 'Default'}, class: 'custom-select' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :modder, 'Modder' %>
+    <%= f.collection_select :modder_id, @modders, :id, :version, {include_blank: 'None'}, class: 'custom-select' %>
+  </div>
+
+  <div class="form-group mb-5">
+    <%= f.label :mod_ids, 'Mods' %>
+    <%= f.collection_check_boxes :mod_ids, @mods, :id, :to_s do |b| %>
+      <div class="custom-control custom-checkbox">
+        <%= b.check_box class: "custom-control-input" %>
+        <%= b.label class: "custom-control-label" %>
+      </div>
+    <% end %>
   </div>
 
 

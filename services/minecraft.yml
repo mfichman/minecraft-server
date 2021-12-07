@@ -1,11 +1,11 @@
-minecraft:
-  image: mfichman/minecraft
-  container_name: minecraft
-  restart: always
-  stdin_open: true
-  tty: true
-  volumes:
-  - /volumes/minecraft:/minecraft/data
-  ports:
-  - "25565:25565"
-
+services:
+  minecraft:
+    image: mfichman/minecraft
+    container_name: minecraft
+    restart: always
+    stdin_open: true
+    tty: true
+    volumes:
+    - /volumes/minecraft:/minecraft/data
+    ports:
+    - "25565:25565"

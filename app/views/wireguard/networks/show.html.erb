@@ -24,25 +24,8 @@
   </ul>
 </div>
 
-<h6>Peers</h6>
-<div class="card mb-4">
-  <ul class="list-group list-group-flush">
-    <% @network.peers.each do |peer| %>
-      <li class="list-group-item d-flex align-items-center justify-content-between">
-        <div class="row flex-grow-1">
-          <div class="col-sm-2"><%= link_to peer.name, [:wireguard, peer] %></div>
-          <div class="col"><code><%= peer.ip_address %></code></div>
-        </div>
-        <div>
-          <%= link_to icon_tag(:get_app), [:wireguard, peer, format: 'conf'], class: 'btn btn-secondary btn-sm', download: "#{peer.name.parameterize.underscore}.conf" %>
-          <%= link_to icon_tag(:visibility), [:wireguard, peer], class: 'btn btn-secondary btn-sm' %>
-          <%= link_to icon_tag(:edit), [:edit, :wireguard, peer], class: 'btn btn-secondary btn-sm' %>
-          <%= link_to icon_tag(:delete), [:wireguard, peer], class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
-        </div>
-      </li>
-    <% end %>
-  </ul>
-</div>
+<%= render 'wireguard/peers/collection', peers: @network.peers %>
 
-<%= link_to 'New Peer', new_wireguard_peer_url(network_id: @network), class: 'btn btn-primary mb-3' %>
-<%= link_to 'Sync Network Conf', wireguard_syncs_url(network_id: @network), method: :post, remote: true, class: 'btn btn-primary mb-3' %>
+<%= link_to 'Create Peer', new_wireguard_peer_path(network_id: @network), class: 'btn btn-primary mb-3' %>
+<%= link_to 'Sync Network Conf', wireguard_syncs_path(network_id: @network), method: :post, remote: true, class: 'btn btn-primary mb-3' %>
+

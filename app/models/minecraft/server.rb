@@ -4,9 +4,11 @@ class Minecraft::Server < ApplicationRecord
 
   belongs_to :backup, optional: true
   belongs_to :jar, optional: true
+  belongs_to :modder, optional: true
 
   has_many :logs
   has_many :commands
+  has_and_belongs_to_many :mods
 
   has_one :world, through: :backup
 
@@ -32,3 +34,7 @@ class Minecraft::Server < ApplicationRecord
     jar&.version || DEFAULT_JAR_VERSION
   end
 end
+
+# https://maven.minecraftforge.net/net/minecraftforge/forge/1.18-38.0.15/forge-1.18-38.0.15-installer.jar
+# Balm: https://media.forgecdn.net/files/3550/130/balm-2.1.1%2B0.jar 
+# Waystones: https://media.forgecdn.net/files/3548/808/waystones-forge-1.18-9.0.0.jar

@@ -7,3 +7,4 @@ PrivateKey = <%= @peer.key.private_key %>
 PublicKey = <%= @peer.network.key.public_key %>
 AllowedIPs = <%= allowed_ips %>/<%= allowed_ips.prefix %>
 Endpoint = <%= @peer.network.host %>:<%= Wireguard::Network::PORT %>
+PersistentKeepalive = 25

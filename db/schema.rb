@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_05_191832) do
+ActiveRecord::Schema.define(version: 2021_12_07_152613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,15 +60,41 @@ ActiveRecord::Schema.define(version: 2021_12_05_191832) do
     t.index ["server_id"], name: "index_minecraft_logs_on_server_id"
   end
 
+  create_table "minecraft_modders", force: :cascade do |t|
+    t.string "version", null: false
+    t.string "name", null: false
+    t.string "url", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "version"], name: "index_minecraft_modders_on_name_and_version", unique: true
+  end
+
+  create_table "minecraft_mods", force: :cascade do |t|
+    t.string "version", null: false
+    t.string "name", null: false
+    t.string "url", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "version"], name: "index_minecraft_mods_on_name_and_version", unique: true
+  end
+
+  create_table "minecraft_mods_servers", id: false, force: :cascade do |t|
+    t.bigint "mod_id", null: false
+    t.bigint "server_id", null: false
+    t.index ["server_id", "mod_id"], name: "index_minecraft_mods_servers_on_server_id_and_mod_id"
+  end
+
   create_table "minecraft_servers", force: :cascade do |t|
     t.string "host", null: false
     t.bigint "backup_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "jar_id"
+    t.bigint "modder_id"
     t.index ["backup_id"], name: "index_minecraft_servers_on_backup_id"
     t.index ["host"], name: "index_minecraft_servers_on_host"
     t.index ["jar_id"], name: "index_minecraft_servers_on_jar_id"
+    t.index ["modder_id"], name: "index_minecraft_servers_on_modder_id"
   end
 
   create_table "minecraft_worlds", force: :cascade do |t|

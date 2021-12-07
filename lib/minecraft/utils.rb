@@ -17,6 +17,52 @@ module Minecraft
       run('/save-on')
     end
 
+    def self.download(dir, file)
+      return if file.nil?
+
+      path = "#{dir}/#{file.file_name}"
+
+      return if File.exists?(path)
+
+      FileUtils.mkdir_p(dir)
+
+      URI.open(file.url) do |stream|
+        puts "Installing #{file.file_name}"
+        IO.copy_stream(stream, path)
+      end
+    end
+
+    def self.link(data_dir, mods:, jar:, modder:)
+      if jar.present?
+        FileUtils.copy("cache/jars/#{jar.file_name}", 'minecraft_server.jar') 
+      else
+        FileUtils.rm_f('minecraft_server.jar')
+      end
+
+      if modder.present?
+        FileUtils.copy("cache/modders/#{modder.file_name}", 'modder.jar') 
+      else
+        FileUtils.rm_f('modder.jar')
+      end
+
+      FileUtils.rm_f('mods')
+      FileUtils.mkdir_p('mods')
+
+      mods.each do |mod|
+        FileUtils.copy("cache/mods/#{mod.file_name}", "mods/#{mod.file_name}")
+      end
+    end
+
+    def self.install(data_dir, mods:, jar:, modder:)
+      FileUtils.cd(data_dir) do
+        download('cache/jars', jar)
+        download('cache/modders', modder)
+        mods.each {|mod| download('cache/mods', mod)}
+
+        link(data_dir, mods: mods, jar: jar, modder: modder)
+      end
+    end
+
     def self.new(data_dir)
       minecraft = Docker::Container.get('minecraft')
       minecraft.stop if minecraft.info.dig('State', 'Status') == 'running'

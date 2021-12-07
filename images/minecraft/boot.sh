@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-JAR=/minecraft/jars/server-$MINECRAFT_SERVER_JAR_VERSION.jar
-
-if [ ! -f "$JAR" ] ; then
-  curl $MINECRAFT_SERVER_JAR_URL > $JAR
+if test -f data/modder.jar; then
+  sh run-forge.sh
+else
+  sh run-vanilla.sh
 fi
 
-java -Xmx1024M -Xms1024M -jar $JAR nogui
+

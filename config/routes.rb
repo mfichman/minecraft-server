@@ -13,24 +13,26 @@ Rails.application.routes.draw do
   get 'admin', to: 'admin/root#index'
 
   namespace :minecraft do
-    resources :worlds
     resources :backups
-    resources :commands
-    resources :servers
-    resources :saves
-    resources :loads
     resources :boots
-    resources :shutdowns
-    resources :services
+    resources :commands
     resources :jars
+    resources :loads
+    resources :modders
+    resources :mods
+    resources :saves
+    resources :servers
+    resources :services
+    resources :shutdowns
+    resources :worlds
 
     get '/servers/:id/cloud-config.yml', to: 'servers#cloud_config'
   end
 
   namespace :wireguard do
+    resources :keys
     resources :networks
     resources :peers
-    resources :keys
     resources :syncs
   end
 

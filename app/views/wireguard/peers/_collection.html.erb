@@ -1,0 +1,19 @@
+<h6>Peers</h6>
+<div class="card mb-3">
+  <ul class="list-group list-group-flush">
+    <% peers.each do |peer| %>
+      <li class="list-group-item d-flex align-items-center justify-content-between">
+        <div class="row flex-grow-1">
+          <div class="col-sm-2"><%= link_to peer.name, [:wireguard, peer] %></div>
+          <div class="col"><code><%= peer.ip_address %></code></div>
+        </div>
+        <div>
+          <%= link_to icon_tag(:get_app), [:wireguard, peer, format: 'conf'], class: 'btn btn-secondary btn-sm', download: "#{peer.name.parameterize.underscore}.conf" %>
+          <%= link_to icon_tag(:visibility), [:wireguard, peer], class: 'btn btn-secondary btn-sm' %>
+          <%= link_to icon_tag(:edit), [:edit, :wireguard, peer], class: 'btn btn-secondary btn-sm' %>
+          <%= link_to icon_tag(:delete), [:wireguard, peer], class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>

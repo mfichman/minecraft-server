@@ -1,0 +1,17 @@
+<h6>Mods</h6>
+<div class="card mb-3">
+  <ul class="list-group list-group-flush">
+    <% @mods.each do |mod| %>
+      <li class="list-group-item d-flex align-items-center justify-content-between">
+        <%= link_to [mod.name, mod.version].join(' '), mod.url %>
+        <div class="flex-shrink-0">
+          <%= link_to icon_tag(:visibility), [:minecraft, mod], class: 'btn btn-secondary btn-sm' %>
+          <%= link_to icon_tag(:edit), [:edit, :minecraft, mod], class: 'btn btn-secondary btn-sm' %>
+          <%= link_to icon_tag(:delete), [:minecraft, mod], class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
+        </div>
+      </li>
+    <% end %>
+  <ul>
+</div>
+
+<%= link_create(new_minecraft_mod_path) %>

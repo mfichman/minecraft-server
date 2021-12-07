@@ -1,12 +1,13 @@
-wireguard:
-  image: mfichman/minecraft:wireguard
-  container_name: wireguard
-  net: host
-  privileged: true
-  restart: always
-  stdin_open: true
-  tty: true
-  volumes:
-  - /volumes/wireguard:/etc/wireguard
-  - /lib/modules:/lib/modules
-  - /usr/src:/usr/src
+services: 
+  wireguard:
+    image: mfichman/minecraft:wireguard
+    container_name: wireguard
+    net: host
+    privileged: true
+    restart: always
+    stdin_open: true
+    tty: true
+    volumes:
+    - /volumes/wireguard:/etc/wireguard
+    - /lib/modules:/lib/modules
+    - /usr/src:/usr/src

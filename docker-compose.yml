@@ -1,6 +1,5 @@
 # This file contains local-dev overrides. The actual service definitions
 # are in services/*.yml
-version: '2'
 services:
   release:
     image: mfichman/minecraft:release
@@ -9,7 +8,7 @@ services:
     - RAILS_ENV=development
     - REDIS_URL=${REDIS_URL}
     volumes:
-    - ./volumes/postgres:/bundle/volumes/postgres
+    - /d/code/minecraft-server/volumes/postgres:/bundle/volumes/postgres
 
   web:
     image: mfichman/minecraft:web
@@ -30,7 +29,7 @@ services:
     image: postgres:alpine
     restart: always
     volumes:
-    - ./volumes/postgres:/var/lib/postgresql/data
+    - /d/code/minecraft-server/volumes/postgres:/var/lib/postgresql/data
     environment:
     - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
@@ -47,8 +46,8 @@ services:
     environment:
     - RAILS_ENV=development
     volumes:
-    - ./volumes/minecraft:/minecraft/data
-    - ./volumes/wireguard:/etc/wireguard
+    - /d/code/minecraft-server/volumes/minecraft:/minecraft/data
+    - /d/code/minecraft-server/volumes/wireguard:/etc/wireguard
 
   logger:
     environment:
@@ -56,8 +55,8 @@ services:
 
   minecraft:
     volumes:
-    - ./volumes/minecraft:/minecraft/data
+    - /d/code/minecraft-server/volumes/minecraft:/minecraft/data
 
   wireguard:
     volumes:
-    - ./volumes/wireguard:/etc/wireguard
+    - /d/code/minecraft-server/volumes/wireguard:/etc/wireguard
