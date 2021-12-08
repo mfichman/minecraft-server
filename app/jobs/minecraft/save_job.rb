@@ -20,7 +20,7 @@ module Minecraft
       ToastsChannel.broadcast_to(user, SavesController.render(partial: 'error', locals: { message: e.message }))
       raise
     ensure
-      file.close
+      file&.close
     end
   end
 end

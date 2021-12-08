@@ -63,7 +63,7 @@ module Minecraft
       end
     end
 
-    def self.new(data_dir)
+    def self.new(data_dir, server, mods:, jar:, modder:)
       minecraft = Docker::Container.get('minecraft')
       minecraft.stop if minecraft.info.dig('State', 'Status') == 'running'
 
@@ -72,11 +72,13 @@ module Minecraft
       end
 
       FileUtils.mkdir("#{data_dir}/world")
+
+      install(data_dir, mods: mods, jar: jar, modder: modder)
     ensure
       minecraft.start
     end
 
-    def self.load(data_dir, file)
+    def self.load(data_dir, file, mods:, jar:, modder:)
       minecraft = Docker::Container.get('minecraft')
       minecraft.stop if minecraft.info.dig('State', 'Status') == 'running'
 
@@ -85,6 +87,8 @@ module Minecraft
       end
 
       ZipUtils.unzip(file, data_dir)
+
+      install(data_dir, mods: mods, jar: jar, modder: modder)
 
       minecraft.start
     end
