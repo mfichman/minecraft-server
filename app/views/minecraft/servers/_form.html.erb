@@ -11,7 +11,7 @@
 
   <div class="form-group">
     <%= f.label :modder, 'Modder' %>
-    <%= f.collection_select :modder_id, @modders, :id, :version, {include_blank: 'None'}, class: 'custom-select' %>
+    <%= f.collection_select :modder_id, @modders, :id, :to_s, {include_blank: 'None'}, class: 'custom-select' %>
   </div>
 
   <div class="form-group mb-5">

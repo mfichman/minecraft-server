@@ -3,30 +3,24 @@
 services:
   release:
     image: mfichman/minecraft:release
+    container_name: minecraft-release
     environment:
-    - DATABASE_URL=${DATABASE_URL}
-    - RAILS_ENV=development
-    - REDIS_URL=${REDIS_URL}
-    volumes:
-    - /d/code/minecraft-server/volumes/postgres:/bundle/volumes/postgres
+    - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+    - SERVER_NAME=${SERVER_NAME}
 
   web:
     image: mfichman/minecraft:web
+    container_name: minecraft-web
     restart: always
     environment:
-    - DATABASE_URL=${DATABASE_URL}
-    - RAILS_LOG_TO_STDOUT=true
-    - RAILS_ENV=development
     - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
-    - REDIS_URL=${REDIS_URL}
     - SERVER_NAME=${SERVER_NAME}
-    - SSL_PORT=443
     ports:
-    - "3001:3001"
     - "3000:3000"
 
   postgres:
     image: postgres:alpine
+    container_name: postgres
     restart: always
     volumes:
     - /d/code/minecraft-server/volumes/postgres:/var/lib/postgresql/data
@@ -37,21 +31,20 @@ services:
 
   redis:
     image: redis:alpine
+    container_name: redis
     restart: always
     ports:
     - "6379:6379"
 
   worker:
     image: mfichman/minecraft:worker
-    environment:
-    - RAILS_ENV=development
+    container_name: minecraft-worker
     volumes:
     - /d/code/minecraft-server/volumes/minecraft:/minecraft/data
     - /d/code/minecraft-server/volumes/wireguard:/etc/wireguard
 
   logger:
-    environment:
-    - RAILS_ENV=development
+    container_name: minecraft-logger
 
   minecraft:
     volumes:

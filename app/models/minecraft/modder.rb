@@ -6,4 +6,8 @@ class Minecraft::Modder < ApplicationRecord
   def file_name
     "#{name.parameterize}-#{version.underscore}.jar"
   end
+
+  def to_s
+    [name, version].join(' ')
+  end
 end

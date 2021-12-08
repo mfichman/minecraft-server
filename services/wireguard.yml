@@ -2,7 +2,7 @@ services:
   wireguard:
     image: mfichman/minecraft:wireguard
     container_name: wireguard
-    net: host
+      #net: host
     privileged: true
     restart: always
     stdin_open: true

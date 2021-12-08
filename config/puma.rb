@@ -11,16 +11,13 @@ threads min_threads_count, max_threads_count
 development = ENV.fetch('RAILS_ENV') { 'development' } == 'development'
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-port ENV.fetch("PORT") { development ? 3000 : 80 }
+port ENV.fetch("PORT") { 3000 }
 
 # Specifies the `environment` that Puma will run in.
 environment ENV.fetch("RAILS_ENV") { "development" }
 
 # Specifies the `pidfile` that Puma will use.
 pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
-
-ssl_port = ENV.fetch("SSL_PORT") { development ? 3001 : nil }
-ssl_bind '0.0.0.0', ssl_port, key: 'config/key.pem', cert: 'config/cert.pem', verify_mode: 'none' if ssl_port
 
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked web server processes. If using threads and workers together
