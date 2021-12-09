@@ -1,22 +1,2 @@
 #cloud-config
-rancher:
-  environment:
-    SERVER_NAME: <%= @server.host %>
-    RAILS_MASTER_KEY: "<%= Figaro.env.rails_master_key %>"
-    REDIS_URL: "<%= Figaro.env.redis_url %>"
-    DATABASE_URL: "<%= Figaro.env.database_url %>"
-  services_include:
-    "<%= minecraft_service_url('worker', protocol: 'https', format: 'yml') %>": true
-    "<%= minecraft_service_url('logger', protocol: 'https', format: 'yml') %>": true
-    "<%= minecraft_service_url('minecraft', protocol: 'https', format: 'yml') %>": true
-    "<%= minecraft_service_url('wireguard', protocol: 'https', format: 'yml') %>": true
-    kernel-headers: true
-  modules:
-    - wireguard
-  mounts:
-    - ['/dev/disk/by-id/scsi-0DO_Volume_<%= @server.volume %>', '/volumes', 'ext4', 'discard,noatime']
-
-runcmd:
-  - mkdir -p /volumes
-  - mkfs.ext4 /dev/disk/by-id/scsi-0DO_Volume_<%= @server.volume %>
-  - mount -o discard,defaults /dev/disk/by-id/scsi-0DO_Volume_<%= @server.volume %> /volumes
+<%= cloud_config_yaml %>

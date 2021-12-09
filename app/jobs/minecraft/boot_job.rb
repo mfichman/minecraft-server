@@ -19,18 +19,79 @@ module Minecraft
       cloud_config = cloud_config_for(server)
 
       volume = create_volume(server)
+      firewall = create_firewall
 
       droplet = DropletKit::Droplet.new(
         name: server.host,
         region: 'nyc1',
-        size: 'c-2',
-        image: 'rancheros', # docker-20-04
+        #size: 'c-2',
+        #image: 'rancheros',
+        size: 's-1vcpu-1gb',
+        image: 'docker-20-04',
         ssh_keys: ssh_keys,
         user_data: cloud_config,
-        volumes: [volume.id]
+        volumes: [volume.id],
+        firewalls: [firewall],
       )
 
       client.droplets.create(droplet)
+    end
+
+    def create_inbound_rules
+      addresses = ['0.0.0.0/0', '::/0']
+      [
+        DropletKit::FirewallInboundRule.new(
+          protocol: 'tcp',
+          ports: '22',
+          sources: {addresses: addresses}
+        ),
+        DropletKit::FirewallInboundRule.new(
+          protocol: 'udp',
+          ports: '51820',
+          sources: {addresses: addresses}
+        ),
+      ]
+    end
+
+    def create_outbound_rules
+      addresses = ['0.0.0.0/0', '::/0']
+
+      [
+        DropletKit::FirewallOutboundRule.new(
+          protocol: 'tcp',
+          ports: '0',
+          destinations: {addresses: addresses}
+        ),
+        DropletKit::FirewallOutboundRule.new(
+          protocol: 'udp',
+          ports: '0',
+          destinations: {addresses: addresses}
+        ),
+        DropletKit::FirewallOutboundRule.new(
+          protocol: 'icmp',
+          ports: '0',
+          destinations: {addresses: addresses}
+        ),
+      ]
+    end
+
+    def create_firewall
+      firewall = client.firewalls.all.find { |f| f.name == 'minecraft' }
+      id = firewall&.id
+
+      firewall = DropletKit::Firewall.new(
+        name: 'minecraft',
+        tags: [],
+        droplet_ids: firewall&.droplet_ids || [],
+        inbound_rules: create_inbound_rules,
+        outbound_rules: create_outbound_rules,
+      )
+
+      if id
+        client.firewalls.update(firewall, id: id)
+      else
+        client.firewalls.create(firewall)
+      end
     end
 
     def create_domain_record(server, droplet)
@@ -74,7 +135,9 @@ module Minecraft
     end
 
     def cloud_config_for(server)
-      ServersController.render('cloud_config.yml', assigns: { server: server })
+      # FIXME: Find a better way to do this; maybe delegate to vpn.mfichman.net
+      network = Wireguard::Network.find_by!(host: server.host)
+      ServersController.render('cloud_config.yml', assigns: { server: server, network: network })
     end
 
     def ssh_keys

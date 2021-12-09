@@ -2,6 +2,7 @@ module Minecraft
   class ServersController < RootController
     before_action :set_servers, only: [:index]
     before_action :set_server, only: [:show, :edit, :update, :destroy, :cloud_config]
+    before_action :set_network, only: [:cloud_config]
     before_action :set_backups, only: [:show]
     before_action :set_jars, only: [:edit, :new]
 
@@ -54,6 +55,10 @@ module Minecraft
 
     def set_backups
       @backups = Backup.order(id: :desc)
+    end
+
+    def set_network
+      @network = Wireguard::Network.find_by!(host: @server.host)
     end
 
     def set_jars

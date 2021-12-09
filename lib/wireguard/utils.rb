@@ -2,20 +2,19 @@ module Wireguard
   module Utils
     def self.syncconf(conf)
       conf_dir = Figaro.env.wireguard_dir || '/etc/wireguard'
-      conf_file = File.join(conf_dir, 'wg0.conf')
+      conf_file = File.join(conf_dir, 'wg1.conf')
 
-      new_config = File.exists?(conf_file)
+      existing_config = File.exists?(conf_file)
 
       File.write(conf_file, conf)
 
-      if new_config
-        command = "wg-quick down wg0; wg-quick up wg0\n"
+      if existing_config
+        command = "bash -c 'wg-quick up wg1; wg syncconf wg1 <(wg-quick strip /etc/wireguard/wg1.conf)'"
       else
-        command = "wg-quick up wg0; wg syncconf wg0 <(wg-quick strip /etc/wireguard/wg0.conf)\n"
+        command = "bash -c 'wg-quick down wg1; wg-quick up wg1'"
       end
 
-      container = Docker::Container.get('wireguard')
-      container.attach(stdin: StringIO.new(command))
+      system(command, exception: true)
     end
   end
 end

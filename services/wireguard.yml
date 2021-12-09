@@ -1,12 +1,11 @@
-services: 
+version: '3.9'
+services:
   wireguard:
     image: mfichman/minecraft:wireguard
     container_name: wireguard
-    net: host
+    network_mode: host
     privileged: true
     restart: always
-    stdin_open: true
-    tty: true
     volumes:
     - /volumes/wireguard:/etc/wireguard
     - /lib/modules:/lib/modules

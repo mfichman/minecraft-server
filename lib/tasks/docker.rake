@@ -17,7 +17,6 @@ namespace :docker do
 
   task :build do
     sh 'docker build -t mfichman/minecraft -f Dockerfile.minecraft .'
-    sh 'docker build -t mfichman/minecraft:wireguard -f Dockerfile.wireguard .'
     sh 'docker build -t mfichman/minecraft:web -f Dockerfile.bundle --target web .'
     sh 'docker build -t mfichman/minecraft:worker -f Dockerfile.bundle --target worker .'
     sh 'docker build -t mfichman/minecraft:logger -f Dockerfile.bundle --target logger .'
@@ -26,7 +25,6 @@ namespace :docker do
 
   task :push do
     sh 'docker push mfichman/minecraft'
-    sh 'docker push mfichman/minecraft:wireguard'
     sh 'docker push mfichman/minecraft:logger'
     sh 'docker push mfichman/minecraft:worker'
     sh 'docker push mfichman/minecraft:web'

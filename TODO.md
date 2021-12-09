@@ -1,0 +1,5 @@
+- Back up postgres periodically to matt-pc
+- Connect minecraft servers to wg0 interface
+- Set other VPN to wg1 interface
+- Add API for VPN
+- Client auth for Rails + Rest requests

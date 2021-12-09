@@ -22,7 +22,6 @@ Rails.application.routes.draw do
     resources :mods
     resources :saves
     resources :servers
-    resources :services
     resources :shutdowns
     resources :worlds
 

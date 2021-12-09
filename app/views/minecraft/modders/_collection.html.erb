@@ -3,7 +3,7 @@
   <ul class="list-group list-group-flush">
     <% @modders.each do |modder| %>
       <li class="list-group-item d-flex align-items-center justify-content-between">
-        <%= link_to [modder.name, modder.version].join(' '), [:minecraft, modder] %>
+        <%= link_to [modder.name, modder.version].join(' '), modder.url %>
         <div class="flex-shrink-0">
           <%= link_to icon_tag(:visibility), [:minecraft, modder], class: 'btn btn-secondary btn-sm' %>
           <%= link_to icon_tag(:edit), [:edit, :minecraft, modder], class: 'btn btn-secondary btn-sm' %>
