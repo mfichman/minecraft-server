@@ -71,6 +71,7 @@ module Minecraft
     def cloud_config_runcmds
       [
         'mkdir -p /volumes',
+        "mkfs.ext4 /dev/disk/by-id/scsi-0DO_Volume_#{@server.volume}",
         "mount -o discard,defaults /dev/disk/by-id/scsi-0DO_Volume_#{@server.volume} /volumes",
         'systemctl enable wg-quick@wg0.service',
         'systemctl start wg-quick@wg0.service',
