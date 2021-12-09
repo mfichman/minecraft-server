@@ -24,9 +24,9 @@ module Minecraft
       droplet = DropletKit::Droplet.new(
         name: server.host,
         region: 'nyc1',
-        #size: 'c-2',
+        size: 'c-2',
         #image: 'rancheros',
-        size: 's-1vcpu-1gb',
+        #size: 's-1vcpu-1gb',
         image: 'docker-20-04',
         ssh_keys: ssh_keys,
         user_data: cloud_config,
