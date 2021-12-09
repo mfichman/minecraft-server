@@ -24,6 +24,7 @@ module Minecraft
       droplet = DropletKit::Droplet.new(
         name: server.host,
         region: 'nyc1',
+        # size:	g-2vcpu-8gb $60/mo 
         size: 'c-2',
         #image: 'rancheros',
         #size: 's-1vcpu-1gb',

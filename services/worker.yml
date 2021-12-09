@@ -4,6 +4,8 @@ services:
     image: mfichman/minecraft:worker
     container_name: worker
     restart: always
+    network_mode: host
+    privileged: true
     environment:
     - DATABASE_URL=${DATABASE_URL}
     - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}

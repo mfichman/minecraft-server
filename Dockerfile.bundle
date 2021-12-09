@@ -28,6 +28,7 @@ ENV DISABLE_BOOTSNAP=true
 ENV DISABLE_SPRING=true
 COPY . /bundle
 RUN SECRET_KEY_BASE=`ruby bin/rails secret` ruby bin/rails webpacker:compile
+RUN rm -rf /bundle/node_modules
 
 # Production bundle --------------------------------------------------------------------------------
 FROM base as bundle
