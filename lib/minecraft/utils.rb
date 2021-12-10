@@ -63,7 +63,7 @@ module Minecraft
       end
     end
 
-    def self.new(data_dir, server, mods:, jar:, modder:)
+    def self.new(data_dir, mods:, jar:, modder:)
       minecraft = Docker::Container.get('minecraft')
       minecraft.stop if minecraft.info.dig('State', 'Status') == 'running'
 

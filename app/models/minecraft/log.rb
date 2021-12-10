@@ -5,12 +5,14 @@ module Minecraft
     after_create :broadcast
 
     def filtered_text
-      lines = text.split("\n")
+      lines = text.split(/\n|\r\n/)
       lines = lines.map do |line|
         "[#{created_at.strftime('%H:%M:%S')}] #{line.gsub(/\[\d{2}:\d{2}:\d{2}\] \[.*\]: /, '')}"
       end
 
-      lines.join("\n").gsub('<', '&lt;').gsub('>', '&gt;').html_safe
+      lines << '' if text.ends_with?("\n")
+
+      lines.join("\r\n").gsub('<', '&lt;').gsub('>', '&gt;').html_safe
     end
 
     private
