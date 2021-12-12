@@ -24,4 +24,12 @@
       <%= render 'minecraft/shutdowns/form', server: @server %>
     </div>
   </div>
+
+</div>
+
+<div class="text-muted">
+  Active connections: <%= @server.connections %>. 
+  <% if @server.last_active_at.present? %>
+    Last activity: <%= time_ago_in_words(@server.last_active_at) %> ago.
+  <% end %>
 </div>

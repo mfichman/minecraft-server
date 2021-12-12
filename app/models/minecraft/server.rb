@@ -13,6 +13,8 @@ class Minecraft::Server < ApplicationRecord
   has_one :world, through: :backup
 
   validates :host, presence: true
+
+  attribute :max_idle_time, :duration
   
   def volume
     host.parameterize
@@ -32,6 +34,22 @@ class Minecraft::Server < ApplicationRecord
 
   def jar_version
     jar&.version || DEFAULT_JAR_VERSION
+  end
+
+  def inactive?
+    max_idle_time.present? && idle_time > max_idle_time
+  end
+
+  def idle_time
+    (Time.now - last_active_at).seconds
+  end
+
+  def max_idle_time_minutes=(duration)
+    self.max_idle_time = duration.presence&.to_i&.minutes
+  end
+
+  def max_idle_time_minutes
+    max_idle_time&.in_minutes&.to_i
   end
 end
 

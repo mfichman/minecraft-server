@@ -7,6 +7,7 @@ namespace :minecraft do
 
       if connections.empty?
         server.update!(connections: connections.size)
+        ShutdownJob.perform_now(server) if server.inactive?
       else
         server.update!(connections: connections.size, last_active_at: Time.now.utc)
       end
