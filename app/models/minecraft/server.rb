@@ -51,6 +51,22 @@ class Minecraft::Server < ApplicationRecord
   def max_idle_time_minutes
     max_idle_time&.in_minutes&.to_i
   end
+
+  def properties_text=(text)
+    self.properties = text.scan(/^s*?(.*?)?=(.*?)\s*$/).to_h
+  end
+
+  def properties_text
+    properties.map {|key, value| "#{key}=#{value}"}.sort.join("\n")
+  end
+
+  def ops_text=(text)
+    self.ops = text.split
+  end
+
+  def ops_text
+    ops.join("\n")
+  end
 end
 
 # https://maven.minecraftforge.net/net/minecraftforge/forge/1.18-38.0.15/forge-1.18-38.0.15-installer.jar

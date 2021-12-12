@@ -15,6 +15,16 @@
   </div>
 
   <div class="form-group">
+    <%= f.label :properties_text, 'Properties' %>
+    <%= f.text_area :properties_text, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :ops_text, 'Operators' %>
+    <%= f.text_area :ops_text, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
     <%= f.label :jar, 'Minecraft Version' %>
     <%= f.collection_select :jar_id, @jars, :id, :version, {include_blank: 'Default'}, class: 'custom-select' %>
   </div>

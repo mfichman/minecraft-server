@@ -53,17 +53,26 @@ module Minecraft
       end
     end
 
-    def self.install(data_dir, mods:, jar:, modder:)
+    def self.install(data_dir, mods:, jar:, modder:, properties:, ops:)
       FileUtils.cd(data_dir) do
         download('cache/jars', jar)
         download('cache/modders', modder)
         mods.each {|mod| download('cache/mods', mod)}
 
         link(data_dir, mods: mods, jar: jar, modder: modder)
+
+        properties = properties.merge(
+          'level-name' => 'data/world',
+          'server-port' => '25565',
+          'server-ip' => '',
+        )
+
+        File.write('properties.txt', properties)
+        File.write('ops.txt', ops.join("\n"))
       end
     end
 
-    def self.new(data_dir, mods:, jar:, modder:)
+    def self.new(data_dir, **install_args)
       minecraft = Docker::Container.get('minecraft')
       minecraft.stop if minecraft.info.dig('State', 'Status') == 'running'
 
@@ -73,12 +82,12 @@ module Minecraft
 
       FileUtils.mkdir("#{data_dir}/world")
 
-      install(data_dir, mods: mods, jar: jar, modder: modder)
+      install(data_dir, **install_args)
     ensure
       minecraft.start
     end
 
-    def self.load(data_dir, file, mods:, jar:, modder:)
+    def self.load(data_dir, file, **install_args)
       minecraft = Docker::Container.get('minecraft')
       minecraft.stop if minecraft.info.dig('State', 'Status') == 'running'
 
@@ -88,7 +97,7 @@ module Minecraft
 
       ZipUtils.unzip(file, data_dir)
 
-      install(data_dir, mods: mods, jar: jar, modder: modder)
+      install(data_dir, **install_args)
 
       minecraft.start
     end

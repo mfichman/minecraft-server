@@ -9,5 +9,6 @@ EXPOSE 25565
 RUN ln -sf /minecraft/data/mods /minecraft/mods
 RUN ln -sf /minecraft/data/minecraft_server.jar /minecraft/minecraft_server.jar
 RUN ln -sf /minecraft/data/modder.jar /minecraft/modder.jar
+RUN ln -sf /minecraft/data/properties.txt /minecraft/properties.txt
 
 CMD sh /minecraft/boot.sh

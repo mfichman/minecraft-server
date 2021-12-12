@@ -8,12 +8,14 @@ module Minecraft
 
       ToastsChannel.broadcast_to(user, LoadsController.render(partial: 'info'))
 
+      install_args = server.slice(:mods, :jar, :modder, :properties, :ops).symbolize_keys
+
       if backup.file.present?
         backup.file.open do |file| 
-          Minecraft::Utils.load(data_dir, file, mods: server.mods, jar: server.jar, modder: server.modder) 
+          Minecraft::Utils.load(data_dir, file, **install_args)
         end
       else
-        Minecraft::Utils.new(data_dir, mods: server.mods, jar: server.jar, modder: server.modder)
+        Minecraft::Utils.new(data_dir, **install_args)
       end
 
       server.update!(backup: backup)
