@@ -49,6 +49,10 @@ CMD ruby bin/rails worker
 FROM bundle as logger
 CMD ruby bin/rails minecraft:logger
 
+# Monitor ------------------------------------------------------------------------------------------
+FROM bundle as monitor
+CMD ruby bin/rails minecraft:monitor
+
 # Release ------------------------------------------------------------------------------------------
 FROM bundle as release
 CMD ruby bin/rails db:prepare

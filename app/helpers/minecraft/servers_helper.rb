@@ -2,7 +2,18 @@ module Minecraft
   module ServersHelper
     include BackupsHelper
 
-    def cloud_config_files
+    def cloud_config_service_files
+      Dir[Rails.root.join('services', '*.yml')].map do |path|
+        puts path
+        {
+          path: "/root/#{File.basename(path)}",
+          permissions: '0644',
+          content: File.read(path)
+        }
+      end
+    end
+
+    def cloud_config_wireguard_files
       [
         # FIXME: Load this dynamically on a per-server basis via API request to vpn.mfichman.net
         {
@@ -22,8 +33,13 @@ module Minecraft
         {
           path: '/etc/wireguard/wg1.conf',
           permissions: '0644',
-          content: Wireguard::NetworksController.render('show.conf', assigns: { network: @network })
+          content: Wireguard::NetworksController.render('show', formats: [:conf], assigns: { network: @network })
         },
+      ]
+    end
+
+    def cloud_config_scripts
+      [
         {
           path: '/root/.env',
           permissions: '0644',
@@ -50,21 +66,14 @@ module Minecraft
             docker-compose --project-directory=/root --env-file=/root/.env -f/root/worker.yml -f/root/logger.yml -f/root/minecraft.yml down
           EOF
         },
-        {
-          path: '/root/worker.yml',
-          permissions: '0644',
-          content: Rails.root.join('services', 'worker.yml').read
-        },
-        {
-          path: '/root/logger.yml',
-          permissions: '0644',
-          content: Rails.root.join('services', 'logger.yml').read
-        },
-        {
-          path: '/root/minecraft.yml',
-          permissions: '0644',
-          content: Rails.root.join('services', 'minecraft.yml').read
-        },
+      ]
+    end
+
+    def cloud_config_files
+      [  
+        *cloud_config_wireguard_files,
+        *cloud_config_scripts,
+        *cloud_config_service_files,
       ]
     end
 

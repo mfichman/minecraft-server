@@ -141,7 +141,7 @@ module Minecraft
     def cloud_config_for(server)
       # FIXME: Find a better way to do this; maybe delegate to vpn.mfichman.net
       network = Wireguard::Network.find_by!(host: server.host)
-      ServersController.render('cloud_config.yml', assigns: { server: server, network: network })
+      ServersController.render('cloud_config', assigns: { server: server, network: network })
     end
 
     def ssh_keys
