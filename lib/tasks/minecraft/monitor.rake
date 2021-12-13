@@ -1,13 +1,19 @@
 namespace :minecraft do
-  task logger: :environment do
+  task monitor: :environment do
     server = Minecraft::Server.find_or_create_by!(host: Figaro.env.server_name!)
 
     loop do
-      connections = Netstat.filter(local_port: 19132, state: 'ESTABLISHED')
+      container = Docker::Container.get('minecraft')
+      pid = container.info.dig('State', 'Pid')
+
+      connections = Netstat.filter(path: "/proc/#{pid}/net/tcp", local_port: 25565, state: 'ESTABLISHED')
 
       if connections.empty?
         server.update!(connections: connections.size)
-        ShutdownJob.perform_now(server) if server.inactive?
+        if server.inactive?
+          Minecraft::SaveJob.perform_now(nil, server)
+          Minecraft::ShutdownJob.perform_now(nil, server) 
+        end
       else
         server.update!(connections: connections.size, last_active_at: Time.now.utc)
       end

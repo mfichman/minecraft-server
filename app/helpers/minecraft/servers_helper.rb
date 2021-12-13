@@ -4,12 +4,17 @@ module Minecraft
 
     def cloud_config_service_files
       Dir[Rails.root.join('services', '*.yml')].map do |path|
-        puts path
         {
           path: "/root/#{File.basename(path)}",
           permissions: '0644',
           content: File.read(path)
         }
+      end
+    end
+
+    def cloud_config_services
+      Dir[Rails.root.join('services', '*.yml')].map do |path|
+        "-f #{File.basename(path)}"
       end
     end
 
@@ -51,11 +56,19 @@ module Minecraft
           EOF
         },
         {
+          path: '/root/pull.sh',
+          permissions: '0755',
+          content: <<~EOF
+            #!/usr/bin/env bash
+            docker-compose --project-directory=/root --env-file=/root/.env #{cloud_config_services.join(' ')} pull
+          EOF
+        },
+        {
           path: '/root/up.sh',
           permissions: '0755',
           content: <<~EOF
             #!/usr/bin/env bash
-            docker-compose --project-directory=/root --env-file=/root/.env -f/root/worker.yml -f/root/logger.yml -f/root/minecraft.yml up -d
+            docker-compose --project-directory=/root --env-file=/root/.env #{cloud_config_services.join(' ')} up -d
           EOF
         },
         {
@@ -63,7 +76,7 @@ module Minecraft
           permissions: '0755',
           content: <<~EOF
             #!/usr/bin/env bash
-            docker-compose --project-directory=/root --env-file=/root/.env -f/root/worker.yml -f/root/logger.yml -f/root/minecraft.yml down
+            docker-compose --project-directory=/root --env-file=/root/.env #{cloud_config_services.join(' ')} down
           EOF
         },
       ]

@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  logger:
+  monitor:
     image: mfichman/minecraft:monitor
     container_name: monitor
     restart: always
@@ -10,3 +10,6 @@ services:
     - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
     - REDIS_URL=${REDIS_URL}
     - SERVER_NAME=${SERVER_NAME}
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /proc:/proc

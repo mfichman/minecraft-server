@@ -5,9 +5,10 @@ module Minecraft
     after_create :broadcast
 
     def filtered_text
+      tz = 'Eastern Time (US & Canada)'
       lines = text.split(/\n|\r\n/)
       lines = lines.map do |line|
-        "[#{created_at.strftime('%H:%M:%S')}] #{line.gsub(/\[\d{2}:\d{2}:\d{2}\] \[.*\]: /, '')}"
+        "[#{created_at.in_time_zone(tz).strftime('%I:%M:%S %p')}] #{line.gsub(/\[\d{2}:\d{2}:\d{2}\] \[.*\]: /, '')}"
       end
 
       lines << '' if text.ends_with?("\n")

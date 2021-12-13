@@ -67,7 +67,7 @@ module Minecraft
           'server-ip' => '',
         )
 
-        File.write('properties.txt', properties)
+        File.write('server.properties', properties.map {|key, value| "#{key}=#{value}"}.sort.join("\n"))
         File.write('ops.txt', ops.join("\n"))
       end
     end

@@ -41,7 +41,11 @@ class Minecraft::Server < ApplicationRecord
   end
 
   def idle_time
-    (Time.now - last_active_at).seconds
+    if last_active_at.present?
+      (Time.now - last_active_at).seconds
+    else
+      0
+    end
   end
 
   def max_idle_time_minutes=(duration)

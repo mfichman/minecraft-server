@@ -39,9 +39,9 @@ module Netstat
   }
 
   # Read all the TCP data and return it.
-  def self.read_tcp
+  def self.read_tcp(path: nil)
     sockets = []
-    File.readlines(PROC_NET_TCP)[1..-1].each do |line|
+    File.readlines(path || PROC_NET_TCP)[1..-1].each do |line|
       # These are currently the fields listed in /proc/net/tcp
       # sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode 
       splitline = line.split
@@ -64,8 +64,8 @@ module Netstat
 
   # Takes a hash with the key and value to search for and returns all
   # matches.  If there are multiple parameters, has an AND behavior.
-  def self.filter(params)
-    return Netstat.read_tcp.select do |sock|
+  def self.filter(path: nil, **params)
+    return Netstat.read_tcp(path: path).select do |sock|
       retval = true
       params.keys.each do |k|
         unless sock[k] && (sock[k].to_s == params[k].to_s)
