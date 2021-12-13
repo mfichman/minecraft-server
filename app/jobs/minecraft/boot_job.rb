@@ -9,6 +9,7 @@ module Minecraft
 
       ToastsChannel.broadcast_to(user, BootsController.render(partial: 'success'))
       server.logs.create!(text: "Booted\n")
+      server.update!(last_active_at: Time.now.utc)
     rescue => e
       ToastsChannel.broadcast_to(user, BootsController.render(partial: 'error', locals: { message: e.message }))
       server.logs.create!(text: "Boot error: #{e.message}\n")
