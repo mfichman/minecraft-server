@@ -14,7 +14,7 @@ module Minecraft
 
     def cloud_config_services
       Dir[Rails.root.join('services', '*.yml')].map do |path|
-        "-f #{File.basename(path)}"
+        "-f /root/#{File.basename(path)}"
       end
     end
 
