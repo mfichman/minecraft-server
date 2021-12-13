@@ -14,9 +14,9 @@
 
   <body>
     <nav class="navbar navbar-dark sticky-top d-flex justify-content-start">
-      <%= link_to(icon_tag(:dns) + ' Minecraft', minecraft_path, class: "nav-link #{'active' if request.path.starts_with?(minecraft_path)}") %>
-      <%= link_to(icon_tag(:vpn_lock) + ' VPN', wireguard_path, class: "nav-link #{'active' if request.path.starts_with?(wireguard_path)}") %>
-      <%= link_to(icon_tag(:settings) + ' Admin', admin_path, class: "nav-link #{'active' if request.path.starts_with?(admin_path)}") %>
+      <%= link_to(icon_tag(:dns) + ' Minecraft', minecraft_path, class: "nav-link flex-fill flex-md-grow-0 #{'active' if request.path.starts_with?(minecraft_path)}") %>
+      <%= link_to(icon_tag(:vpn_lock) + ' VPN', wireguard_path, class: "nav-link flex-fill flex-md-grow-0 #{'active' if request.path.starts_with?(wireguard_path)}") %>
+      <%= link_to(icon_tag(:settings) + ' Admin', admin_path, class: "nav-link flex-fill flex-md-grow-0 #{'active' if request.path.starts_with?(admin_path)}") %>
     </nav>
 
     <div class="container-fluid py-4">
