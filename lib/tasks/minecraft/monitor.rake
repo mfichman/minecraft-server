@@ -10,7 +10,7 @@ namespace :minecraft do
 
       if connections.empty?
         server.update!(connections: connections.size)
-        IdleJob.perform_later(server) if server.inactive?
+        Minecraft::IdleJob.set(queue: server.host).perform_later(server) if server.inactive?
       else
         server.update!(connections: connections.size, last_active_at: Time.now.utc)
       end

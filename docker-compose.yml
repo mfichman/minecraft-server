@@ -1,29 +1,12 @@
 # This file contains local-dev overrides. The actual service definitions
 # are in services/*.yml
 services:
-  release:
-    image: mfichman/minecraft:release
-    container_name: minecraft-release
-    environment:
-    - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
-    - SERVER_NAME=${SERVER_NAME}
-
-  web:
-    image: mfichman/minecraft:web
-    container_name: minecraft-web
-    restart: always
-    environment:
-    - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
-    - SERVER_NAME=${SERVER_NAME}
-    ports:
-    - "3000:3000"
-
   postgres:
     image: postgres:alpine
     container_name: postgres
     restart: always
     volumes:
-    - /d/code/minecraft-server/volumes/postgres:/var/lib/postgresql/data
+    - ./volumes/postgres:/var/lib/postgresql/data
     environment:
     - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
@@ -36,20 +19,46 @@ services:
     ports:
     - "6379:6379"
 
+  release:
+    image: mfichman/minecraft:release
+    container_name: minecraft-release
+    environment:
+    - DATABASE_URL=${DATABASE_URL}
+    - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+    - REDIS_URL=${REDIS_URL}
+    - SERVER_NAME=${SERVER_NAME}
+
+  web:
+    image: mfichman/minecraft:web
+    container_name: minecraft-web
+    restart: always
+    environment:
+    - DATABASE_URL=${DATABASE_URL}
+    - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+    - REDIS_URL=${REDIS_URL}
+    - SERVER_NAME=${SERVER_NAME}
+    ports:
+    - "3000:3000"
+
   worker:
     image: mfichman/minecraft:worker
     container_name: minecraft-worker
+    environment:
+    - DATABASE_URL=postgresql://localhost/postgres
+    - REDIS_URL=redis://localhost
     volumes:
-    - /d/code/minecraft-server/volumes/minecraft:/minecraft/data
-    - /d/code/minecraft-server/volumes/wireguard:/etc/wireguard
+    - ./volumes/minecraft:/minecraft/data
+    - ./volumes/wireguard:/etc/wireguard
 
   logger:
     container_name: minecraft-logger
 
+  monitor:
+    container_name: minecraft-monitor
+    environment:
+    - DATABASE_URL=postgresql://localhost/postgres
+    - REDIS_URL=redis://localhost
+
   minecraft:
     volumes:
-    - /d/code/minecraft-server/volumes/minecraft:/minecraft/data
-
-  wireguard:
-    volumes:
-    - /d/code/minecraft-server/volumes/wireguard:/etc/wireguard
+    - ./volumes/minecraft:/minecraft/data

@@ -11,6 +11,7 @@ test
 tmp
 volumes
 config/master.key
+config/application.yml
 
 Dockerfile.*
 Guardfile
