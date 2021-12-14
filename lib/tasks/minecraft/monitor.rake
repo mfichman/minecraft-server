@@ -10,15 +10,14 @@ namespace :minecraft do
 
       if connections.empty?
         server.update!(connections: connections.size)
-        if server.inactive?
-          Minecraft::SaveJob.perform_now(nil, server, autosave: true)
-          Minecraft::ShutdownJob.perform_now(nil, server) 
-        end
+        IdleJob.perform_later(server) if server.inactive?
       else
         server.update!(connections: connections.size, last_active_at: Time.now.utc)
       end
 
       sleep 1.minute 
+
+      server.reload
     end
   end
 end
