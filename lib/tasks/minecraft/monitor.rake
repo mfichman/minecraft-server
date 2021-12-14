@@ -11,7 +11,7 @@ namespace :minecraft do
       if connections.empty?
         server.update!(connections: connections.size)
         if server.inactive?
-          Minecraft::SaveJob.perform_now(nil, server)
+          Minecraft::SaveJob.perform_now(nil, server, autosave: true)
           Minecraft::ShutdownJob.perform_now(nil, server) 
         end
       else
