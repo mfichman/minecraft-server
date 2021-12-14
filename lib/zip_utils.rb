@@ -4,7 +4,9 @@ module ZipUtils
   def self.unzip(io, dir)
     Zip::File.open(io) do |zf|
       zf.each do |entry|
-        entry.extract(File.join(dir, entry.name))
+        path = File.join(dir, entry.name)
+        FileUtils.mkdir_p(File.dirname(path))
+        entry.extract(path)
       end
     end
   end
