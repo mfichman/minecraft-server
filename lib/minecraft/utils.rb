@@ -6,7 +6,9 @@ module Minecraft
       puts "Running RCON command: #{command}"
       client = Rcon::Client.new(host: 'minecraft', port: 25575, password: 'foobar')
       client.authenticate!(ignore_first_packet: false)
-      client.execute(command)
+      client.execute(command).body
+    rescue Exception => e
+      "[Controller] #{e.message}"
     ensure
       client&.end_session!
     end
@@ -84,7 +86,8 @@ module Minecraft
 
       install(data_dir, save_dir, **install_args)
 
-      run('stop')
+      minecraft = Docker::Container.get('minecraft')
+      minecraft.restart
     end
 
     def self.load(data_dir, file, **install_args)
@@ -95,7 +98,8 @@ module Minecraft
 
       install(data_dir, save_dir, **install_args)
 
-      run('stop')
+      minecraft = Docker::Container.get('minecraft')
+      minecraft.restart
     end
 
     def self.logs(since:, &block)

@@ -1,6 +1,7 @@
 module Minecraft
   class BackupsController < RootController
     before_action :set_backups, only: [:index]
+    before_action :set_backup, only: [:destroy]
 
     def create
       @backup = Backup.new(backup_params)
@@ -12,6 +13,12 @@ module Minecraft
       end
     end
 
+    def destroy
+      @backup.destroy
+
+      redirect_to minecraft_world_path(@backup.world)
+    end
+
     private
 
     def backup_params
@@ -20,6 +27,10 @@ module Minecraft
 
     def set_backups
       @backups = @server.backups
+    end
+
+    def set_backup
+      @backup = Backup.find(params[:id])
     end
   end
 end

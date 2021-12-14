@@ -1,0 +1,20 @@
+<h6>Backups</h6>
+<div class="card mb-3">
+  <ul class="list-group list-group-flush">
+    <% backups.each do |backup| %>
+      <li class="list-group-item d-flex align-items-center justify-content-between">
+        <% if backup.file.present? %>
+          <%= link_to rails_blob_path(backup.file, disposition: 'attachment') do %>
+            <%= backup_name(backup) %>
+          <% end %>
+          <div class="flex-shrink-0">
+            <%= link_to icon_tag(:get_app), rails_blob_path(backup.file, disposition: 'attachment'), class: 'btn btn-secondary btn-sm' %>
+            <%= link_to icon_tag(:delete), [:minecraft, backup], class: 'btn btn-danger btn-sm', method: :delete, data: { confirm: 'Are you sure?' } %>
+        </div>
+        <% else %>
+          <%= backup_name(backup) %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
