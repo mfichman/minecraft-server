@@ -44,7 +44,7 @@ services:
     image: mfichman/minecraft:worker
     container_name: minecraft-worker
     environment:
-    - DATABASE_URL=postgresql://localhost/postgres
+    - DATABASE_URL=postgresql://localhost/minecraft_development
     - REDIS_URL=redis://localhost
     volumes:
     - ./volumes/minecraft:/minecraft/data
@@ -56,7 +56,7 @@ services:
   monitor:
     container_name: minecraft-monitor
     environment:
-    - DATABASE_URL=postgresql://localhost/postgres
+    - DATABASE_URL=postgresql://localhost/minecraft_development
     - REDIS_URL=redis://localhost
 
   minecraft:

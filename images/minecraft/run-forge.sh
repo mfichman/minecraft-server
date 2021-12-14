@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 
-java -jar data/modder.jar --installServer
+if ! test -f install.log; then
+  echo 'Running installer'
+  java -jar modder.jar --installServer > install.log
+fi
+
 ./run.sh nogui

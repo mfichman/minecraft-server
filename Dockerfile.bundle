@@ -33,7 +33,6 @@ RUN rm -rf /bundle/node_modules
 # Production bundle --------------------------------------------------------------------------------
 FROM base as bundle
 COPY --from=builder /bundle /bundle
-RUN mkdir -p /bundle/volumes/{db,minecraft,wireguard}
 CMD sh
 
 # Web ----------------------------------------------------------------------------------------------

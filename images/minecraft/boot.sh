@@ -1,12 +1,24 @@
 #!/usr/bin/env bash
 
-if ! test -f data/minecraft_server.jar; then
+# Directory layout:
+# /minecraft/data
+# /minecraft/data/cache/jars/...
+# /minecraft/data/cache/modders/...
+# /minecraft/data/cache/mods/...
+# /minecraft/data/installs/...
+# /minecraft/data/backups/...
+# /minecraft/data/run/world
+# /minecraft/data/run/minecraft_server.jar
+# /minecraft/data/run/modder.jar
+# /minecraft/data/run/mods
+
+if ! test -d data/run; then
   echo 'Server is up! Please load a world'
   sleep infinity
-elif test -f data/modder.jar; then
-  sh run-forge.sh
+elif test -f data/run/modder.jar; then
+  cd data/run
+  sh /minecraft/run-forge.sh
 else
-  sh run-vanilla.sh
+  cd data/run
+  sh /minecraft/run-vanilla.sh
 fi
-
-

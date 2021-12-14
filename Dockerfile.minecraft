@@ -1,14 +1,15 @@
 FROM openjdk:17-alpine
 MAINTAINER Matt Fichman <matt.fichman@gmail.com>
-WORKDIR /minecraft
+WORKDIR /minecraft/
 
 COPY /images/minecraft /minecraft
 
 EXPOSE 25565
 
-RUN ln -sf /minecraft/data/mods /minecraft/mods
-RUN ln -sf /minecraft/data/minecraft_server.jar /minecraft/minecraft_server.jar
-RUN ln -sf /minecraft/data/modder.jar /minecraft/modder.jar
-RUN ln -sf /minecraft/data/server.properties /minecraft/server.properties
+#RUN ln -sf /minecraft/data/current/mods /minecraft/mods
+#RUN ln -sf /minecraft/data/current/minecraft_server.jar /minecraft/minecraft_server.jar
+#RUN ln -sf /minecraft/data/current/modder.jar /minecraft/modder.jar
+#RUN ln -sf /minecraft/data/current/server.properties /minecraft/server.properties
+#RUN ln -sf /minecraft/data/current/ops.txt /minecraft/ops.txt
 
 CMD sh /minecraft/boot.sh

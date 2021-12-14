@@ -1,17 +1,24 @@
 module Minecraft
   module Utils
+    extend FileUtils
+
     def self.run(command)
       container = Docker::Container.get('minecraft')
       container.attach(stdin: StringIO.new("#{command}\n"))
     end
 
     def self.save(data_dir)
-      run('/save-off')
+      run('/save-all') # Ensure changes are flushed
 
-      FileUtils.rm_f('world.zip')
+      sleep 5 # FIXME
 
-      ZipUtils.zip('world.zip', data_dir, 'world')
+      run('/save-off') # Avoid updates while snapshotting the world
 
+      save_dir = "#{data_dir}/saves/current"
+
+      rm_f('world.zip')
+
+      ZipUtils.zip('world.zip', save_dir, 'world')
       File.open('world.zip', 'rb')
     ensure
       run('/save-on')
@@ -24,82 +31,68 @@ module Minecraft
 
       return if File.exists?(path)
 
-      FileUtils.mkdir_p(dir)
+      mkdir_p(dir)
 
       URI.open(file.url) do |stream|
-        puts "Installing #{file.file_name}"
+        puts "Downloading #{file.file_name}"
         IO.copy_stream(stream, path)
       end
     end
 
-    def self.link(data_dir, mods:, jar:, modder:)
-      if jar.present?
-        FileUtils.copy("cache/jars/#{jar.file_name}", 'minecraft_server.jar') 
-      else
-        FileUtils.rm_f('minecraft_server.jar')
-      end
+    def self.install(data_dir, save_dir, mods:, jar:, modder:, properties:, ops:)
+      install_digest = Digest::SHA256.hexdigest({mods: mods, jar: jar, modder: modder}.to_json)
 
-      if modder.present?
-        FileUtils.copy("cache/modders/#{modder.file_name}", 'modder.jar') 
-      else
-        FileUtils.rm_f('modder.jar')
-      end
+      install_dir = "#{data_dir}/installs/#{install_digest}"
+      cache_dir = "#{data_dir}/cache"
+      run_dir = "#{data_dir}/run"
 
-      FileUtils.rm_f('mods')
-      FileUtils.mkdir_p('mods')
+      download("#{cache_dir}/jars", jar)
+      download("#{cache_dir}/modders", modder)
+      mods.each {|mod| download("#{cache_dir}/mods", mod)}
 
-      mods.each do |mod|
-        FileUtils.copy("cache/mods/#{mod.file_name}", "mods/#{mod.file_name}")
-      end
-    end
+      properties = properties.merge(
+        'level-name' => save_dir,
+        'server-port' => '25565',
+        'server-ip' => '',
+      )
 
-    def self.install(data_dir, mods:, jar:, modder:, properties:, ops:)
-      FileUtils.cd(data_dir) do
-        download('cache/jars', jar)
-        download('cache/modders', modder)
-        mods.each {|mod| download('cache/mods', mod)}
+      mkdir_p(install_dir)
+      rm_rf(run_dir)
+      ln_sf(install_dir, run_dir)
 
-        link(data_dir, mods: mods, jar: jar, modder: modder)
-
-        properties = properties.merge(
-          'level-name' => 'data/world',
-          'server-port' => '25565',
-          'server-ip' => '',
-        )
-
-        File.write('server.properties', properties.map {|key, value| "#{key}=#{value}"}.sort.join("\n"))
-        File.write('ops.txt', ops.join("\n"))
+      cd(run_dir) do
+        ln_sf("#{cache_dir}/jars/#{jar.file_name}", 'minecraft_server.jar') if jar
+        ln_sf("#{cache_dir}/modders/#{modder.file_name}", 'modder.jar')  if modder
+        mods.each {|mod| ln_sf("#{cache_dir}/mods/#{mod.file_name}", "mods/#{mod.file_name}")}
+        File.write("server.properties", properties.map {|key, value| "#{key}=#{value}"}.join("\n"))
+        File.write("ops.txt", ops.join("\n"))
+        File.write("eula.txt", "eula=true\n")
+        File.write("user_jvm_args.txt", "-Xmx2G -Xms2G\n")
       end
     end
 
     def self.new(data_dir, **install_args)
+      save_dir = "#{data_dir}/saves/#{Time.now.to_i}/world"
+      mkdir_p(save_dir)
+      rm_rf("#{data_dir}/saves/current")
+      ln_sf(save_dir, "#{data_dir}/saves/current")
+
+      install(data_dir, save_dir, **install_args)
+
       minecraft = Docker::Container.get('minecraft')
-      minecraft.stop if minecraft.info.dig('State', 'Status') == 'running'
-
-      if Dir.exists?("#{data_dir}/world")
-        FileUtils.mv("#{data_dir}/world", "#{data_dir}/world.#{Time.now.to_i}")
-      end
-
-      FileUtils.mkdir("#{data_dir}/world")
-
-      install(data_dir, **install_args)
-    ensure
-      minecraft.start
+      minecraft.restart
     end
 
     def self.load(data_dir, file, **install_args)
+      save_dir = "#{data_dir}/saves/#{Time.now.to_i}/world"
+      ZipUtils.unzip(file, File.dirname(save_dir))
+      rm_rf("#{data_dir}/saves/current")
+      ln_sf(save_dir, "#{data_dir}/saves/current")
+
+      install(data_dir, save_dir, **install_args)
+
       minecraft = Docker::Container.get('minecraft')
-      minecraft.stop if minecraft.info.dig('State', 'Status') == 'running'
-
-      if Dir.exists?("#{data_dir}/world")
-        FileUtils.mv("#{data_dir}/world", "#{data_dir}/world.#{Time.now.to_i}")
-      end
-
-      ZipUtils.unzip(file, data_dir)
-
-      install(data_dir, **install_args)
-
-      minecraft.start
+      minecraft.restart
     end
 
     def self.logs(since:, &block)
