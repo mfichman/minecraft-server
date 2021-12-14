@@ -10,3 +10,4 @@ services:
     - /volumes/minecraft:/minecraft/data
     ports:
     - "25565:25565"
+    - "25575:25575"

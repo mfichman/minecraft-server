@@ -3,16 +3,17 @@ module Minecraft
     extend FileUtils
 
     def self.run(command)
-      container = Docker::Container.get('minecraft')
-      container.attach(stdin: StringIO.new("#{command}\n"))
+      puts "Running RCON command: #{command}"
+      client = Rcon::Client.new(host: 'minecraft', port: 25575, password: 'foobar')
+      client.authenticate!(ignore_first_packet: false)
+      client.execute(command)
+    ensure
+      client&.end_session!
     end
 
     def self.save(data_dir)
-      run('/save-all') # Ensure changes are flushed
-
-      sleep 5 # FIXME
-
-      run('/save-off') # Avoid updates while snapshotting the world
+      run('save-all') # Ensure changes are flushed
+      run('save-off') # Avoid updates while snapshotting the world
 
       save_dir = "#{data_dir}/saves/current"
 
@@ -21,7 +22,7 @@ module Minecraft
       ZipUtils.zip('world.zip', save_dir, 'world')
       File.open('world.zip', 'rb')
     ensure
-      run('/save-on')
+      run('save-on')
     end
 
     def self.download(dir, file)
@@ -54,6 +55,9 @@ module Minecraft
         'level-name' => save_dir,
         'server-port' => '25565',
         'server-ip' => '',
+        'rcon.port' => '25575',
+        'rcon.password' => 'foobar',
+        'enable-rcon' => 'true',
       )
 
       mkdir_p(install_dir)
@@ -79,8 +83,7 @@ module Minecraft
 
       install(data_dir, save_dir, **install_args)
 
-      minecraft = Docker::Container.get('minecraft')
-      minecraft.restart
+      run('stop')
     end
 
     def self.load(data_dir, file, **install_args)
@@ -91,8 +94,7 @@ module Minecraft
 
       install(data_dir, save_dir, **install_args)
 
-      minecraft = Docker::Container.get('minecraft')
-      minecraft.restart
+      run('stop')
     end
 
     def self.logs(since:, &block)

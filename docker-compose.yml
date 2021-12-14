@@ -22,30 +22,24 @@ services:
   release:
     image: mfichman/minecraft:release
     container_name: minecraft-release
-    environment:
-    - DATABASE_URL=${DATABASE_URL}
-    - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
-    - REDIS_URL=${REDIS_URL}
-    - SERVER_NAME=${SERVER_NAME}
+    env_file: .env
 
   web:
     image: mfichman/minecraft:web
     container_name: minecraft-web
     restart: always
-    environment:
-    - DATABASE_URL=${DATABASE_URL}
-    - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
-    - REDIS_URL=${REDIS_URL}
-    - SERVER_NAME=${SERVER_NAME}
+    env_file: .env
     ports:
     - "3000:3000"
 
   worker:
     image: mfichman/minecraft:worker
     container_name: minecraft-worker
-    environment:
-    - DATABASE_URL=postgresql://localhost/minecraft_development
-    - REDIS_URL=redis://localhost
+    env_file: .env
+    extra_hosts:
+    - redis:127.0.0.1
+    - postgres:127.0.0.1
+    - minecraft:127.0.0.1
     volumes:
     - ./volumes/minecraft:/minecraft/data
     - ./volumes/wireguard:/etc/wireguard
@@ -55,9 +49,11 @@ services:
 
   monitor:
     container_name: minecraft-monitor
-    environment:
-    - DATABASE_URL=postgresql://localhost/minecraft_development
-    - REDIS_URL=redis://localhost
+    env_file: .env
+    extra_hosts:
+    - redis:127.0.0.1
+    - postgres:127.0.0.1
+    - minecraft:127.0.0.1
 
   minecraft:
     volumes:

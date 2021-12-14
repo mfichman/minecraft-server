@@ -2,7 +2,7 @@
   <%= f.hidden_field :server_id, value: server.id %>
 
   <div class="input-group">
-    <%= f.collection_select :backup_id, backups, :id, method(:backup_name), {}, class: 'custom-select', data: { target: 'minecraft--loads.select' } %>
+    <%= f.collection_select :backup_id, backups, :id, method(:backup_name), {selected: server.backup_id}, class: 'custom-select', data: { target: 'minecraft--loads.select' } %>
     <div class="input-group-append">
       <%= f.submit 'Load', class: 'btn btn-primary' %>
     </div>
