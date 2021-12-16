@@ -22,39 +22,43 @@ services:
   release:
     image: mfichman/minecraft:release
     container_name: minecraft-release
-    env_file: .env
+    environment:
+    - DATABASE_URL
+    - RAILS_MASTER_KEY
+    - REDIS_URL
+    - SERVER_NAME
 
   web:
     image: mfichman/minecraft:web
     container_name: minecraft-web
     restart: always
-    env_file: .env
+    environment:
+    - DATABASE_URL
+    - RAILS_MASTER_KEY
+    - REDIS_URL
+    - SERVER_NAME
     ports:
     - "3000:3000"
 
   worker:
     image: mfichman/minecraft:worker
     container_name: minecraft-worker
-    env_file: .env
-    extra_hosts:
-    - redis:127.0.0.1
-    - postgres:127.0.0.1
-    - minecraft:127.0.0.1
     volumes:
     - ./volumes/minecraft:/minecraft/data
     - ./volumes/wireguard:/etc/wireguard
+
+  minecraft:
+    volumes:
+    - ./volumes/minecraft:/minecraft/data
 
   logger:
     container_name: minecraft-logger
 
   monitor:
     container_name: minecraft-monitor
-    env_file: .env
-    extra_hosts:
-    - redis:127.0.0.1
-    - postgres:127.0.0.1
-    - minecraft:127.0.0.1
 
-  minecraft:
-    volumes:
-    - ./volumes/minecraft:/minecraft/data
+  boot:
+    container_name: minecraft-boot
+
+  wireguard:
+    container_name: minecraft-wireguard

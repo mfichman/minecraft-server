@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  # This container is here simply so that we can share the network interfaces
+  # between the minecraft server, worker, and monitor. It doesn't do anything
+  # other than provide a stable network namespace for the above, and export
+  # the wireguard port.
+  wireguard:
+    image: alpine:3.14
+    command: 'sleep infinity'
+    container_name: wireguard
+    restart: always
+    ports:
+    - 51820:51820/udp

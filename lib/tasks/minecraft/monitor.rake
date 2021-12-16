@@ -3,10 +3,7 @@ namespace :minecraft do
     server = Minecraft::Server.find_or_create_by!(host: Figaro.env.server_name!)
 
     loop do
-      container = Docker::Container.get('minecraft')
-      pid = container.info.dig('State', 'Pid')
-
-      connections = Netstat.filter(path: "/proc/#{pid}/net/tcp", local_port: 25565, state: 'ESTABLISHED')
+      connections = Netstat.filter(path: "/proc/net/tcp", local_port: 25565, state: 'ESTABLISHED')
 
       if connections.empty?
         server.update!(connections: connections.size)

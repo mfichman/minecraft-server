@@ -3,7 +3,7 @@ module Wireguard
     def perform(user, network)
       ToastsChannel.broadcast_to(user, SyncsController.render(partial: 'info'))
 
-      conf = NetworksController.render('show.conf', assigns: { network: network })
+      conf = NetworksController.render('show', formats: [:conf], assigns: { network: network })
       Utils.syncconf(conf)
 
       ToastsChannel.broadcast_to(user, SyncsController.render(partial: 'success', locals: { network: network }))

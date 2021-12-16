@@ -35,11 +35,6 @@ module Minecraft
             Endpoint = vpn.mfichman.net:51820
           EOF
         },
-        {
-          path: '/etc/wireguard/wg1.conf',
-          permissions: '0644',
-          content: Wireguard::NetworksController.render('show', formats: [:conf], assigns: { network: @network })
-        },
       ]
     end
 
@@ -98,8 +93,6 @@ module Minecraft
         "mount -o discard,defaults /dev/disk/by-id/scsi-0DO_Volume_#{@server.volume} /volumes",
         'systemctl enable wg-quick@wg0.service',
         'systemctl start wg-quick@wg0.service',
-        'systemctl enable wg-quick@wg1.service',
-        'systemctl start wg-quick@wg1.service',
         'curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose',
         'chmod +x /usr/local/bin/docker-compose',
         '/root/up.sh',

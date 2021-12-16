@@ -1,10 +1,11 @@
 version: '3.9'
 services:
-  monitor:
-    image: mfichman/minecraft:monitor
-    container_name: monitor
-    restart: always
+  boot:
+    image: mfichman/minecraft:boot
+    container_name: boot
     network_mode: service:wireguard
+    cap_add:
+    - CAP_NET_ADMIN
     environment:
     - DATABASE_URL
     - RAILS_MASTER_KEY

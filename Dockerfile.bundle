@@ -55,3 +55,8 @@ CMD ruby bin/rails minecraft:monitor
 # Release ------------------------------------------------------------------------------------------
 FROM bundle as release
 CMD ruby bin/rails db:prepare
+
+# Boot ------------------------------------------------------------------------------------------
+FROM bundle as boot
+RUN apk add wireguard-tools
+CMD ruby bin/rails wireguard:up

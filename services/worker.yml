@@ -4,14 +4,14 @@ services:
     image: mfichman/minecraft:worker
     container_name: worker
     restart: always
-    network_mode: host
-    privileged: true
+    network_mode: service:wireguard
+    cap_add:
+    - CAP_NET_ADMIN
     environment:
-    - DATABASE_URL=${DATABASE_URL}
-    - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
-    - REDIS_URL=${REDIS_URL}
-    - SERVER_NAME=${SERVER_NAME}
+    - DATABASE_URL
+    - RAILS_MASTER_KEY
+    - REDIS_URL
+    - SERVER_NAME
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - /volumes/minecraft:/minecraft/data
-    - /volumes/wireguard:/etc/wireguard

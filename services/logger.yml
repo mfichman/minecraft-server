@@ -5,9 +5,10 @@ services:
     container_name: logger
     restart: always
     environment:
-    - DATABASE_URL=${DATABASE_URL}
-    - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
-    - REDIS_URL=${REDIS_URL}
-    - SERVER_NAME=${SERVER_NAME}
+    - DATABASE_URL
+    - RAILS_MASTER_KEY
+    - REDIS_URL
+    - SERVER_NAME
+    # FIXME: Remove this dependency by reading from log file instead?
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock

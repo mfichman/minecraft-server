@@ -22,6 +22,7 @@ namespace :docker do
     sh 'docker build -t mfichman/minecraft:logger -f Dockerfile.bundle --target logger .'
     sh 'docker build -t mfichman/minecraft:monitor -f Dockerfile.bundle --target monitor .'
     sh 'docker build -t mfichman/minecraft:release -f Dockerfile.bundle --target release .'
+    sh 'docker build -t mfichman/minecraft:boot -f Dockerfile.bundle --target boot .'
   end
 
   task :push do
@@ -31,5 +32,6 @@ namespace :docker do
     sh 'docker push mfichman/minecraft:web'
     sh 'docker push mfichman/minecraft:monitor'
     sh 'docker push mfichman/minecraft:release'
+    sh 'docker push mfichman/minecraft:boot'
   end
 end
