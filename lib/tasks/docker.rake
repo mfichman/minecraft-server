@@ -1,28 +1,29 @@
 namespace :docker do
 
-  SERVICES = Dir['services/**.yml'].map { |f| "-f #{f}" }.join(' ')
+  SERVICES = Dir['services/**.yml'].map { |f| "--file=#{f}" }.join(' ')
+  COMPOSE = "docker compose --project-directory=. --project-name=minecraft --env-file=.env #{SERVICES} --file=docker-compose.yml"
 
   # Usage: rails docker:up[postgres]
   task :up, [:service] do |_, args|
-    sh "docker compose --project-directory=. --env-file=.env #{SERVICES} -f docker-compose.yml up -d #{args[:service]}"
+    sh "#{COMPOSE} up -d #{args[:service]}"
   end
 
   task :logs do
-    sh "docker compose --project-directory=. --env-file=.env #{SERVICES} -f docker-compose.yml logs"
+    sh "#{COMPOSE} logs"
   end
 
   task :down do 
-    sh "docker compose --project-directory=. --env-file=.env #{SERVICES} -f docker-compose.yml down"
+    sh "#{COMPOSE} down"
   end
 
   task :build do
-    sh 'docker build -t mfichman/minecraft -f Dockerfile.minecraft .'
-    sh 'docker build -t mfichman/minecraft:web -f Dockerfile.bundle --target web .'
-    sh 'docker build -t mfichman/minecraft:worker -f Dockerfile.bundle --target worker .'
-    sh 'docker build -t mfichman/minecraft:logger -f Dockerfile.bundle --target logger .'
-    sh 'docker build -t mfichman/minecraft:monitor -f Dockerfile.bundle --target monitor .'
-    sh 'docker build -t mfichman/minecraft:release -f Dockerfile.bundle --target release .'
-    sh 'docker build -t mfichman/minecraft:boot -f Dockerfile.bundle --target boot .'
+    sh 'docker build -t mfichman/minecraft --file=Dockerfile.minecraft .'
+    sh 'docker build -t mfichman/minecraft:web --file=Dockerfile.bundle --target=web .'
+    sh 'docker build -t mfichman/minecraft:worker --file=Dockerfile.bundle --target=worker .'
+    sh 'docker build -t mfichman/minecraft:logger --file=Dockerfile.bundle --target=logger .'
+    sh 'docker build -t mfichman/minecraft:monitor --file=Dockerfile.bundle --target=monitor .'
+    sh 'docker build -t mfichman/minecraft:release --file=Dockerfile.bundle --target=release .'
+    sh 'docker build -t mfichman/minecraft:boot --file=Dockerfile.bundle --target=boot .'
   end
 
   task :push do

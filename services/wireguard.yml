@@ -7,7 +7,6 @@ services:
   wireguard:
     image: alpine:3.14
     command: 'sleep infinity'
-    container_name: wireguard
     restart: always
     ports:
     - 51820:51820/udp
