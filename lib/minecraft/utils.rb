@@ -16,7 +16,7 @@ module Minecraft
     end
 
     def self.save(data_dir)
-      run('save-all') # Ensure changes are flushed
+      run('save-all flush') # Ensure changes are flushed
       run('save-off') # Avoid updates while snapshotting the world
 
       save_dir = "#{data_dir}/saves/current"

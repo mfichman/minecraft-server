@@ -1,6 +1,7 @@
 namespace :minecraft do
   task monitor: :environment do
     server = Minecraft::Server.find_or_create_by!(host: Figaro.env.server_name!)
+    server.update!(last_active_at: Time.now.utc)
 
     loop do
       connections = Netstat.filter(path: "/proc/net/tcp", local_port: 25565, state: 'ESTABLISHED')
