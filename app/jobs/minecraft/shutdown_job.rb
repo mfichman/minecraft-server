@@ -1,8 +1,6 @@
 module Minecraft
   class ShutdownJob < ApplicationJob
     def perform(user, server)
-      SaveJob.perform_now(user, server)
-
       ToastsChannel.broadcast_to(user, ShutdownsController.render(partial: 'info'))
       server.logs.create!(text: "[Controller] Shutting down\n")
 

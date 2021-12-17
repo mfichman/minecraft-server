@@ -5,12 +5,14 @@ module Minecraft
     def self.run(command)
       puts "Running RCON command: #{command}"
       client = Rcon::Client.new(host: '127.0.0.1', port: 25575, password: 'foobar')
-      client.authenticate!(ignore_first_packet: false)
-      client.execute(command).body
+      begin
+        client.authenticate!(ignore_first_packet: false)
+        client.execute(command).body
+      ensure
+        client.end_session!
+      end
     rescue Exception => e
       "[Controller] #{e.message}"
-    ensure
-      client&.end_session!
     end
 
     def self.save(data_dir)
