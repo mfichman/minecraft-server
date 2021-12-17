@@ -2,6 +2,7 @@ version: '3.9'
 services:
   logger:
     image: mfichman/minecraft:logger
+    container_name: logger
     restart: always
     environment:
     - DATABASE_URL

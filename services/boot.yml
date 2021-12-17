@@ -2,6 +2,7 @@ version: '3.9'
 services:
   boot:
     image: mfichman/minecraft:boot
+    container_name: boot
     network_mode: service:wireguard
     cap_add:
     - CAP_NET_ADMIN

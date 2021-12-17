@@ -4,7 +4,7 @@ module Minecraft
 
     def self.run(command)
       puts "Running RCON command: #{command}"
-      client = Rcon::Client.new(host: 'minecraft', port: 25575, password: 'foobar')
+      client = Rcon::Client.new(host: '127.0.0.1', port: 25575, password: 'foobar')
       client.authenticate!(ignore_first_packet: false)
       client.execute(command).body
     rescue Exception => e
@@ -110,7 +110,9 @@ module Minecraft
           puts "Connecting to Minecraft server output"
 
           minecraft = Docker::Container.get('minecraft')
-          minecraft.streaming_logs(stdout: true, stderr: true, since: time, tty: true, follow: true, &block)
+          minecraft.streaming_logs(stdout: true, stderr: true, since: time, follow: true) do |stream, chunk|
+            yield chunk
+          end
 
           sleep 1
         rescue Docker::Error::TimeoutError

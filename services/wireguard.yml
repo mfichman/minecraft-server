@@ -6,6 +6,7 @@ services:
   # the wireguard port.
   wireguard:
     image: alpine:3.14
+    container_name: wireguard
     command: 'sleep infinity'
     restart: always
     ports:
