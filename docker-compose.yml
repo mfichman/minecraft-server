@@ -1,5 +1,6 @@
 # This file contains local-dev overrides. The actual service definitions
 # are in services/*.yml
+version: '3.9'
 services:
   postgres:
     image: postgres:alpine
@@ -41,6 +42,11 @@ services:
 
   worker:
     image: mfichman/minecraft:worker
+    environment:
+    - DATABASE_URL
+    - RAILS_MASTER_KEY
+    - REDIS_URL
+    - SERVER_NAME
     volumes:
     - ./volumes/minecraft:/minecraft/data
     - ./volumes/wireguard:/etc/wireguard
