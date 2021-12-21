@@ -37,10 +37,5 @@ module MinecraftServer
     config.eager_load_paths << Rails.root.join('lib')
 
     config.time_zone = 'Eastern Time (US & Canada)'
-
-    config.action_controller.default_url_options = {
-      host: Figaro.env.host_name || 'mfichman-minecraft.herokuapp.com',
-      protocol: 'https',
-    }
   end
 end
