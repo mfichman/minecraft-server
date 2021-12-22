@@ -4,32 +4,45 @@
     <title>MinecraftServer</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <link rel="manifest" href="/manifest.json">
+
+    <%= favicon_pack_tag 'favicon.ico' %>
+    <%# favicon_pack_tag 'apple-touch-icon-80x80.png', rel: 'apple-touch-icon', sizes: '80x80' %>
+    <%# favicon_pack_tag 'apple-touch-icon-152x152.png', rel: 'apple-touch-icon', sizes: '152x152' %>
+    <%# favicon_pack_tag 'apple-touch-icon-167x167.png', rel: 'apple-touch-icon', sizes: '167x167' %>
+    <%# favicon_pack_tag 'apple-touch-icon-180x180.png', rel: 'apple-touch-icon', sizes: '180x180' %>
 
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload', media: 'all' %>
   </head>
 
   <body>
-    <nav class="navbar navbar-dark sticky-top d-flex justify-content-start">
-      <%= link_to(icon_tag(:dns) + ' Minecraft', minecraft_path, class: "nav-link flex-fill flex-md-grow-0 #{'active' if request.path.starts_with?(minecraft_path)}") %>
-      <%= link_to(icon_tag(:vpn_lock) + ' VPN', wireguard_path, class: "nav-link flex-fill flex-md-grow-0 #{'active' if request.path.starts_with?(wireguard_path)}") %>
-      <%= link_to(icon_tag(:settings) + ' Admin', admin_path, class: "nav-link flex-fill flex-md-grow-0 #{'active' if request.path.starts_with?(admin_path)}") %>
-    </nav>
+    <div class="d-none d-md-block sticky-top border-bottom border-dark">
+      <%= render 'layouts/navbar' %>
+    </div>
 
-    <div class="container-fluid py-4">
+    <div class="container-fluid pb-4 pt-2 pt-md-4">
       <%= yield %>
     </div>
 
-    <% if current_user.present? %>
-      <div class="fixed-bottom d-flex flex-column p-3">
-        <div data-controller="notifications" data-target='notifications.toast'></div>
-        <%= render 'toasts/error', header: 'Error!', message: flash[:error] if flash[:error] %>
-        <%= render 'toasts/info', header: 'Info', message: flash[:info] if flash[:info] %>
-        <%= render 'toasts/success', header: 'Success', message: flash[:success] if flash[:success] %>
+    <div class="fixed-bottom">
+      <% if current_user.present? %>
+        <div class="d-bottom d-flex flex-column p-3">
+          <div data-controller="notifications" data-target='notifications.toast'></div>
+          <%= render 'toasts/error', header: 'Error!', message: flash[:error] if flash[:error] %>
+          <%= render 'toasts/info', header: 'Info', message: flash[:info] if flash[:info] %>
+          <%= render 'toasts/success', header: 'Success', message: flash[:success] if flash[:success] %>
+        </div>
+      <% end %>
+
+      <div class="d-md-none border-top border-dark">
+        <%= render 'layouts/navbar' %>
       </div>
-    <% end %>
+    </div>
   </body>
 </html>

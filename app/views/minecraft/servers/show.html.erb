@@ -1,4 +1,4 @@
-<h3 class="mb-4"><code class="text-white"><%= @server.host %></code></h4>
+<%= header_tag(content_tag(:code, @server.host, class: 'text-white'), prev: ['Minecraft', minecraft_path]) %>
 
 <h6>Console</h6>
 <div class="card mb-4" data-controller="minecraft--console" data-minecraft--console-server-id="<%= @server.id %>">

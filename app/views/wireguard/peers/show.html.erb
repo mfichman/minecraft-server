@@ -1,4 +1,4 @@
-<h3 class="mb-4"><%= @peer.name %></h3>
+<%= header_tag(@peer.name, prev: ['Network', wireguard_network_path(@peer.network)]) %>
 
 <h6>Peer Configuration</h6>
 <div class="card mb-3">

@@ -35,6 +35,7 @@ $card-border-width: 0;
 $card-color: $white;
 
 $list-group-bg: $gray-800;
+$list-group-color: $white;
 
 $link-color: lighten($primary, 10%) !default;
 
@@ -123,17 +124,36 @@ h6 {
 }
 
 .navbar .nav-link.active {
-  background-color: $gray-700;
 }
 
 .navbar .nav-link {
   align-items: center;
-  border-right: 1px solid $gray-900;
   color: $gray-500;
   display: flex;
   font-size: $font-size-base * .9;
   letter-spacing: 1px;
   text-transform: uppercase;
+
+  &:active, &.active {
+    color: $white;
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding-bottom: 32px;
+  }
+
+  @include media-breakpoint-up(md) {
+    border-right: 1px solid $gray-900;
+
+    &:active, &.active {
+      background-color: $gray-700;
+      color: $gray-500;
+    }
+
+    &:hover {
+      background-color: darken($gray-700, 5%);
+    }
+  }
 }
 
 .navbar .nav-link > img {
@@ -141,24 +161,12 @@ h6 {
   height: 22px;
   margin-top: 2px;
   margin-bottom: 2px;
-  padding-right: 8px;
+  //padding-right: 8px;
 }
 
 .navbar .nav-link .material-icons {
   font-size: 18px;
-  padding-right: 8px;
-}
-
-.navbar .nav-link:hover {
-  background-color: darken($gray-700, 5%);
-}
-
-.navbar .nav-link:active {
-  background-color: $gray-700;
-}
-
-.navbar .nav-link.active {
-  background-color: $gray-700;
+  //padding-right: 8px;
 }
 
 .input-group > .form-select {
@@ -173,3 +181,16 @@ h6 {
   overflow: hidden;
 }
 
+.flex-basis-0 {
+  flex-basis: 0;
+}
+
+.container-fluid {
+  margin-bottom: 140px;
+} 
+
+.position-md-static {
+  @include media-breakpoint-up(md) {
+    position: static;
+  }
+}

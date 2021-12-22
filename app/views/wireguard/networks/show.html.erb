@@ -1,8 +1,14 @@
-<h3 class="mb-4"><code class="text-white"><%= @network.host %></code></h3>
+<%= header_tag(@network.host, prev: ['VPN', wireguard_path]) %>
 
 <h6>Network</h6>
 <div class="card mb-4">
   <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-sm-2">Host</div>
+        <div class="col"><code><%= @network.host %></code></div>
+      </div>
+    </li>
     <li class="list-group-item">
       <div class="row">
         <div class="col-sm-2">IP Address</div>

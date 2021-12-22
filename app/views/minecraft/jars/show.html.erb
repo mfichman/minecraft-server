@@ -1,2 +1,4 @@
-<h3 class="mb-3 pb-3"><%= @jar.version %></h3>
+<%= header_tag(@jar.version, prev: ['Minecraft', minecraft_path]) %>
+
+<%= @jar.url %>
 

@@ -1,0 +1,12 @@
+{
+  "name": "MinecraftServer",
+  "short_name": "Minecraft",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#212529",
+  "description": "Mincecraft server management",
+  "icons": [],
+  "version": "1.0.0",
+  "manifest_version": 2
+}
