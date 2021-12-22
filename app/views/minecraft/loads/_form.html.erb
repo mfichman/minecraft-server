@@ -3,7 +3,7 @@
 
   <div class="input-group">
     <%= f.collection_select :backup_id, backups.includes(file_attachment: :blob), :id, method(:backup_name), {selected: server.backup_id}, class: 'form-select', data: { target: 'minecraft--loads.select' } %>
-    <%= f.submit 'Load', class: 'btn btn-primary' %>
+    <%= f.submit 'Load', class: 'btn btn-primary', data: { confirm: 'Are you sure?' } %>
 
     <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" type="button" data-bs-toggle="dropdown"></button>
     <div class="dropdown-menu dropdown-menu-end">
