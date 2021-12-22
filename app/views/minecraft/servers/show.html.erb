@@ -2,7 +2,7 @@
 
 <h6>Console</h6>
 <div class="card mb-4" data-controller="minecraft--console" data-minecraft--console-server-id="<%= @server.id %>">
-  <div class="card-body pl-1 pr-1 pt-0 pb-0">
+  <div class="card-body ps-1 pe-1 pt-0 pb-0">
     <div style="max-height: calc(100vh - 500px);" data-target="minecraft--console.simplebar">
       <pre class="text-white pt-2" style="overflow: unset;" data-target="minecraft--console.output"><%- @server.logs.order(id: :desc).take(500).reverse.each do |log| -%><%= log.filtered_text -%><%- end -%></pre>
     </div>
@@ -11,7 +11,7 @@
   <%= render 'minecraft/commands/form', server: @server %>
 </div>
 
-<div class="input-group w-100">
+<div class="w-100 mb-3">
   <%= render 'minecraft/loads/form', server: @server, backups: @backups if @backups.any? %>
 </div>
 
