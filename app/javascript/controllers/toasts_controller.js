@@ -1,11 +1,16 @@
 import { Controller } from 'stimulus';
+import { Toast } from 'bootstrap';
 
 export default class extends Controller {
   static targets = [ "toast" ]
 
   connect() {
-    $(this.toastTarget).toast('show').on('hidden.bs.toast', () => {
-      this.toastTarget.parent.removeChild(this.toastTarget);
+    const toast = new Toast(this.toastTarget);
+
+    toast.show();
+
+    this.toastTarget.addEventListener('hidden.bs.toast', () => {
+      this.toastTarget.remove();
     });
   }
 }

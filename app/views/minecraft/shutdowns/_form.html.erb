@@ -1,4 +1,7 @@
-<%= form_with(url: minecraft_shutdowns_path, class: ('hidden' if server.world.nil?)) do |f| %>
-  <%= f.hidden_field :server_id, value: server.id %>
-  <%= f.submit 'Power Off', class: 'dropdown-item' %>
-<% end %>
+<%= link_to(
+      'Power Off',
+      minecraft_shutdowns_path(server_id: server.id), 
+      class: "dropdown-item #{'hidden' if server.world.nil?}", 
+      data: {confirm: "Are you sure? Don't forget to save first!"},
+      method: :post, 
+      remote: true) %>

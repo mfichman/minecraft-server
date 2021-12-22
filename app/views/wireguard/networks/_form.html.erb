@@ -1,11 +1,11 @@
 <%= form_for([:wireguard, @network], html: { class: 'form' }) do |f| %>
-  <div class="form-group">
-    <%= f.label :host %>
+  <div class="mb-3">
+    <%= f.label :host, class: 'form-label' %>
     <%= f.text_field :host, class: 'form-control' %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :ip_address %>
+  <div class="mb-3">
+    <%= f.label :ip_address, class: 'form-label' %>
     <%= f.text_field :ip_address, class: 'form-control' %>
   </div>
 

@@ -38,15 +38,18 @@ $list-group-bg: $gray-800;
 
 $link-color: lighten($primary, 10%) !default;
 
-$custom-select-bg: $gray-700;
-$custom-select-color: $white;
-$custom-select-indicator-color: $gray-300;
+$form-select-bg: $gray-700;
+$form-select-color: $white;
+$form-select-indicator-color: $gray-300;
 
 $dropdown-bg: $gray-700;
 $dropdown-color: $white;
+$dropdown-link-bg: $gray-700;
 $dropdown-link-color: $white;
 $dropdown-link-hover-bg: $gray-800;
 $dropdown-link-hover-color: $white;
+$dropdown-link-active-bg: $gray-800;
+$dropdown-link-active-color: $white;
 
 $input-bg: $gray-700;
 $input-color: $white;
@@ -69,12 +72,34 @@ $navbar-padding-y: 0;
 
 $code_color: $yellow;
 
+$btn-close-color: $white;
+
 @import '~bootstrap/scss/bootstrap';
 @import '~material-icons/iconfont/material-icons.scss';
 
 .btn .material-icons {
   position: relative;
   top: 2px;
+}
+
+.btn-primary.disabled {
+  color: $white;
+}
+
+.btn-primary {
+  color: $white;
+
+  &:hover, &:active, &:focus, &:disabled {
+    color: $white;
+  }
+}
+
+.dropdown-item {
+  background-image: none;
+
+  &:hover, &:active, &:focus, &:disabled {
+    background-image: none;
+  }
 }
 
 h6 {
@@ -136,7 +161,7 @@ h6 {
   background-color: $gray-700;
 }
 
-.input-group > .custom-select {
+.input-group > .form-select {
   height: inherit;
 }
 

@@ -1,4 +1,6 @@
-<%= form_with(url: minecraft_boots_path, class: ('hidden' if server.world.nil?)) do |f| %>
-  <%= f.hidden_field :server_id, value: server.id %>
-  <%= f.submit 'Power On', class: 'dropdown-item' %>
-<% end %>
+<%= link_to(
+      'Power On',
+      minecraft_boots_path(server_id: server.id), 
+      class: "dropdown-item #{'hidden' if server.world.nil?}", 
+      method: :post, 
+      remote: true) %>

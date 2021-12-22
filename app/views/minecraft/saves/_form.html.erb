@@ -1,4 +1,7 @@
-<%= form_with(url: minecraft_saves_path, class: ('hidden' if server.world.nil?), data: { controller: 'minecraft--saves', 'minecraft--saves-server-id': server.id }) do |f| %>
-  <%= f.hidden_field :server_id, value: server.id %>
-  <%= f.submit 'Save', class: 'dropdown-item', data: { target: 'minecraft--saves.button' } %>
-<% end %>
+<%= link_to(
+      'Save',
+      minecraft_saves_path(server_id: server.id), 
+      class: "dropdown-item #{'hidden' if server.world.nil?}", 
+      data: { controller: 'minecraft--saves', 'minecraft--saves-server-id': server.id, target: 'minecraft--saves.button' }, 
+      method: :post, 
+      remote: true) %>

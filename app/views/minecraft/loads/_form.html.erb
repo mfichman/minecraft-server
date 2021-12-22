@@ -1,10 +1,15 @@
-<%= form_with(url: minecraft_loads_path, class: 'flex-grow-1 mr-1', data: { controller: 'minecraft--loads', 'minecraft--loads-server-id': server.id }) do |f| %>
+<%= form_with(url: minecraft_loads_path, class: 'flex-grow-1', data: { controller: 'minecraft--loads', 'minecraft--loads-server-id': server.id }, local: false) do |f| %>
   <%= f.hidden_field :server_id, value: server.id %>
 
   <div class="input-group">
-    <%= f.collection_select :backup_id, backups, :id, method(:backup_name), {selected: server.backup_id}, class: 'custom-select', data: { target: 'minecraft--loads.select' } %>
-    <div class="input-group-append">
-      <%= f.submit 'Load', class: 'btn btn-primary' %>
+    <%= f.collection_select :backup_id, backups.includes(file_attachment: :blob), :id, method(:backup_name), {selected: server.backup_id}, class: 'form-select', data: { target: 'minecraft--loads.select' } %>
+    <%= f.submit 'Load', class: 'btn btn-primary' %>
+
+    <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" type="button" data-bs-toggle="dropdown"></button>
+    <div class="dropdown-menu dropdown-menu-end">
+      <%= render 'minecraft/saves/form', server: @server %>
+      <%= render 'minecraft/boots/form', server: @server %>
+      <%= render 'minecraft/shutdowns/form', server: @server %>
     </div>
   </div>
 <% end %>

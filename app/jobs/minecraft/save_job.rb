@@ -16,7 +16,7 @@ module Minecraft
       server.update!(backup: backup) unless autosave
 
       html = BackupsController.render(partial: 'option', locals: { backup: backup })
-      SavesChannel.broadcast_to(server, { backup_id: backup.id, html: html })
+      SavesChannel.broadcast_to(server, { backup_id: server.backup_id, html: html })
       ToastsChannel.broadcast_to(user, SavesController.render(partial: 'success'))
       server.logs.create!(text: "[Controller] Saved: #{backup.id}, #{backup.file.byte_size} bytes\n")
     rescue => e

@@ -1,9 +1,7 @@
-<div class="toast bg-danger ml-auto show" data-controller="toasts" data-target="toasts.toast" data-autohide="false">
+<div class="toast bg-danger ms-auto show" data-controller="toasts" data-target="toasts.toast" data-bs-autohide="false" data-bs-animation="false">
   <div class="toast-header">
-    <strong class="mr-auto"><%= header %></strong>
-    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">
-      <span>&times;</span>
-    </button>
+    <strong class="me-auto"><%= header %></strong>
+    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
   </div>
   <div class="toast-body">
     <%= message %>

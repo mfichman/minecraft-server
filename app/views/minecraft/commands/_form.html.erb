@@ -1,4 +1,4 @@
-<%= form_with(url: minecraft_commands_path, data: { action: 'ajax:success->minecraft--console#send' }) do |f| %>
+<%= form_with(url: minecraft_commands_path, data: { action: 'ajax:success->minecraft--console#send' }, local: false) do |f| %>
   <%= f.hidden_field :server_id, value: server.id %>
 
   <div class="input-group">

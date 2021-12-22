@@ -2,7 +2,6 @@ version: '3.9'
 services:
   worker:
     image: mfichman/minecraft:worker
-    container_name: worker
     restart: always
     network_mode: service:wireguard
     cap_add:

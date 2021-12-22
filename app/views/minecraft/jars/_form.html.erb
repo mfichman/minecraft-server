@@ -1,11 +1,11 @@
 <%= form_for([:minecraft, @server, @jar], html: { class: 'form' }) do |f| %>
-  <div class="form-group">
-    <%= f.label :version %>
+  <div class="mb-3">
+    <%= f.label :version, class: 'form-label' %>
     <%= f.text_field :version, class: 'form-control' %>
   </div>
 
-  <div class="form-group">
-    <%= f.label :url, 'URL' %>
+  <div class="mb-3">
+    <%= f.label :url, 'URL', class: 'form-label' %>
     <%= f.text_field :url, class: 'form-control' %>
   </div>
 
