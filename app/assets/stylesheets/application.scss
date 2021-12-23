@@ -78,6 +78,18 @@ $btn-close-color: $white;
 @import '~bootstrap/scss/bootstrap';
 @import '~material-icons/iconfont/material-icons.scss';
 
+body {
+  min-height: 100vh;
+}
+
+.status-bar-background {
+  position: fixed;
+  top: -200px;
+  height: 201px;
+  width: 100%;
+  z-index: 1000;
+}
+
 .btn .material-icons {
   position: relative;
   top: 2px;
@@ -123,9 +135,6 @@ h6 {
   background: $gray-800;
 }
 
-.navbar .nav-link.active {
-}
-
 .navbar .nav-link {
   align-items: center;
   color: $gray-500;
@@ -139,7 +148,7 @@ h6 {
   }
 
   @include media-breakpoint-down(sm) {
-    padding-bottom: 32px;
+    padding-bottom: calc(32px + env(safe-area-inset-bottom));
   }
 
   @include media-breakpoint-up(md) {

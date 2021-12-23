@@ -18,8 +18,8 @@ module ApplicationHelper
   end
 
   def header_tag(title, prev: nil)
-    content_tag(:div, class: 'bg-dark d-flex sticky-top position-md-static justify-content-between align-items-end py-3 mt-0 mb-2') do
-      header = content_tag(:h3, title, class: 'm-0')
+    content_tag(:div, class: 'bg-dark d-flex sticky-top position-md-static justify-content-between align-items-end pt-1 pb-3 mt-0 mb-2') do
+      header = content_tag(:h1, title, class: 'm-0')
 
       next header if prev.nil?
 
@@ -28,7 +28,7 @@ module ApplicationHelper
       before = content_tag(:div, class: 'flex-basis-0 flex-grow-1 d-md-none') do
         link_to(url, class: 'text-decoration-none') do
           content_tag(:div, class: 'd-flex align-items-center pe-3') do
-            icon_tag(:arrow_back_ios) + content_tag(:span, text)
+            icon_tag(:arrow_back_ios, class: 'fs-4')# + content_tag(:span, text)
           end
         end
       end
