@@ -159,7 +159,7 @@ GEM
       reline (>= 0.2.7)
     jbuilder (2.11.3)
       activesupport (>= 5.0.0)
-    jmespath (1.4.0)
+    jmespath (1.6.1)
     json (2.6.1)
     jwt (2.3.0)
     kartograph (0.2.8)
