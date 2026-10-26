@@ -38,6 +38,12 @@ module Minecraft
       ]
     end
 
+    def cloud_config_service_url(url)
+      uri = URI.parse(url)
+      uri.host = '10.25.0.1' if %w[postgres redis].include?(uri.host)
+      uri.to_s
+    end
+
     def cloud_config_scripts
       [
         {
@@ -46,8 +52,8 @@ module Minecraft
           content: <<~EOF
             SERVER_NAME=#{@server.host}
             RAILS_MASTER_KEY=#{Figaro.env.rails_master_key}
-            REDIS_URL=#{Figaro.env.redis_url}
-            DATABASE_URL=#{Figaro.env.database_url}
+            REDIS_URL=#{cloud_config_service_url(Figaro.env.redis_url)}
+            DATABASE_URL=#{cloud_config_service_url(Figaro.env.database_url)}
           EOF
         },
         {

@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:27-jdk-alpine
 MAINTAINER Matt Fichman <matt.fichman@gmail.com>
 WORKDIR /minecraft/
 
