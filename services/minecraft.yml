@@ -6,4 +6,4 @@ services:
     restart: always
     network_mode: service:wireguard
     volumes:
-    - /volumes/minecraft:/minecraft/data
+    - /var/lib/minecraft:/minecraft/data

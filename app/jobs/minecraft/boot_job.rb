@@ -22,20 +22,15 @@ module Minecraft
 
       cloud_config = cloud_config_for(server)
 
-      volume = create_volume(server)
       firewall = create_firewall
 
       droplet = DropletKit::Droplet.new(
         name: server.host,
-        region: 'nyc1',
-        # size:	g-2vcpu-8gb $60/mo 
-        size: 'c-2',
-        #image: 'rancheros',
-        #size: 's-1vcpu-1gb',
+        region: 'ric1',
+        size: 'g5-2vcpu-8gb-30gb',
         image: 'docker-20-04',
         ssh_keys: ssh_keys,
         user_data: cloud_config,
-        volumes: [volume.id],
         firewalls: [firewall],
       )
 
@@ -123,20 +118,6 @@ module Minecraft
       else
         client.domain_records.create(domain_record, for_domain: server.domain)
       end
-    end
-
-    def create_volume(server)
-      volume = client.volumes.all.find { |v| v.name == server.volume }
-      return volume if volume
-
-      volume = DropletKit::Volume.new(
-        name: server.volume,
-        region: 'nyc1',
-        size_gigabytes: 10,
-        filesystem_type: 'ext4'
-      )
-
-      client.volumes.create(volume)
     end
 
     def cloud_config_for(server)

@@ -3,6 +3,8 @@ require_dependency('zip')
 module Minecraft
   class SaveJob < ApplicationJob
     def perform(user, server, autosave: false)
+      return unless server.world.present?
+
       ToastsChannel.broadcast_to(user, SavesController.render(partial: 'info'))
       server.logs.create!(text: "[Controller] Saving\n")
 

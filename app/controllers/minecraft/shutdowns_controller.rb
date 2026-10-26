@@ -3,7 +3,7 @@ module Minecraft
     def create
       server = Server.find(params[:server_id])
 
-      ShutdownJob.perform_now(current_user, server)
+      ShutdownJob.set(queue: server.host).perform_later(current_user, server)
 
       head :ok
     end

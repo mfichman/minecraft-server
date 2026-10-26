@@ -4,15 +4,13 @@ module Minecraft
 
     def self.run(command)
       puts "Running RCON command: #{command}"
-      client = Rcon::Client.new(host: '127.0.0.1', port: 25575, password: 'foobar')
+      client = Rcon::Client.new(host: '127.0.0.1', port: 25_575, password: 'foobar')
       begin
         client.authenticate!(ignore_first_packet: false)
         client.execute(command).body
       ensure
         client.end_session!
       end
-    rescue Exception => e
-      "[Controller] #{e.message}"
     end
 
     def self.save(data_dir)
@@ -34,7 +32,7 @@ module Minecraft
 
       path = "#{dir}/#{file.file_name}"
 
-      return if File.exists?(path)
+      return if File.exist?(path)
 
       mkdir_p(dir)
 
@@ -45,7 +43,7 @@ module Minecraft
     end
 
     def self.install(data_dir, save_dir, mods:, jar:, modder:, properties:, ops:)
-      install_digest = Digest::SHA256.hexdigest({mods: mods, jar: jar, modder: modder}.to_json)
+      install_digest = Digest::SHA256.hexdigest({ mods: mods, jar: jar, modder: modder }.to_json)
 
       install_dir = "#{data_dir}/installs/#{install_digest}"
       cache_dir = "#{data_dir}/cache"
@@ -53,15 +51,16 @@ module Minecraft
 
       download("#{cache_dir}/jars", jar)
       download("#{cache_dir}/modders", modder)
-      mods.each {|mod| download("#{cache_dir}/mods", mod)}
+      mods.each { |mod| download("#{cache_dir}/mods", mod) }
 
       properties = properties.merge(
         'level-name' => save_dir,
         'server-port' => '25565',
         'server-ip' => '',
+        'enable-status' => 'true',
         'rcon.port' => '25575',
         'rcon.password' => 'foobar',
-        'enable-rcon' => 'true',
+        'enable-rcon' => 'true'
       )
 
       mkdir_p(install_dir)
@@ -70,13 +69,13 @@ module Minecraft
 
       cd(run_dir) do
         ln_sf("#{cache_dir}/jars/#{jar.file_name}", 'minecraft_server.jar') if jar
-        ln_sf("#{cache_dir}/modders/#{modder.file_name}", 'modder.jar')  if modder
+        ln_sf("#{cache_dir}/modders/#{modder.file_name}", 'modder.jar') if modder
         mkdir_p('mods')
-        mods.each {|mod| ln_sf("#{cache_dir}/mods/#{mod.file_name}", "mods/#{mod.file_name}")}
-        File.write("server.properties", properties.map {|key, value| "#{key}=#{value}"}.join("\n"))
-        File.write("ops.txt", ops.join("\n"))
-        File.write("eula.txt", "eula=true\n")
-        File.write("user_jvm_args.txt", "-Xmx2G -Xms2G\n")
+        mods.each { |mod| ln_sf("#{cache_dir}/mods/#{mod.file_name}", "mods/#{mod.file_name}") }
+        File.write('server.properties', properties.map { |key, value| "#{key}=#{value}" }.join("\n"))
+        File.write('ops.txt', ops.join("\n"))
+        File.write('eula.txt', "eula=true\n")
+        File.write('user_jvm_args.txt', "-Xmx2G -Xms2G\n")
       end
     end
 
@@ -104,15 +103,15 @@ module Minecraft
       minecraft.restart
     end
 
-    def self.logs(since:, &block)
+    def self.logs(since:)
       time = since ? since.to_i : 0
 
-      while true
+      loop do
         begin
-          puts "Connecting to Minecraft server output"
+          puts 'Connecting to Minecraft server output'
 
           minecraft = Docker::Container.get('minecraft')
-          minecraft.streaming_logs(stdout: true, stderr: true, since: time, follow: true) do |stream, chunk|
+          minecraft.streaming_logs(stdout: true, stderr: true, since: time, follow: true) do |_stream, chunk|
             yield chunk
           end
 

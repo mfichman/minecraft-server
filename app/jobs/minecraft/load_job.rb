@@ -3,7 +3,7 @@ module Minecraft
     def perform(user, server, backup)
       data_dir = Figaro.env.minecraft_data || '/minecraft/data'
 
-      SaveJob.perform_now(user, server, autosave: true) if server.world.present?
+      SaveJob.perform_now(user, server, autosave: true)
 
       ToastsChannel.broadcast_to(user, LoadsController.render(partial: 'info'))
       server.logs.create!(text: "[Controller] Loading\n")

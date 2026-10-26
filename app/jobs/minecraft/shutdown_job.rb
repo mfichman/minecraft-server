@@ -4,6 +4,7 @@ module Minecraft
       ToastsChannel.broadcast_to(user, ShutdownsController.render(partial: 'info'))
       server.logs.create!(text: "[Controller] Shutting down\n")
 
+      SaveJob.perform_now(user, server)
       delete_droplet(server)
 
       ToastsChannel.broadcast_to(user, ShutdownsController.render(partial: 'success'))

@@ -13,4 +13,4 @@ services:
     - SERVER_NAME
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - /volumes/minecraft:/minecraft/data
+    - /var/lib/minecraft:/minecraft/data

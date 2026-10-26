@@ -88,9 +88,7 @@ module Minecraft
     def cloud_config_runcmds
       [
         'ufw allow 51820/udp',
-        'mkdir -p /volumes',
-        "mkfs.ext4 /dev/disk/by-id/scsi-0DO_Volume_#{@server.volume}",
-        "mount -o discard,defaults /dev/disk/by-id/scsi-0DO_Volume_#{@server.volume} /volumes",
+        'mkdir -p /var/lib/minecraft',
         'systemctl enable wg-quick@wg0.service',
         'systemctl start wg-quick@wg0.service',
         'curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose',
@@ -101,7 +99,6 @@ module Minecraft
 
     def cloud_config_yaml
       YAML.dump({
-        mounts: ["/dev/disk/by-id/scsi-0DO_Volume_#{@server.volume}", '/volumes', 'ext4', 'discard,noatime'],
         package_update: true,
         packages: ['wireguard-tools', 'curl', 'haveged'],
         write_files: cloud_config_files,

@@ -16,10 +16,6 @@ class Minecraft::Server < ApplicationRecord
 
   attribute :max_idle_time, :duration
   
-  def volume
-    host.parameterize
-  end
-
   def subdomain
     host.split('.')[0...-2].join('.')
   end
