@@ -71,7 +71,10 @@ module Minecraft
         ln_sf("#{cache_dir}/jars/#{jar.file_name}", 'minecraft_server.jar') if jar
         ln_sf("#{cache_dir}/modders/#{modder.file_name}", 'modder.jar') if modder
         mkdir_p('mods')
-        mods.each { |mod| ln_sf("#{cache_dir}/mods/#{mod.file_name}", "mods/#{mod.file_name}") }
+        mods.each do |mod|
+          mkdir_p(mod.path)
+          ln_sf("#{cache_dir}/mods/#{mod.file_name}", File.join(mod.path, mod.file_name))
+        end
         File.write('server.properties', properties.map { |key, value| "#{key}=#{value}" }.join("\n"))
         File.write('ops.txt', ops.join("\n"))
         File.write('eula.txt', "eula=true\n")

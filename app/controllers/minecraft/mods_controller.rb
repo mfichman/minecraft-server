@@ -36,7 +36,7 @@ module Minecraft
     private
 
     def mod_params
-      params.require(:mod).permit(:name, :version, :url)
+      params.require(:mod).permit(:name, :version, :url, :path)
     end
 
     def set_mod
