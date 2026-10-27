@@ -11,7 +11,7 @@ module Minecraft
       install_args = server.slice(:mods, :jar, :modder, :properties, :ops).symbolize_keys
 
       if backup.file.present?
-        backup.file.open do |file| 
+        backup.file.open do |file|
           Minecraft::Utils.load(data_dir, file, **install_args)
         end
       else
@@ -22,7 +22,7 @@ module Minecraft
 
       ToastsChannel.broadcast_to(user, LoadsController.render(partial: 'success'))
       server.logs.create!(text: "[Controller] Loaded\n")
-    rescue => e
+    rescue StandardError => e
       server.update!(backup: nil)
       ToastsChannel.broadcast_to(user, LoadsController.render(partial: 'error', locals: { message: e.message }))
       server.logs.create!(text: "[Controller] Load error: #{e.message}\n")

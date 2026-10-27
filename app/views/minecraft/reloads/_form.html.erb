@@ -1,0 +1,7 @@
+<%= link_to(
+      'Reload',
+      minecraft_reloads_path(server_id: server.id),
+      class: "dropdown-item #{'hidden' if server.world.nil?}",
+      data: { confirm: 'Save and reload the current world? This restarts Minecraft and reloads plugins. Players will be disconnected.' },
+      method: :post,
+      remote: true) %>

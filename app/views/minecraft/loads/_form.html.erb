@@ -8,6 +8,7 @@
     <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" type="button" data-bs-toggle="dropdown"></button>
     <div class="dropdown-menu dropdown-menu-end">
       <%= render 'minecraft/saves/form', server: @server %>
+      <%= render 'minecraft/reloads/form', server: @server %>
       <%= render 'minecraft/boots/form', server: @server %>
       <%= render 'minecraft/shutdowns/form', server: @server %>
     </div>

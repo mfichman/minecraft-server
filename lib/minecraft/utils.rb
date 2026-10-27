@@ -88,10 +88,7 @@ module Minecraft
       rm_rf("#{data_dir}/saves/current")
       ln_sf(save_dir, "#{data_dir}/saves/current")
 
-      install(data_dir, save_dir, **install_args)
-
-      minecraft = Docker::Container.get('minecraft')
-      minecraft.restart
+      reload(data_dir, **install_args)
     end
 
     def self.load(data_dir, file, **install_args)
@@ -100,6 +97,11 @@ module Minecraft
       rm_rf("#{data_dir}/saves/current")
       ln_sf(save_dir, "#{data_dir}/saves/current")
 
+      reload(data_dir, **install_args)
+    end
+
+    def self.reload(data_dir, **install_args)
+      save_dir = File.realpath("#{data_dir}/saves/current")
       install(data_dir, save_dir, **install_args)
 
       minecraft = Docker::Container.get('minecraft')

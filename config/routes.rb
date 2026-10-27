@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     resources :loads
     resources :modders
     resources :mods
+    resources :reloads, only: :create
     resources :saves
     resources :servers
     resources :shutdowns
